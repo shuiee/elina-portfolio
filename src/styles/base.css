@@ -127,11 +127,14 @@ hr {
    movement, no stagger, no parallax. It is opacity-only so that nothing
    shifts position while being read. */
 
-.reveal { opacity: 0; transition: opacity var(--motion-base) var(--motion-ease); }
-.reveal.is-visible { opacity: 1; }
-
-/* No-JS and reduced-motion both land on "everything visible, immediately". */
-html.no-js .reveal { opacity: 1; }
+/* Visible is the DEFAULT, and stays that way for anything already on screen.
+   The script hides ONLY the elements that start below the fold, by adding
+   .is-hidden to them individually. Consequences, both deliberate:
+     - nothing above the fold ever fades in, so the page never flashes empty
+     - if the script is blocked or JavaScript is off, nothing is ever hidden
+   The failure mode is "no animation", never "no content". */
+.reveal { transition: opacity var(--motion-base) var(--motion-ease); }
+.reveal.is-hidden { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

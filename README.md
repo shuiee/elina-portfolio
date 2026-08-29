@@ -217,6 +217,17 @@ GitHub Pages serves a project repo from a sub-path (`/elina-portfolio/`), so a h
 
 Write links that way and changing `BASE` will never break them.
 
+### Linking between case studies
+
+Inside an `.mdx` file, link to another case study with a **relative** path:
+
+```markdown
+the same instinct as [Patchwork](../02-patchwork/)
+```
+
+Relative links work whatever `BASE` is set to. Do not write `/work/02-patchwork/` —
+that would 404 on GitHub Pages. In `.astro` files, use the `href()` helper instead.
+
 ---
 
 ## Things left to do

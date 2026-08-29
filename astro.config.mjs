@@ -11,7 +11,7 @@ import mdx from '@astrojs/mdx';
                                                     base: '/<repo-name>/'
    --------------------------------------------------------------------------- */
 
-const SITE = 'https://ELINA-GITHUB-USERNAME.github.io';
+const SITE = 'https://shuiee.github.io';
 const BASE = '/elina-portfolio/';
 
 export default defineConfig({
