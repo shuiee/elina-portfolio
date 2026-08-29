@@ -99,6 +99,26 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 
   .wk__case { min-width: 0; }
 
+  .wk__about {
+    font-size: var(--size-4);
+    line-height: var(--leading-body);
+    text-wrap: pretty;
+  }
+
+  /* The question, back in the written half.
+     It is set one step up the scale from the description on purpose:
+     Instrument Serif has a much smaller x-height than Inter, so 21px of serif
+     reads the same size as 18px of sans. Matching the token would have made it
+     look smaller than the line above it, not equal to it. */
+  .wk__q {
+    margin-top: var(--space-5);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--size-5);
+    line-height: var(--leading-body);
+    color: var(--ink);
+  }
+
   /* What the project explores, what it took, and what it was made with.
      Labelled rows rather than tag pills: these are sentences worth reading, not
      keywords to be scanned and forgotten. */

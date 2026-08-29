@@ -238,20 +238,63 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
         return;
       }
 
-      const h = Math.round(Math.min(500, Math.max(420, window.innerWidth * 0.36)));
-      stage.style.setProperty('--stage-h', h + 'px');
       stage.classList.add('is-orbiting');
 
-      const w = stage.clientWidth;
-      const cx = w / 2;
-      const cy = h / 2;
-      const r = Math.min(215, h / 2 - 40, w / 2 - 160);
+      /* Equal CLEARANCE, not equal centre distance.
+         Placing every label the same distance from the middle looks uneven,
+         because the labels are different widths: a long one reaches much
+         closer to the drawing than a short one. So for each label we work out
+         how far it is from its own centre to its edge along its radial
+         direction, and push it out by that much. Every label then sits the
+         same gap away from the drawing, which is what the eye measures. */
+      const portrait = stage.querySelector('.stage__portrait');
+      const pr = portrait.getBoundingClientRect();
+      const gap = Math.max(pr.width, pr.height) / 2 + 38;
 
-      items.forEach((el, i) => {
-        if (el.dataset.moved) return;
+      /* For each label, find how far along its radial line its centre has to
+         sit so that the NEAREST POINT of its box is `gap` from the middle.
+         That is what the eye measures — not the distance to the box centre,
+         and not the distance to the edge along the radius. There is no tidy
+         closed form for an axis-aligned box, and the distance grows steadily
+         with the offset, so a short binary search is the clearest way to get
+         it exactly. */
+      function nearestEdgeDistance(offset, dx, dy, hw, hh) {
+        const ex = Math.max(Math.abs(dx) * offset - hw, 0);
+        const ey = Math.max(Math.abs(dy) * offset - hh, 0);
+        return Math.hypot(ex, ey);
+      }
+
+      const placements = items.map((el, i) => {
         const angle = -Math.PI / 2 + (i * 2 * Math.PI) / items.length;
-        el.style.left = cx + r * Math.cos(angle) + 'px';
-        el.style.top = cy + r * Math.sin(angle) + 'px';
+        const dx = Math.cos(angle);
+        const dy = Math.sin(angle);
+        const box = el.getBoundingClientRect();
+        const hw = box.width / 2;
+        const hh = box.height / 2;
+
+        let lo = 0;
+        let hi = gap + Math.hypot(hw, hh) + 1;
+        for (let step = 0; step < 40; step++) {
+          const mid = (lo + hi) / 2;
+          if (nearestEdgeDistance(mid, dx, dy, hw, hh) < gap) lo = mid;
+          else hi = mid;
+        }
+        const offset = hi;
+
+        return { el, x: offset * dx, y: offset * dy, hh };
+      });
+
+      // The stage has to be tall enough for whatever that produced.
+      const reach = Math.max(...placements.map((p) => Math.abs(p.y) + p.hh));
+      const h = Math.round(Math.max(2 * reach + 48, pr.height + 96));
+      stage.style.setProperty('--stage-h', h + 'px');
+
+      const cx = stage.clientWidth / 2;
+      const cy = h / 2;
+      placements.forEach(({ el, x, y }) => {
+        if (el.dataset.moved) return;
+        el.style.left = cx + x + 'px';
+        el.style.top = cy + y + 'px';
       });
     }
 
