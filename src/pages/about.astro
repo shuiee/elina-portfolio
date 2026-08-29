@@ -93,10 +93,19 @@ import { href } from '../lib/url.js';
         </div>
         <div class="about__card">
           <p class="eyebrow">Contact</p>
-          <p><a href="mailto:elinahsyj@gmail.com">elinahsyj@gmail.com</a></p>
-          <p><a href="mailto:elina_lee@mde.harvard.edu">elina_lee@mde.harvard.edu</a></p>
-          <p><a href="https://linkedin.com/in/ejl25" rel="me">linkedin.com/in/ejl25</a></p>
-          <p><a href="https://github.com/shuiee" rel="me">github.com/shuiee</a></p>
+          <dl class="about__contact">
+            <dt>Email, personal</dt>
+            <dd><a href="mailto:elinahsyj@gmail.com">elinahsyj@gmail.com</a></dd>
+
+            <dt>Email, Harvard</dt>
+            <dd><a href="mailto:elina_lee@mde.harvard.edu">elina_lee@mde.harvard.edu</a></dd>
+
+            <dt>LinkedIn</dt>
+            <dd><a href="https://linkedin.com/in/ejl25" rel="me">linkedin.com/in/ejl25</a></dd>
+
+            <dt>GitHub</dt>
+            <dd><a href="https://github.com/shuiee" rel="me">github.com/shuiee</a></dd>
+          </dl>
         </div>
         <p><a href={href('/cv/')}>Full CV &rarr;</a></p>
       </aside>
@@ -125,4 +134,15 @@ import { href } from '../lib/url.js';
   .about__side { display: grid; gap: var(--space-5); align-content: start; font-size: var(--size-2); }
   .about__card { border-top: var(--border-mark) solid var(--ink); padding-top: var(--space-3); }
   .about__card p + p { margin-top: var(--space-2); }
+
+  /* Labelled so a reader can tell at a glance which address is which. */
+  .about__contact { margin: var(--space-3) 0 0; }
+  .about__contact dt {
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+  }
+  .about__contact dd { margin: var(--space-1) 0 0; word-break: break-word; }
+  .about__contact dd + dt { margin-top: var(--space-4); }
 </style>
