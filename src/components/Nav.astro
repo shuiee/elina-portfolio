@@ -3,8 +3,8 @@ import { href } from '../lib/url.js';
 const path = Astro.url.pathname;
 const isOn = (p) => path === href(p) || (p !== '/' && path.startsWith(href(p)));
 const links = [
-  { n: '01', p: '/work/', label: 'Work' },
-  { n: '02', p: '/about/', label: 'About' },
+  { n: '01', p: '/about/', label: 'About' },
+  { n: '02', p: '/work/', label: 'Work' },
   { n: '03', p: '/cv/', label: 'CV' },
 ];
 ---
@@ -19,7 +19,7 @@ const links = [
           <li>
             <a href={href(l.p)} aria-current={isOn(l.p) ? 'page' : undefined}>
               <span class="figure-num site-nav__num" aria-hidden="true">{l.n}</span>
-              <span>{l.label}</span>
+              <span class="site-nav__word">{l.label}</span>
             </a>
           </li>
         ))}
@@ -75,10 +75,14 @@ const links = [
   }
   ul a { display: inline-flex; align-items: baseline; }
   a { text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  a[aria-current='page'] {
+  .site-nav__name:hover { text-decoration: underline; }
+
+  /* The underline belongs to the word, not to the number in front of it —
+     the number is a label for the section, not part of the link's name. */
+  ul a:hover .site-nav__word { text-decoration: underline; }
+  ul a[aria-current='page'] { font-weight: var(--weight-med); }
+  ul a[aria-current='page'] .site-nav__word {
     text-decoration: underline;
     text-decoration-thickness: var(--border-mark);
-    font-weight: var(--weight-med);
   }
 </style>

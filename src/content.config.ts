@@ -15,8 +15,10 @@ const work = defineCollection({
     dates: z.string(),             // exactly as on the source deck
     projectType: z.string(),
     role: z.string(),
-    // The one line on the home page. Name the INSTRUMENT, not the outcome.
-    instrument: z.string(),
+    // What the project IS, in one or two plain sentences. This is the first
+    // thing a reader meets on /work/, so it should describe the thing rather
+    // than the method — the method is inside the project page.
+    about: z.string(),
     question: z.string(),          // the framing question, rendered at size
     // Section names for the orientation rail, in reading order.
     sections: z.array(z.object({ id: z.string(), label: z.string() })),

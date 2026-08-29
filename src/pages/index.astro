@@ -9,17 +9,8 @@ import { href, asset } from '../lib/url.js';
 <Base description="Engineer. I design the measurement before I design the thing.">
   <div class="page landing">
 
-    <div class="landing__corners">
-      <p class="corner">
-        Open to product design and<br />design engineering roles
-      </p>
-      <p class="corner landing__corner-right">
-        Folio<br />Vol.&thinsp;1 &mdash;
-      </p>
-    </div>
-
     <h1 class="landing__name">
-      <span class="landing__full">Elina J. Lee</span><span class="landing__sup">(MDE)</span>
+      <span class="landing__full">Elina J. Lee</span>
     </h1>
 
     <div class="landing__thesis">
@@ -71,17 +62,9 @@ import { href, asset } from '../lib/url.js';
     padding-top: var(--space-6);
   }
 
-  /* -- corners ------------------------------------------------------------ */
-  .landing__corners {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-5);
-  }
-  .landing__corner-right { text-align: right; }
-
   /* -- the name ----------------------------------------------------------- */
   .landing__name {
-    margin: var(--space-7) 0 var(--space-8);
+    margin: var(--space-8) 0 var(--space-8);
     text-align: center;
     line-height: 0.9;
     letter-spacing: var(--track-head);
@@ -100,14 +83,6 @@ import { href, asset } from '../lib/url.js';
   .landing__full {
     font-weight: var(--weight-bold);
     letter-spacing: -0.035em;
-  }
-  .landing__sup {
-    font-size: 0.14em;
-    font-weight: var(--weight-normal);
-    letter-spacing: var(--track-label);
-    align-self: flex-start;
-    padding-top: 0.55em;
-    color: var(--ink-quiet);
   }
 
   /* -- the claim, flanked by two notes ------------------------------------ */

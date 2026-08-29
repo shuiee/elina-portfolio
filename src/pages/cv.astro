@@ -1,75 +1,135 @@
 ---
 import Base from '../layouts/Base.astro';
 
-/* Everything on this page is data. Edit the arrays; the layout follows.
-   TODO(elina): reconcile the Mott MacDonald end date against the MDE start
-   before this goes live — 2022–2026 and "MDE from August 2026" are adjacent
-   and a reader will check. */
+/* Everything on this page is data — edit the arrays, the layout follows.
+   Source: Elina_PD.pdf (CV draft). Spelling anglicised to match the rest of
+   the site; content otherwise unchanged. */
 
-const experience = [
-  {
-    when: '2022 – 2026',
-    org: 'Mott MacDonald',
-    where: 'Seoul and London',
-    role: 'Civil and structural engineer',
-    points: [
-      'New-build nuclear: structural analysis and modelling of reinforced concrete and modular steel–concrete systems to Eurocode 2, AISC N690-24, SCI P414 and DOE-STD-3014.',
-      'Renewable energy: offshore wind substructures at gigawatt scale; solar projects from 20 to 110 MW.',
-      'Translated ambiguous client requirements into structured, checkable design requirements, and technical constraints into decisions stakeholders could take.',
-      'Worked between peer reviewers and regulators on what counted as sufficient evidence.',
-    ],
-  },
-];
-
-const leadership = [
-  {
-    when: 'TODO(elina): dates',
-    org: 'Asia–Australasia Early Career Professionals committee',
-    role: 'Chair',
-    points: [
-      'Chaired a committee of 25 representatives serving roughly 300 members.',
-    ],
-  },
-];
+const summary = `Engineer and Harvard Master in Design Engineering student, moving from
+technical, client-facing engineering into hands-on, human-centred product design. Three years
+of translating ambiguous technical and regulatory requirements into clear, decision-ready
+outcomes; increasingly focused on human–computer interaction and physical prototyping,
+building digital and physical concepts from user research through to working MVPs.`;
 
 const education = [
   {
-    when: 'From August 2026',
+    when: 'Aug 2026 – June 2028',
     org: 'Harvard University',
-    role: 'Master in Design Engineering',
-    points: [],
+    role: 'Master in Design Engineering (MDE)',
+    points: [
+      'STU 1231 Collaborative Design Engineering Studio I — physical prototyping, sensor integration, interface design.',
+      'PRO 7231 Integrative Frameworks for Technology, Organizations and Society — human-centred frameworks for interdisciplinary problem reframing.',
+      'ENG-SCI 192 Materials Selection and Design — materials selection for real-world constraints via Ashby analysis.',
+      'MIT MAS.834 Tangible Interfaces (cross-registration) — phy-digital interaction design through hands-on prototyping.',
+    ],
+    note: 'Fall 2026 electives',
   },
   {
-    when: '2019 – 2022',
+    when: 'Sep 2019 – June 2022',
     org: 'University College London',
     role: 'BEng Civil, Environmental and Geomatic Engineering',
+    points: ['Upper Second Class Honours (68.73%).'],
+  },
+];
+
+const projects = [
+  {
+    when: 'Personal',
+    org: 'SaveEat',
+    role: 'Product direction',
     points: [
-      'Dissertation: Seeing Information in Transport Systems — legibility of London bus signage, measured.',
+      'Originated and led product direction for an AI-assisted food waste app on the TooGoodToGo model, tailored to Korea’s health-conscious dining trend.',
+      'Directed feature scope, target-user definition and UI/UX decisions, working with a small team to reach a functional MVP.',
+    ],
+  },
+  {
+    when: 'Personal',
+    org: 'Patchwork',
+    role: 'Product and UX lead',
+    points: [
+      'Designed and tested a digital product concept through qualitative interviews, affinity mapping, competitor analysis and early prototyping.',
+      'Led a small cross-disciplinary team through the full product design cycle, working across the software-engineering and UX boundary with AI-assisted tools.',
+    ],
+  },
+  {
+    when: 'Academic',
+    org: 'Seeing Information in Transport Systems',
+    role: 'Co-author',
+    points: [
+      'Ran digital and physical experiments on visual accessibility in transport systems — luminance testing, MATLAB analysis, user surveys — to inform layout and signage design principles.',
+    ],
+  },
+];
+
+const experience = [
+  {
+    when: 'Nov 2025 – May 2026',
+    org: 'Mott MacDonald',
+    where: 'London',
+    role: 'Civil Engineer',
+    points: [
+      'Led proposal development and early scoping: framing ambiguous client needs, defining structured requirements, and developing costed options and risk-informed decision pathways.',
+      'Ran structural simulations and technical assessments in SAP2000 alongside conventional design calculations, evaluating innovative construction methods against multiple international codes.',
+    ],
+  },
+  {
+    when: 'Oct 2024 – Nov 2025',
+    org: 'Mott MacDonald',
+    where: 'London',
+    role: 'Graduate Civil Engineer',
+    points: [
+      'Supported a new-build nuclear design portfolio, synthesising engineering, environmental and safety evidence to guide stakeholders through a Generic Design Assessment.',
+      'Improved workflows across engineering, safety and project management by clarifying requirements, aligning deliverables and reducing coordination friction.',
+    ],
+  },
+  {
+    when: 'Sep 2022 – Jul 2024',
+    org: 'Mott MacDonald',
+    where: 'Seoul',
+    role: 'Graduate Renewable Energy Engineer',
+    points: [
+      'Reviewed feasibility-stage designs for 1 GW offshore wind and 20–110 MW solar projects, translating technical and regulatory constraints into stakeholder-facing recommendations.',
+      'Coordinated with OEMs and EPCs to assess technical compliance and manage interfaces on large-scale renewable projects.',
+      'Chaired the Asia–Australasia Early Career Professionals committee, leading 25 representatives across regions for a network of roughly 300 members.',
+    ],
+  },
+  {
+    when: 'Aug – Sep 2020',
+    org: 'Seoul National University',
+    where: 'Seoul',
+    role: 'Innovation and Development Intern',
+    points: [
+      'Early research experience in modular systems design with an interdisciplinary mechanical engineering lab.',
     ],
   },
 ];
 
 const skills = [
-  ['Analysis and modelling', 'SAP2000 · Mathcad · MATLAB (regionprops, improfile) · hand verification to code'],
-  ['Codes and standards', 'Eurocode 2 · AISC N690-24 · SCI P414 · DOE-STD-3014'],
-  ['Research', 'Controlled physical measurement · survey design (Qualtrics) · marking-scheme design · competitor and feature analysis · user interviews'],
-  ['Design and build', 'Figma · HTML / CSS / JavaScript (this site) · CS50 in C, in progress'],
+  ['Physical prototyping and fabrication', 'Fusion 360 · Rhino (working knowledge) · 3D printing · CNC milling · laser cutting'],
+  ['AI-assisted product development', 'Prompt-based prototyping and app development (Claude) · Figma · HTML and web structure'],
+  ['Design and research', 'UX research · qualitative interviews · affinity mapping · early-stage prototyping'],
+  ['Technical and simulation', 'Python · MATLAB · AutoCAD · SAP2000 · Revit'],
   ['Languages', 'English and Korean, both native'],
 ];
 
 const groups = [
-  { title: 'Experience', items: experience },
-  { title: 'Leadership', items: leadership },
   { title: 'Education', items: education },
+  { title: 'Design projects', items: projects },
+  { title: 'Professional experience', items: experience },
 ];
 ---
 <Base title="CV" description="Curriculum vitae — Elina J. Lee.">
   <div class="page cv">
     <header class="cv__head">
-      <p class="corner">03 &mdash; The record</p>
+      <p class="corner"><span class="figure-num">03</span> CV</p>
       <h1 class="script cv__title">Curriculum vitae</h1>
-      <p class="meta">
-        TODO(elina): add a downloadable PDF to <code>public/</code> and link it here.
+      <p class="cv__summary">{summary}</p>
+      <p class="meta cv__contact">
+        <a href="mailto:elinahsyj@gmail.com">elinahsyj@gmail.com</a>
+        &nbsp;·&nbsp;
+        <a href="https://linkedin.com/in/ejl25" rel="me">linkedin.com/in/ejl25</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/shuiee" rel="me">github.com/shuiee</a>
       </p>
     </header>
 
@@ -81,7 +141,8 @@ const groups = [
             <p class="cv__when meta">{item.when}</p>
             <div class="cv__detail">
               <h3 class="cv__org">{item.org}</h3>
-              <p class="cv__role">{item.role}{item.where && <span class="cv__where"> &middot; {item.where}</span>}</p>
+              <p class="cv__role">{item.role}{item.where && <span class="cv__where"> · {item.where}</span>}</p>
+              {item.note && <p class="eyebrow cv__note">{item.note}</p>}
               {item.points.length > 0 && (
                 <ul class="cv__points">{item.points.map((p) => <li>{p}</li>)}</ul>
               )}
@@ -106,32 +167,41 @@ const groups = [
 </Base>
 
 <style>
-  .cv { padding-top: var(--space-8); max-width: 56rem; }
+  .cv { padding-top: var(--space-7); max-width: 60rem; }
   .cv__title {
     font-size: clamp(var(--size-7), 7vw, var(--size-9));
     line-height: 0.95;
     letter-spacing: -0.01em;
     margin-top: var(--space-4);
   }
-  .cv__head .meta { margin-top: var(--space-3); }
+  .cv__summary {
+    margin-top: var(--space-5);
+    max-width: var(--measure);
+    font-size: var(--size-5);
+    line-height: var(--leading-body);
+  }
+  .cv__contact { margin-top: var(--space-4); }
+
   .cv__group { margin-top: var(--space-8); }
   .cv__group > h2 { padding-bottom: var(--space-3); border-bottom: var(--border-mark) solid var(--ink); }
   .cv__entry { display: grid; gap: var(--space-2); padding-block: var(--space-6); }
   .cv__entry + .cv__entry { border-top: var(--border-hair) solid var(--rule); }
   @media (min-width: 800px) {
-    .cv__entry { grid-template-columns: 10rem minmax(0, 1fr); gap: var(--space-6); }
+    .cv__entry { grid-template-columns: 11rem minmax(0, 1fr); gap: var(--space-6); }
   }
-  .cv__when { padding-top: 0.2em; }
+  .cv__when { padding-top: 0.25em; }
   .cv__org { font-size: var(--size-5); }
   .cv__role { margin-top: var(--space-1); font-size: var(--size-3); }
   .cv__where { color: var(--ink-quiet); }
+  .cv__note { margin-top: var(--space-4); }
   .cv__points { margin-top: var(--space-4); padding-left: var(--space-5); font-size: var(--size-3); }
   .cv__points li + li { margin-top: var(--space-3); }
+
   .cv__skills { margin: 0; }
   .cv__skillrow { display: grid; gap: var(--space-2); padding-block: var(--space-5); }
   .cv__skillrow + .cv__skillrow { border-top: var(--border-hair) solid var(--rule); }
   @media (min-width: 800px) {
-    .cv__skillrow { grid-template-columns: 10rem minmax(0, 1fr); gap: var(--space-6); }
+    .cv__skillrow { grid-template-columns: 11rem minmax(0, 1fr); gap: var(--space-6); }
   }
   .cv__skillrow dt { font-weight: var(--weight-bold); font-size: var(--size-3); }
   .cv__skillrow dd { margin: 0; font-size: var(--size-3); }
