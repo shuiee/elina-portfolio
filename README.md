@@ -1,5 +1,7 @@
 # Elina J. Lee — portfolio
 
+**Live: https://shuiee.github.io/elina-portfolio/**
+
 A static site built with [Astro](https://astro.build) and plain CSS. No Tailwind, no
 CSS-in-JS, no component library. Four case studies, an about page and a CV.
 
