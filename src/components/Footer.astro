@@ -1,0 +1,42 @@
+---
+import { href } from '../lib/url.js';
+---
+<footer class="site-footer">
+  <div class="page">
+    <hr />
+    <div class="site-footer__grid">
+      <!-- Stated once, here, after the evidence — not in the hero.
+           See DESIGN-NOTES.md for why this is a colophon and not a headline. -->
+      <p class="colophon">
+        This site follows four findings from <a href={href('/work/01-signage/')}>case study 01</a>:
+        prioritise luminance contrast over colour accents; use fonts that hold their
+        geometry under degradation; keep motion predictable and minimal; keep
+        decision-critical information static. Body text is set at 7:1 contrast or better
+        throughout. There is one animation and it is a fade.
+      </p>
+      <p class="meta site-footer__contact">
+        <a href="mailto:elina_lee@mde.harvard.edu">elina_lee@mde.harvard.edu</a><br />
+        <span>TODO(elina): LinkedIn / GitHub links</span><br />
+        <span>London &amp; Seoul &middot; Cambridge, MA from Aug 2026</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { margin-top: var(--space-10); padding-bottom: var(--space-8); }
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+  }
+  @media (min-width: 900px) {
+    .site-footer__grid { grid-template-columns: minmax(0, 1fr) 260px; gap: var(--space-8); }
+  }
+  .colophon {
+    font-size: var(--size-2);
+    color: var(--ink-quiet);
+    max-width: var(--measure);
+  }
+  .site-footer__contact span { color: var(--ink-quiet); }
+</style>

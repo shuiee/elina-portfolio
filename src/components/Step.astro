@@ -1,0 +1,37 @@
+---
+/* wide: put the number above the content instead of beside it, so the step's
+   body gets the full column. Use it when a step contains a full-width exhibit
+   (a Compare or a Matrix) that would otherwise be squeezed by the marker. */
+const { n, title, when, wide = false } = Astro.props;
+---
+<li class="step reveal" data-wide={wide ? "true" : undefined}>
+  <div class="step__marker">
+    <span class="figure-num step__n">{n}</span>
+    {when && <span class="step__when meta">{when}</span>}
+  </div>
+  <div class="step__body">
+    <h3 class="step__title">{title}</h3>
+    <div class="prose step__prose"><slot /></div>
+  </div>
+</li>
+<style>
+  .step { display: grid; gap: var(--space-3); }
+  @media (min-width: 800px) {
+    .step:not([data-wide]) { grid-template-columns: 6rem minmax(0, 1fr); gap: var(--space-6); }
+  }
+  .step[data-wide] .step__marker { display: flex; align-items: baseline; gap: var(--space-4); }
+  .step[data-wide] .step__when { margin-top: 0; }
+  .step__marker { display: flex; align-items: baseline; gap: var(--space-3); }
+  @media (min-width: 800px) {
+    .step:not([data-wide]) .step__marker { display: block; }
+  }
+  .step__n {
+    font-size: var(--size-7);
+    line-height: 1;
+    color: var(--accent-ink);
+    display: block;
+  }
+  .step__when { display: block; margin-top: var(--space-2); }
+  .step__title { font-size: var(--size-5); margin-bottom: var(--space-4); }
+  .step__prose { font-size: var(--size-3); }
+</style>

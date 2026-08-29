@@ -1,0 +1,127 @@
+---
+/* ============================================================================
+   THE SIGNATURE COMPONENT.
+
+   It appears exactly once in every case study, always in the same place: after
+   the question, before the method. Its anatomy never changes — only what fills
+   it. Four identical panels across a bus sign, a social app, a nuclear slab and
+   an arena is the argument that the method transfers. Do not use it anywhere
+   else, and do not add a second one to a case study.
+
+   Props
+     claim     one sentence: what "good" means here. Required.
+     rows      [[label, value], ...] — the instrument, what it grades, its inputs
+     figures   [[figure, caption], ...] — thresholds. Set in Optician Sans.
+     rejected  the obvious alternative this replaced, e.g. 'Binary right / wrong'
+     slot      why that alternative was the wrong instrument. 1-3 sentences.
+   ========================================================================= */
+const { claim, rows = [], figures = [], rejected } = Astro.props;
+---
+<section class="criterion reveal" aria-labelledby="criterion-heading">
+  <h2 class="eyebrow criterion__eyebrow" id="criterion-heading">What counts as good</h2>
+
+  <p class="criterion__claim">{claim}</p>
+
+  {rows.length > 0 && (
+    <dl class="criterion__rows">
+      {rows.map(([label, value]) => (
+        <div class="criterion__row">
+          <dt class="eyebrow">{label}</dt>
+          <dd set:html={value}></dd>
+        </div>
+      ))}
+    </dl>
+  )}
+
+  {figures.length > 0 && (
+    <ul class="criterion__figures">
+      {figures.map(([figure, caption]) => (
+        <li>
+          <span class="figure-num criterion__figure">{figure}</span>
+          <span class="criterion__figcap">{caption}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {rejected && (
+    <div class="criterion__rejected">
+      <p class="eyebrow">Instead of &mdash; {rejected}</p>
+      <div class="criterion__why"><slot /></div>
+    </div>
+  )}
+</section>
+
+<style>
+  .criterion {
+    background: var(--field);
+    border-top: var(--border-mark) solid var(--accent);
+    padding: var(--space-6) var(--space-5) var(--space-7);
+    margin-block: var(--space-8);
+    max-width: 46rem;
+  }
+  @media (min-width: 700px) {
+    .criterion { padding: var(--space-7) var(--space-7) var(--space-8); }
+  }
+
+  .criterion__eyebrow { margin-bottom: var(--space-4); }
+
+  .criterion__claim {
+    font-size: var(--size-6);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-head);
+    letter-spacing: var(--track-head);
+    max-width: 26ch;
+    text-wrap: balance;
+  }
+
+  .criterion__rows {
+    margin: var(--space-6) 0 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .criterion__row {
+    display: grid;
+    gap: var(--space-1);
+    padding-top: var(--space-4);
+    border-top: var(--border-hair) solid var(--rule);
+  }
+  @media (min-width: 700px) {
+    .criterion__row { grid-template-columns: 8.5rem minmax(0, 1fr); gap: var(--space-5); }
+  }
+  .criterion__row dt { padding-top: 0.28em; } /* optical align caps to body x-height */
+  .criterion__row dd { margin: 0; font-size: var(--size-3); }
+
+  .criterion__figures {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+  .criterion__figures li { display: grid; gap: var(--space-1); }
+  .criterion__figure {
+    font-size: var(--size-7);
+    line-height: 1;
+    color: var(--accent-ink);
+  }
+  .criterion__figcap {
+    font-size: var(--size-2);
+    color: var(--ink-quiet);
+    max-width: 16ch;
+    line-height: var(--leading-body);
+  }
+
+  .criterion__rejected {
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: var(--border-hair) solid var(--rule);
+  }
+  .criterion__why {
+    margin-top: var(--space-3);
+    font-size: var(--size-3);
+    max-width: var(--measure);
+  }
+  .criterion__why :global(p + p) { margin-top: var(--space-3); }
+</style>

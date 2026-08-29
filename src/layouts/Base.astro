@@ -1,0 +1,71 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { asset } from '../lib/url.js';
+
+const { title, description, accent } = Astro.props;
+const fullTitle = title ? `${title} — Elina J. Lee` : 'Elina J. Lee';
+---
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description ?? 'Engineer. I design the measurement before I design the thing.'} />
+    <link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
+
+    <!-- Font declarations live here, not in tokens.css: @font-face src cannot
+         read a CSS variable, and this site may be served from a sub-path.
+         The FILES are in public/fonts/. The family stacks are --font-* tokens. -->
+    <style is:inline set:html={`
+      @font-face {
+        font-family: "InterVariable";
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url("${asset('/fonts/InterVariable.woff2')}") format("woff2");
+      }
+      @font-face {
+        font-family: "Optician Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("${asset('/fonts/Optician-Sans.woff2')}") format("woff2");
+      }
+    `}></style>
+
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/InterVariable.woff2')} />
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+  </head>
+
+  <body data-accent={accent}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main"><slot /></main>
+    <Footer />
+
+    <script>
+      /* The site's only orchestration: fade a section in once, on entry.
+         Opacity only — nothing moves while it is being read. Disabled entirely
+         under prefers-reduced-motion (see base.css) and never runs without JS. */
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.02 });
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

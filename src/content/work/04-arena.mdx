@@ -1,0 +1,152 @@
+---
+number: "04"
+order: 4
+title: Concept Design of Handball Arena, Commonwealth Games
+shortTitle: Handball Arena
+accent: arena
+dates: October – December 2020
+projectType: Academic, team of six
+role: Structural design, sustainability strategy, construction sequencing
+instrument: Five appraisal criteria, named before either scheme was drawn — which is why the answer could be neither of them.
+question: How do you choose between a scheme that is more iconic and one that is more buildable?
+sections:
+  - { id: question,  label: The question }
+  - { id: criteria,  label: What counts as good }
+  - { id: method,    label: Method }
+  - { id: showed,    label: What it showed }
+  - { id: means,     label: What it means }
+---
+
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+A handball venue for Birmingham 2022 that had to be iconic for two weeks and
+demountable afterwards. Temporary is the hard part: the building has to be worth
+looking at, and it has to come apart without the taking-apart being an afterthought
+bolted on at the end of the drawings.
+
+Two schemes came out of the concept phase, and they were good at different things.
+That is the situation where a team quietly picks whichever one the strongest opinion
+in the room prefers.
+
+<Figure ratio="16/9" caption="TODO(elina): concept sketches — parabolic arch scheme and geodesic dome scheme, side by side." />
+
+</Section>
+
+<Section id="criteria" label="What counts as good">
+
+<CriterionBlock
+  claim="Name the criteria before the schemes exist, or the criteria become an argument for the scheme you already like."
+  rows={[
+    ["Instrument", "Five named appraisal criteria, agreed by the team before comparison"],
+    ["Graded on", "structural clarity · construction practicality · material efficiency · environmental performance · programme and cost impact"],
+    ["Applied to", "Both schemes, independently, before any decision was taken"],
+  ]}
+  rejected="Choosing the more iconic one"
+>
+Scheme 1 looked better. With no criteria written down first, that would have been
+the whole appraisal, and the reasons would have been reverse-engineered afterwards.
+
+Fixing the five terms in advance made it possible to say precisely where each scheme
+won — and that turned out to be the thing that let the team stop treating it as a
+choice between two.
+</CriterionBlock>
+
+</Section>
+
+<Section id="method" label="Method">
+
+<Method>
+
+<Step n="01" title="Scheme appraisal" wide>
+<Compare
+  criteria={[
+    "structural clarity",
+    "construction practicality",
+    "material efficiency",
+    "environmental performance",
+    "programme and cost impact",
+  ]}
+  options={[
+    {
+      label: "Scheme 1",
+      title: "Parabolic arch roof, exposed exoskeleton",
+      points: [
+        "Three light wells; maximises natural light and passive ventilation",
+        "Diagonal bracing gives better lateral stability",
+        "Simpler arches and trusses — cheaper and easier to build",
+        "Structure and architecture are the same thing, which is the iconic part",
+      ],
+    },
+    {
+      label: "Scheme 2",
+      title: "Timber geodesic dome",
+      points: [
+        "Hexagonal geometry taken from the pattern on a handball",
+        "Efficient structural behaviour",
+        "Semi-spherical form aids airflow and indoor comfort, lowering energy demand",
+        "Considerably harder to construct and to take apart",
+      ],
+    },
+  ]}
+  verdict="Scheme 2 was not as visually iconic, and Scheme 1 was more practical — but the appraisal separated <strong>structure</strong> from <strong>façade</strong>, and those had different winners. The resolution was neither scheme: Scheme 1's structure was carried into detailed design, with Scheme 2's polygon façade pattern adopted for its aesthetic value."
+/>
+</Step>
+
+<Step n="02" title="Detailed structure">
+Thirteen modular three-pinned glulam arches spanning 60 m, with diagonal bracing.
+A recycled ETFE roof membrane, cross-laminated timber floors and walls, and
+galvanised steel connections — chosen so that the demounting sequence has somewhere
+to go: bolted steel connections come apart, cast ones do not.
+
+<Figure ratio="16/9" caption="TODO(elina): arch elevation with the polygon façade pattern applied, and the ETFE roof unit detail." />
+</Step>
+
+<Step n="03" title="Construction sequence, planned by hand">
+The erection sequence was worked through step by step rather than assumed, against
+four things that decide whether a temporary building is actually buildable: erection
+stability at every intermediate stage, working-at-height exposure, connection
+tolerances, and weather dependency.
+
+A structure that is only stable once complete is a different and more dangerous
+building than one that is stable at each stage of going up.
+</Step>
+
+</Method>
+
+</Section>
+
+<Section id="showed" label="What it showed">
+
+<div class="prose">
+
+The appraisal did not pick a winner, because once the five criteria were applied
+separately it was clear the schemes were not competing on the same axis. Scheme 1 won
+on structure, constructability and programme. Scheme 2 won on the façade — which was
+an aesthetic judgement, and was allowed to be one, because the criteria made it
+explicit which judgement was being made on what grounds.
+
+The final building is a Scheme 1 structure wearing a Scheme 2 skin, and that was a
+defensible outcome rather than a compromise.
+
+</div>
+
+</Section>
+
+<Section id="means" label="What it means">
+
+<div class="prose">
+
+Two schemes with five criteria is not a choice between two schemes. It is ten
+findings, and the resolution is usually in the seam.
+
+The construction sequencing is the other half of the same argument. Designing how a
+temporary building comes apart is not a downstream task — it decides the connection
+types, which decides the material palette, which decides what the façade can be.
+
+**Status:** academic concept design. Nothing was built.
+
+</div>
+
+</Section>

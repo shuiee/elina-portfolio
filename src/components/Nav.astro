@@ -1,0 +1,61 @@
+---
+import { href } from '../lib/url.js';
+const path = Astro.url.pathname;
+const isOn = (p) => path === href(p) || (p !== '/' && path.startsWith(href(p)));
+const links = [
+  { p: '/work/', label: 'Work' },
+  { p: '/about/', label: 'About' },
+  { p: '/cv/', label: 'CV' },
+];
+---
+<header class="site-nav">
+  <div class="page site-nav__inner">
+    <a class="site-nav__name" href={href('/')}>Elina J. Lee</a>
+    <nav aria-label="Primary">
+      <ul>
+        {links.map((l) => (
+          <li>
+            <a href={href(l.p)} aria-current={isOn(l.p) ? 'page' : undefined}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* No hamburger anywhere on this site. Finding 4, case study 01: keep
+     decision-critical information static and visible. Navigation qualifies. */
+  .site-nav {
+    border-bottom: var(--border-hair) solid var(--rule);
+    background: var(--paper);
+  }
+  .site-nav__inner {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-block: var(--space-4);
+  }
+  .site-nav__name {
+    font-weight: var(--weight-bold);
+    font-size: var(--size-3);
+    text-decoration: none;
+    letter-spacing: var(--track-head);
+  }
+  ul {
+    display: flex;
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--size-3);
+  }
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-mark);
+    font-weight: var(--weight-med);
+  }
+</style>

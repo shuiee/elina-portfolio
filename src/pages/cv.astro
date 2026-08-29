@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+
+/* Everything on this page is data. Edit the arrays; the layout follows.
+   TODO(elina): reconcile the Mott MacDonald end date against the MDE start
+   before this goes live — 2022–2026 and "MDE from August 2026" are adjacent
+   and a reader will check. */
+
+const experience = [
+  {
+    when: '2022 – 2026',
+    org: 'Mott MacDonald',
+    where: 'Seoul and London',
+    role: 'Civil and structural engineer',
+    points: [
+      'New-build nuclear: structural analysis and modelling of reinforced concrete and modular steel–concrete systems to Eurocode 2, AISC N690-24, SCI P414 and DOE-STD-3014.',
+      'Renewable energy: offshore wind substructures at gigawatt scale; solar projects from 20 to 110 MW.',
+      'Translated ambiguous client requirements into structured, checkable design requirements, and technical constraints into decisions stakeholders could take.',
+      'Worked between peer reviewers and regulators on what counted as sufficient evidence.',
+    ],
+  },
+];
+
+const leadership = [
+  {
+    when: 'TODO(elina): dates',
+    org: 'Asia–Australasia Early Career Professionals committee',
+    role: 'Chair',
+    points: [
+      'Chaired a committee of 25 representatives serving roughly 300 members.',
+    ],
+  },
+];
+
+const education = [
+  {
+    when: 'From August 2026',
+    org: 'Harvard University',
+    role: 'Master in Design Engineering',
+    points: [],
+  },
+  {
+    when: '2019 – 2022',
+    org: 'University College London',
+    role: 'BEng Civil, Environmental and Geomatic Engineering',
+    points: [
+      'Dissertation: Seeing Information in Transport Systems — legibility of London bus signage, measured.',
+    ],
+  },
+];
+
+const skills = [
+  ['Analysis and modelling', 'SAP2000 · Mathcad · MATLAB (regionprops, improfile) · hand verification to code'],
+  ['Codes and standards', 'Eurocode 2 · AISC N690-24 · SCI P414 · DOE-STD-3014'],
+  ['Research', 'Controlled physical measurement · survey design (Qualtrics) · marking-scheme design · competitor and feature analysis · user interviews'],
+  ['Design and build', 'Figma · HTML / CSS / JavaScript (this site) · CS50 in C, in progress'],
+  ['Languages', 'English and Korean, both native'],
+];
+
+const groups = [
+  { title: 'Experience', items: experience },
+  { title: 'Leadership', items: leadership },
+  { title: 'Education', items: education },
+];
+---
+<Base title="CV" description="Curriculum vitae — Elina J. Lee.">
+  <div class="page cv">
+    <header class="cv__head">
+      <h1>Curriculum vitae</h1>
+      <p class="meta">
+        TODO(elina): add a downloadable PDF to <code>public/</code> and link it here.
+      </p>
+    </header>
+
+    {groups.map((g) => (
+      <section class="cv__group reveal">
+        <h2 class="eyebrow">{g.title}</h2>
+        {g.items.map((item) => (
+          <article class="cv__entry">
+            <p class="cv__when meta">{item.when}</p>
+            <div class="cv__detail">
+              <h3 class="cv__org">{item.org}</h3>
+              <p class="cv__role">{item.role}{item.where && <span class="cv__where"> &middot; {item.where}</span>}</p>
+              {item.points.length > 0 && (
+                <ul class="cv__points">{item.points.map((p) => <li>{p}</li>)}</ul>
+              )}
+            </div>
+          </article>
+        ))}
+      </section>
+    ))}
+
+    <section class="cv__group reveal">
+      <h2 class="eyebrow">Skills</h2>
+      <dl class="cv__skills">
+        {skills.map(([label, value]) => (
+          <div class="cv__skillrow">
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .cv { padding-top: var(--space-8); max-width: 56rem; }
+  .cv__head h1 { font-size: var(--size-8); }
+  .cv__head .meta { margin-top: var(--space-3); }
+  .cv__group { margin-top: var(--space-8); }
+  .cv__group > h2 { padding-bottom: var(--space-3); border-bottom: var(--border-mark) solid var(--ink); }
+  .cv__entry { display: grid; gap: var(--space-2); padding-block: var(--space-6); }
+  .cv__entry + .cv__entry { border-top: var(--border-hair) solid var(--rule); }
+  @media (min-width: 800px) {
+    .cv__entry { grid-template-columns: 10rem minmax(0, 1fr); gap: var(--space-6); }
+  }
+  .cv__when { padding-top: 0.2em; }
+  .cv__org { font-size: var(--size-5); }
+  .cv__role { margin-top: var(--space-1); font-size: var(--size-3); }
+  .cv__where { color: var(--ink-quiet); }
+  .cv__points { margin-top: var(--space-4); padding-left: var(--space-5); font-size: var(--size-3); }
+  .cv__points li + li { margin-top: var(--space-3); }
+  .cv__skills { margin: 0; }
+  .cv__skillrow { display: grid; gap: var(--space-2); padding-block: var(--space-5); }
+  .cv__skillrow + .cv__skillrow { border-top: var(--border-hair) solid var(--rule); }
+  @media (min-width: 800px) {
+    .cv__skillrow { grid-template-columns: 10rem minmax(0, 1fr); gap: var(--space-6); }
+  }
+  .cv__skillrow dt { font-weight: var(--weight-bold); font-size: var(--size-3); }
+  .cv__skillrow dd { margin: 0; font-size: var(--size-3); }
+</style>

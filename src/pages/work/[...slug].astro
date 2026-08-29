@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import CaseStudy from '../../layouts/CaseStudy.astro';
+
+/* Components available inside every .mdx case study WITHOUT an import line.
+   If you add a component here, you can use it in any case study file. */
+import Section from '../../components/Section.astro';
+import CriterionBlock from '../../components/CriterionBlock.astro';
+import Figure from '../../components/Figure.astro';
+import Findings from '../../components/Findings.astro';
+import Matrix from '../../components/Matrix.astro';
+import Method from '../../components/Method.astro';
+import Step from '../../components/Step.astro';
+import Compare from '../../components/Compare.astro';
+
+export async function getStaticPaths() {
+  const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+  const projects = work.map((p) => ({
+    id: p.id,
+    number: p.data.number,
+    shortTitle: p.data.shortTitle,
+  }));
+
+  return work.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      projects,
+      prev: work[i - 1] ?? null,
+      next: work[i + 1] ?? null,
+    },
+  }));
+}
+
+const { entry, projects, prev, next } = Astro.props;
+const { Content } = await render(entry);
+const components = { Section, CriterionBlock, Figure, Findings, Matrix, Method, Step, Compare };
+---
+<CaseStudy entry={entry} projects={projects} prev={prev} next={next}>
+  <Content components={components} frontmatter={entry.data} />
+</CaseStudy>

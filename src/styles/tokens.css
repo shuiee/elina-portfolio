@@ -1,0 +1,158 @@
+/* ============================================================================
+   tokens.css — every design decision on this site, as a named value.
+   Nothing in a component should be a raw hex, px, or ms. If you want to change
+   how the site looks, change it here.
+
+   Contrast note: this site is partly about a finding that luminance contrast is
+   the primary driver of readability. Every value that touches text is therefore
+   checked against its background at 7:1 or better. Ratios are recorded inline.
+   If you change a colour, keep the ratio.
+   ========================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------- colour
+     The chassis. Five values. Neutral by instruction — the colour lives
+     inside the case studies, never on the frame. */
+
+  --paper:      #FFFFFF;  /* page ground. The v3 deck's ground on all 18 pages. */
+  --ink:        #000000;  /* body + headings. 21:1 on --paper.
+                             Deliberately not a soft off-black: hedging contrast
+                             on a site about contrast is the one indefensible
+                             move available. See DESIGN-NOTES.md. */
+  --ink-quiet:  #4A4E54;  /* the ONLY grey allowed to touch type: dates, roles,
+                             captions, table headers.
+                             8.37:1 on --paper, 7.48:1 on --field.
+                             There is no third text tier. If something needs to
+                             be quieter than this, cut it instead. */
+  --field:      #F4F2ED;  /* exhibit ground. Sampled from the cream process
+                             cards on p.3 of portfolio_v3.pdf.
+                             --ink on it = 19:1, --ink-quiet on it = 7.48:1. */
+  --rule:       #C9CCD0;  /* hairlines, table gridlines, unfilled progress track.
+                             Non-text only. The FILLED part of any progress
+                             indicator is --ink, so orientation never depends on
+                             telling two greys apart. */
+
+  /* -------------------------------------------------------------- accents
+     One per project, sampled from that project's own material in
+     portfolio_v3.pdf. Set by [data-accent] below; never used on the chassis.
+
+     Each accent is a pair:
+       --accent      the true sampled value — rules, marks, fills, non-text
+       --accent-ink  darkened to >=7:1 on --paper — the rare case where the
+                     accent has to carry a word
+     Default (no project): the accent tokens collapse to ink, so a component
+     used outside a case study can never render an uncontrolled colour. */
+
+  --accent:     var(--ink);
+  --accent-ink: var(--ink);
+
+  /* --------------------------------------------------------------- type
+     Two families. Inter for everything; Optician Sans for digits and short
+     markers only.
+
+     Inter is not a taste call: a width analysis of the Type3 glyphs in the
+     source deck ranks the Inter family top on every page tested, reproducing
+     the original line widths to within 1-3%.
+
+     Optician Sans is the face used in clinical visual-acuity testing — the
+     benchmark Johnston 100 was measured against in case study 01. The numbers
+     on this site are set in the instrument used to judge letterforms.
+     Scoped to digits and 2-3 word labels; it never carries running text. */
+
+  --font-text:   "InterVariable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-figure: "Optician Sans", "InterVariable", system-ui, sans-serif;
+
+  /* 1.20 modular scale, rounded to whole px. Nothing below --size-1 is used
+     for text anywhere on the site. */
+  --size-1:  13px;  /* eyebrow labels, letterspaced. Not for sentences. */
+  --size-2:  15px;  /* captions, meta, table cells */
+  --size-3:  16px;  /* small body */
+  --size-4:  18px;  /* PRIMARY BODY */
+  --size-5:  21px;  /* lede */
+  --size-6:  27px;  /* section heads, the question */
+  --size-7:  34px;  /* project titles in listings */
+  --size-8:  44px;  /* case study h1 (mobile), findings figures */
+  --size-9:  60px;  /* home thesis, case study h1 (desktop) */
+
+  --leading-tight: 1.15;
+  --leading-head:  1.22;
+  --leading-body:  1.55;
+  --leading-loose: 1.65;
+
+  --weight-normal: 400;
+  --weight-med:    500;
+  --weight-bold:   700;
+
+  --track-label:  0.08em;   /* eyebrow labels only */
+  --track-head:  -0.02em;   /* large headings — Inter needs tightening at size */
+
+  --measure:      62ch;     /* max line length for body prose */
+  --measure-lede: 34ch;     /* max line length for the home thesis */
+
+  /* -------------------------------------------------------------- spacing
+     4px base. Named by role, not by size, so changing rhythm is one edit. */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  --gutter:        24px;   /* page edge padding, mobile */
+  --gutter-wide:   48px;   /* page edge padding, desktop */
+  --page-max:    1180px;   /* outer container */
+  --rail-width:   180px;   /* sticky case-study orientation rail */
+  --rail-gap:      64px;
+
+  /* ------------------------------------------------------------ borders */
+  --border-hair:  1px;
+  --border-mark:  2px;   /* the criterion block's top rule */
+  --radius:       2px;   /* just enough to not look like a mistake */
+
+  /* ------------------------------------------------------------- motion
+     Finding 3 from case study 01: keep motion predictable and minimal.
+     One orchestration exists on this site (section reveal on scroll) and it is
+     a fade with no movement. Everything here is fully disabled under
+     prefers-reduced-motion — see base.css. */
+  --motion-fast:  120ms;
+  --motion-base:  240ms;
+  --motion-ease:  cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* -------------------------------------------------------------- focus */
+  --focus-width:  3px;
+  --focus-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Project accents. Applied with data-accent="..." on the case study <body>.
+
+   --accent-ink is computed against --field (#F4F2ED), NOT against white,
+   because that is where accent-coloured text actually sits: the figures in the
+   criterion block and the markers in a comparison. A value that clears 7:1 on
+   white can fail on the cream field — this pair originally did, at 6.46:1.
+   Checked against the darker of the two backgrounds, each clears 7:1 on both.
+
+     signage   sampled #1A5F6E teal    -> ink #185966  (7.06 field / 7.90 white)
+     patchwork sampled #0CA514 green   -> ink #075F0C  (7.08 / 7.92)
+     steel     sampled #9746FF violet  -> ink #6400E4  (7.05 / 7.89)
+     arena     sampled #AA8F71 glulam  -> ink #614E3A  (7.06 / 7.90)
+   -------------------------------------------------------------------------- */
+
+[data-accent="signage"]   { --accent: #1A5F6E; --accent-ink: #185966; }
+[data-accent="patchwork"] { --accent: #0CA514; --accent-ink: #075F0C; }
+[data-accent="steel"]     { --accent: #9746FF; --accent-ink: #6400E4; }
+[data-accent="arena"]     { --accent: #AA8F71; --accent-ink: #614E3A; }
+
+/* --------------------------------------------------------------------------
+   Fonts are declared in src/layouts/Base.astro, not here.
+
+   Reason: @font-face src URLs cannot read a CSS variable, and this site may be
+   served from a sub-path on GitHub Pages (e.g. /portfolio/). The declarations
+   therefore live in Base.astro where they can be written with Astro's BASE_URL.
+   The font FILES are in public/fonts/, both under the SIL Open Font License,
+   licences alongside. The family stacks are the --font-* tokens above.
+   -------------------------------------------------------------------------- */

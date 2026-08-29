@@ -1,0 +1,129 @@
+---
+number: "03"
+order: 3
+title: Steel Concrete
+shortTitle: Steel Concrete
+accent: steel
+dates: January – October 2025
+projectType: Professional, individual
+role: Civil and structural engineer — originated all calculations and models
+instrument: A ±10% sensitivity check on the stiffness modifiers, to establish whether the difference came from the system or from my own model.
+question: Can a modular steel–concrete slab match a reinforced concrete slab's performance under nuclear design codes?
+sections:
+  - { id: question,  label: The question }
+  - { id: criteria,  label: What counts as good }
+  - { id: method,    label: Method }
+  - { id: showed,    label: What it showed }
+  - { id: means,     label: What it means }
+---
+
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+Steel–concrete (SC) systems are modular. They shorten programme, cut labour at
+height, and improve through-thickness resilience — all of which matter in nuclear
+construction, where reinforced concrete's rebar assembly and curing times create
+bottlenecks inside a heavily regulated schedule.
+
+None of that is worth anything unless the behaviour can be shown to be equivalent
+under the codes. So the question is narrow on purpose: one 10 × 10 m slab in a
+two-storey reference building, and whether the SC version does the same structural
+job as the RC version it would replace.
+
+<Figure ratio="16/9" caption="TODO(elina): SAP2000 model of the reference building, and the SteelBrick modular slab arrangement." />
+
+</Section>
+
+<Section id="criteria" label="What counts as good">
+
+<CriterionBlock
+  claim="A difference only counts if it survives the model being slightly wrong."
+  rows={[
+    ["Instrument", "±10% sensitivity check on the directional stiffness modifiers"],
+    ["Graded on", "Whether the RC-to-SC difference persists when the modifiers move, or collapses with them"],
+    ["Verified against", "Hand calculations for bending and shear to Eurocode 2, before any comparison was made"],
+  ]}
+  figures={[
+    ["±10%", "applied to the stiffness modifiers"],
+  ]}
+  rejected="Taking the model output as the finding"
+>
+The SC slab is represented as an equivalent orthotropic slab: uniform thickness and
+mass, with directional stiffness modifiers standing in for the real behaviour of the
+system. Those modifiers are an assumption I made.
+
+If the RC-to-SC difference is smaller than the difference my own assumption
+introduces, then the comparison is measuring me and not the structure. Moving the
+modifiers ±10% is what separates the two.
+</CriterionBlock>
+
+</Section>
+
+<Section id="method" label="Method">
+
+<Method>
+
+<Step n="01" title="Reference model, verified by hand">
+A two-storey 10 × 10 m reinforced concrete building modelled in SAP2000. Bending and
+shear checked by hand against Eurocode 2 before the model was used for anything, so
+that the RC baseline was known to be right rather than assumed to be.
+</Step>
+
+<Step n="02" title="Conversion to steel–concrete">
+The slab converted to an equivalent orthotropic representation — uniform thickness
+and mass, with directional stiffness modifiers calculated per AISC N690-24 and
+SCI P414, and calibrated against reference SteelBrick behaviour.
+</Step>
+
+<Step n="03" title="Sensitivity check">
+Stiffness modifiers moved ±10% and the comparison re-run, to establish which
+differences were the system and which were the modelling.
+</Step>
+
+<Step n="04" title="Aircraft impact assessment">
+Penetration and scabbing evaluated under an aircraft impact scenario against
+DOE-STD-3014 — the load case that decides whether a slab type is admissible at all
+in this sector, regardless of how it performs statically.
+</Step>
+
+</Method>
+
+</Section>
+
+<Section id="showed" label="What it showed">
+
+<div class="prose">
+
+<p class="lede lede--small">TODO(elina): confirm what is publishable from this project before the
+site goes live.</p>
+
+This project was done professionally, in nuclear new-build. The results — the
+comparison outcome, the sensitivity ranges, and the impact assessment figures — are
+deliberately not written up here until you have confirmed what can be shown.
+
+Everything on this page so far is method: the codes applied, the model built, and
+the check designed to keep the model honest. If the numbers turn out to be
+publishable, they belong in this section.
+
+</div>
+
+</Section>
+
+<Section id="means" label="What it means">
+
+<div class="prose">
+
+The sensitivity check is the same instinct as the second-pass interview analysis in
+[Patchwork](../02-patchwork/) and the marking scheme in
+[the signage study](../01-signage/): before believing a result, establish whether it
+is the thing you measured or the way you measured it.
+
+It is also the reason this project sits in a design portfolio. A modular system does
+not get adopted in a regulated sector because it is faster. It gets adopted when
+someone builds a case that a reviewer can check — which is a design problem about
+evidence, made of structural engineering.
+
+</div>
+
+</Section>

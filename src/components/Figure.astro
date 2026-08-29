@@ -1,0 +1,47 @@
+---
+/* An image slot. Until you export assets from the PDF this renders a marked
+   placeholder at the right aspect ratio, so the layout is already true.
+
+   To swap in a real image: put the file in public/images/ and add src="..."
+       <Figure src="/images/pearl-rig.jpg" ratio="16/9" caption="..." />
+   The placeholder text is the description of what belongs there — keep it as
+   the alt text when you add the file. */
+import { asset } from '../lib/url.js';
+const { src, ratio = '16/9', caption, credit } = Astro.props;
+---
+<figure class="fig reveal">
+  {src ? (
+    <img src={asset(src)} alt={caption} style={`aspect-ratio:${ratio}`} />
+  ) : (
+    <div class="fig__placeholder" style={`aspect-ratio:${ratio}`} role="img" aria-label={`Image placeholder: ${caption}`}>
+      <span class="eyebrow">Image &mdash; {ratio.replace('/', ':')}</span>
+      <span class="fig__desc">{caption}</span>
+    </div>
+  )}
+  {caption && <figcaption class="meta">{caption}{credit && <span class="fig__credit"> &middot; {credit}</span>}</figcaption>}
+</figure>
+
+<style>
+  .fig { margin: var(--space-6) 0 0; }
+  .fig img { width: 100%; object-fit: cover; background: var(--field); }
+  .fig__placeholder {
+    width: 100%;
+    background: var(--field);
+    border: var(--border-hair) dashed var(--rule);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    text-align: center;
+  }
+  .fig__desc {
+    font-size: var(--size-2);
+    color: var(--ink-quiet);
+    max-width: 42ch;
+    line-height: var(--leading-body);
+  }
+  figcaption { margin-top: var(--space-3); max-width: var(--measure); }
+  .fig__credit { color: var(--ink-quiet); }
+</style>

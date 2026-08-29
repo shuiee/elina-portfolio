@@ -1,0 +1,77 @@
+---
+import Base from './Base.astro';
+import Rail from '../components/Rail.astro';
+import { href } from '../lib/url.js';
+
+const { entry, projects, prev, next } = Astro.props;
+const d = entry.data;
+---
+<Base title={d.title} description={d.instrument} accent={d.accent}>
+  <div class="page cs">
+    <Rail sections={d.sections} number={d.number} projects={projects} />
+
+    <article class="cs__body">
+      <header class="cs__head">
+        <p class="figure-num cs__number">{d.number}</p>
+        <h1 class="cs__title">{d.title}</h1>
+        <p class="meta cs__meta">
+          {d.dates} &middot; {d.projectType} &middot; {d.role}
+        </p>
+      </header>
+
+      <slot />
+
+      <nav class="cs__next" aria-label="More work">
+        <hr />
+        <div class="cs__nextgrid">
+          {prev ? (
+            <a href={href(`/work/${prev.id}/`)} class="cs__nextlink">
+              <span class="eyebrow">Previous</span>
+              <span class="cs__nexttitle"><span class="figure-num">{prev.data.number}</span> {prev.data.shortTitle}</span>
+            </a>
+          ) : <span></span>}
+          {next && (
+            <a href={href(`/work/${next.id}/`)} class="cs__nextlink cs__nextlink--end">
+              <span class="eyebrow">Next</span>
+              <span class="cs__nexttitle"><span class="figure-num">{next.data.number}</span> {next.data.shortTitle}</span>
+            </a>
+          )}
+        </div>
+      </nav>
+    </article>
+  </div>
+</Base>
+
+<style>
+  .cs { padding-top: var(--space-7); }
+  @media (min-width: 1000px) {
+    .cs {
+      display: grid;
+      grid-template-columns: var(--rail-width) minmax(0, 1fr);
+      gap: var(--rail-gap);
+      align-items: start;
+    }
+  }
+  .cs__body { max-width: 52rem; min-width: 0; }
+  .cs__number { font-size: var(--size-6); color: var(--accent-ink); line-height: 1; }
+  .cs__title {
+    font-size: var(--size-8);
+    margin: var(--space-3) 0 var(--space-5);
+    max-width: 18ch;
+  }
+  @media (min-width: 800px) { .cs__title { font-size: var(--size-9); } }
+  .cs__meta { padding-bottom: var(--space-5); border-bottom: var(--border-mark) solid var(--ink); }
+
+  .cs__next { margin-top: var(--space-10); }
+  .cs__nextgrid {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+    flex-wrap: wrap;
+  }
+  .cs__nextlink { text-decoration: none; display: grid; gap: var(--space-2); }
+  .cs__nextlink--end { text-align: right; margin-left: auto; }
+  .cs__nexttitle { font-size: var(--size-5); font-weight: var(--weight-bold); }
+  .cs__nextlink:hover .cs__nexttitle { text-decoration: underline; }
+</style>

@@ -1,0 +1,171 @@
+/* ============================================================================
+   base.css — element-level styles. Reads tokens only; contains no raw values
+   except structural zeroes. If you find a hex or a px here that isn't 0,
+   it's a bug: move it to tokens.css.
+   ========================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--size-4);
+  line-height: var(--leading-body);
+  font-weight: var(--weight-normal);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv05" 1, "cv08" 1; /* Inter: open-tailed l, slashed-free 1 */
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-head);
+  letter-spacing: var(--track-head);
+  text-wrap: balance;
+}
+
+p, ul, ol { margin: 0; }
+
+a {
+  color: inherit;
+  text-decoration-thickness: var(--border-hair);
+  text-underline-offset: 0.18em;
+}
+a:hover { text-decoration-thickness: var(--border-mark); }
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--ink);
+  outline-offset: var(--focus-offset);
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+hr {
+  border: 0;
+  border-top: var(--border-hair) solid var(--rule);
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ layout */
+
+.page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+@media (min-width: 900px) {
+  .page { padding-inline: var(--gutter-wide); }
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: calc(var(--space-4) * -6);
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--space-3) var(--space-4);
+  z-index: 10;
+  transition: top var(--motion-fast) var(--motion-ease);
+}
+.skip-link:focus { top: var(--space-4); }
+
+/* -------------------------------------------------------------- typography */
+
+.eyebrow {
+  font-size: var(--size-1);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: var(--weight-bold);
+  color: var(--ink-quiet);
+  margin: 0;
+}
+
+.meta {
+  font-size: var(--size-2);
+  color: var(--ink-quiet);
+  line-height: var(--leading-body);
+}
+
+.figure-num {
+  font-family: var(--font-figure);
+  font-weight: var(--weight-normal);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The reading measure is applied to the TEXT children, not to .prose itself, so
+   that a full-width exhibit (a matrix, a comparison, a figure) placed inside
+   prose can still use the whole column. */
+.prose > p,
+.prose > ul,
+.prose > ol,
+.prose > h2,
+.prose > h3,
+.prose > blockquote { max-width: var(--measure); }
+.prose > * + * { margin-top: var(--space-5); }
+.prose strong { font-weight: var(--weight-bold); }
+.prose ul { padding-left: var(--space-5); }
+.prose li + li { margin-top: var(--space-3); }
+.prose code {
+  font-family: var(--font-text);
+  font-weight: var(--weight-med);
+  background: var(--field);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius);
+}
+
+/* ---------------------------------------------------------------- motion
+   Finding 3, case study 01: keep motion predictable and minimal.
+   This is the site's ONE orchestration: a fade-in on section entry, no
+   movement, no stagger, no parallax. It is opacity-only so that nothing
+   shifts position while being read. */
+
+.reveal { opacity: 0; transition: opacity var(--motion-base) var(--motion-ease); }
+.reveal.is-visible { opacity: 1; }
+
+/* No-JS and reduced-motion both land on "everything visible, immediately". */
+html.no-js .reveal { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transition: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ print */
+@media print {
+  .site-nav, .rail, .skip-link { display: none; }
+  body { font-size: 11pt; }
+}
+
+/* ------------------------------------------------------------------ lede
+   The opening statement of a case study section. Used in .mdx files. */
+.lede {
+  font-size: var(--size-6);
+  line-height: var(--leading-head);
+  letter-spacing: var(--track-head);
+  font-weight: var(--weight-bold);
+  max-width: 26ch;
+  text-wrap: balance;
+  margin-bottom: var(--space-6);
+}
+.lede--small {
+  font-size: var(--size-5);
+  max-width: var(--measure);
+  font-weight: var(--weight-med);
+}
+
+/* Content written directly in an .mdx section, outside .prose. */
+.section__body > p { max-width: var(--measure); }
+.section__body > * + * { margin-top: var(--space-6); }

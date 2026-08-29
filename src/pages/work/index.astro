@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { href } from '../../lib/url.js';
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Work" description="Four case studies.">
+  <div class="page">
+    <header class="wh">
+      <h1>Work</h1>
+      <p class="wh__sub">
+        Four investigations. Each one is structured the same way — the question, what
+        counts as good, the method, what it showed, what it means &mdash; because that
+        is the order the work actually happened in.
+      </p>
+    </header>
+
+    <ol class="wl">
+      {work.map((p) => (
+        <li class="wl__item reveal" data-accent={p.data.accent}>
+          <a href={href(`/work/${p.id}/`)}>
+            <span class="figure-num wl__num">{p.data.number}</span>
+            <span>
+              <span class="wl__title">{p.data.title}</span>
+              <span class="meta wl__meta">{p.data.dates} &middot; {p.data.role}</span>
+              <span class="wl__inst">{p.data.instrument}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .wh { padding-block: var(--space-8) var(--space-6); }
+  .wh h1 { font-size: var(--size-8); }
+  .wh__sub { margin-top: var(--space-5); max-width: var(--measure); font-size: var(--size-5); }
+  .wl { list-style: none; padding: 0; margin: var(--space-6) 0 0; }
+  .wl__item { border-top: var(--border-hair) solid var(--rule); }
+  .wl__item a {
+    display: flex;
+    gap: var(--space-5);
+    align-items: baseline;
+    text-decoration: none;
+    padding-block: var(--space-6);
+  }
+  .wl__num { font-size: var(--size-6); color: var(--accent-ink); flex: none; }
+  .wl__title {
+    display: block;
+    font-size: var(--size-6);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--track-head);
+  }
+  .wl__item a:hover .wl__title { text-decoration: underline; }
+  .wl__meta { display: block; margin-top: var(--space-2); }
+  .wl__inst { display: block; margin-top: var(--space-3); max-width: var(--measure); }
+</style>

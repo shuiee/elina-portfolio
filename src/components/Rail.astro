@@ -1,0 +1,131 @@
+---
+/* Persistent orientation. The source deck kept a fixed 01-04 index plus a stage
+   progress bar visible at all times; this keeps the intent.
+
+   Desktop: a sticky column — where you are in this case study, and which of the
+   four projects this is.
+   Mobile: the column is hidden and a 3px progress bar pins under the header.
+   The FILLED part is --ink (21:1), never a colour, so the indicator survives
+   any ambient condition. Finding 4: decision-critical information stays visible.
+*/
+import { href } from '../lib/url.js';
+const { sections = [], number, projects = [] } = Astro.props;
+---
+<nav class="rail" aria-label="Where you are">
+  <ol class="rail__sections">
+    {sections.map((s) => (
+      <li><a href={`#${s.id}`} data-section={s.id}>{s.label}</a></li>
+    ))}
+  </ol>
+
+  <ol class="rail__projects" aria-label="All projects">
+    {projects.map((p) => (
+      <li>
+        <a href={href(`/work/${p.id}/`)} class="figure-num" aria-current={p.number === number ? 'page' : undefined}>
+          {p.number}
+        </a>
+        <span class="rail__projtitle">{p.shortTitle}</span>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<div class="rail__bar" aria-hidden="true"><span class="rail__barfill"></span></div>
+
+<style>
+  .rail { display: none; }
+  @media (min-width: 1000px) {
+    .rail {
+      display: block;
+      position: sticky;
+      top: var(--space-7);
+      align-self: start;
+      width: var(--rail-width);
+      font-size: var(--size-2);
+    }
+  }
+  .rail__sections { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
+  .rail__sections a {
+    text-decoration: none;
+    color: var(--ink-quiet);
+    display: block;
+    padding-left: var(--space-4);
+    border-left: var(--border-mark) solid var(--rule);
+    line-height: var(--leading-body);
+  }
+  .rail__sections a:hover { color: var(--ink); }
+  .rail__sections a.is-current {
+    color: var(--ink);
+    font-weight: var(--weight-med);
+    border-left-color: var(--ink);
+  }
+
+  .rail__projects {
+    list-style: none;
+    padding: var(--space-5) 0 0;
+    margin: var(--space-6) 0 0;
+    border-top: var(--border-hair) solid var(--rule);
+    display: grid;
+    gap: var(--space-3);
+  }
+  .rail__projects li { display: flex; gap: var(--space-3); align-items: baseline; }
+  .rail__projects a { text-decoration: none; color: var(--ink-quiet); font-size: var(--size-3); }
+  .rail__projects a[aria-current='page'] { color: var(--ink); font-weight: var(--weight-bold); }
+  .rail__projects a:hover { color: var(--ink); text-decoration: underline; }
+  .rail__projtitle {
+    font-size: var(--size-1);
+    color: var(--ink-quiet);
+    line-height: var(--leading-body);
+  }
+
+  /* Mobile progress bar */
+  .rail__bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    height: 3px;
+    background: var(--rule);
+  }
+  @media (min-width: 1000px) { .rail__bar { display: none; } }
+  .rail__barfill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--ink);
+  }
+</style>
+
+<script>
+  /* Two jobs, both orientation, neither decorative:
+     1. mark the current section in the sticky rail
+     2. fill the mobile progress bar to match scroll position
+     Both are position updates, not animation, so prefers-reduced-motion does
+     not need to disable them — but neither moves anything the reader is
+     reading. */
+  const links = document.querySelectorAll('.rail__sections a');
+  const fill = document.querySelector('.rail__barfill');
+  const sections = [...links]
+    .map((a) => document.getElementById(a.dataset.section))
+    .filter(Boolean);
+
+  function update() {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    if (fill) fill.style.width = (max > 0 ? Math.min(100, (doc.scrollTop / max) * 100) : 0) + '%';
+
+    let currentIndex = 0;
+    sections.forEach((s, i) => {
+      if (s.getBoundingClientRect().top <= doc.clientHeight * 0.35) currentIndex = i;
+    });
+    links.forEach((a, i) => a.classList.toggle('is-current', i === currentIndex));
+  }
+
+  let ticking = false;
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { update(); ticking = false; });
+  }, { passive: true });
+  addEventListener('resize', update, { passive: true });
+  update();
+</script>

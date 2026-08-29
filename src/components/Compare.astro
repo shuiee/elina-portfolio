@@ -1,0 +1,75 @@
+---
+/* Two options judged against a set of named criteria that were agreed BEFORE
+   either option was drawn. The criteria sit between the two columns because
+   that is where they sat in the decision.
+   options  = [{ label, title, points: [] }, { ... }]
+   criteria = ['structural clarity', ...]
+   verdict  = the resolution sentence */
+const { options = [], criteria = [], verdict, note = 'Agreed before either scheme was drawn.', criteriaLabel = 'Judged against' } = Astro.props;
+---
+<div class="compare reveal">
+  <div class="compare__grid">
+    {options.map((o, i) => (
+      <div class="compare__col" data-side={i === 0 ? 'a' : 'b'}>
+        <p class="eyebrow">{o.label}</p>
+        <h3 class="compare__title">{o.title}</h3>
+        <ul class="compare__points">{o.points.map((p) => <li>{p}</li>)}</ul>
+      </div>
+    ))}
+
+    <div class="compare__criteria">
+      <p class="eyebrow">{criteriaLabel}</p>
+      <ol class="compare__list">
+        {criteria.map((c) => <li>{c}</li>)}
+      </ol>
+      <p class="compare__note meta">{note}</p>
+    </div>
+  </div>
+  {verdict && <p class="compare__verdict" set:html={verdict}></p>}
+</div>
+
+<style>
+  /* Container query, not a media query: this component is used both at full
+     body width and nested inside a numbered step, and it should go to three
+     columns based on the space it actually has, not on the viewport. */
+  .compare { margin: var(--space-6) 0 0; container-type: inline-size; }
+  .compare__grid { display: grid; gap: var(--space-6); }
+  @container (min-width: 46rem) {
+    .compare__grid {
+      grid-template-columns: minmax(0,1fr) 15rem minmax(0,1fr);
+      gap: var(--space-7);
+      align-items: start;
+    }
+    .compare__col[data-side='a'] { grid-column: 1; grid-row: 1; }
+    .compare__criteria        { grid-column: 2; grid-row: 1; }
+    .compare__col[data-side='b'] { grid-column: 3; grid-row: 1; }
+  }
+  .compare__col { border-top: var(--border-hair) solid var(--rule); padding-top: var(--space-4); }
+  .compare__title { font-size: var(--size-5); margin: var(--space-2) 0 var(--space-4); }
+  .compare__points { padding-left: var(--space-5); font-size: var(--size-3); }
+  .compare__points li + li { margin-top: var(--space-2); }
+
+  .compare__criteria {
+    background: var(--field);
+    border-top: var(--border-mark) solid var(--accent);
+    padding: var(--space-5);
+  }
+  .compare__list {
+    margin: var(--space-4) 0 0;
+    padding-left: var(--space-5);
+    font-size: var(--size-3);
+    line-height: var(--leading-body);
+  }
+  .compare__list li + li { margin-top: var(--space-2); }
+  .compare__list li::marker { font-family: var(--font-figure); color: var(--ink-quiet); }
+  .compare__note { margin-top: var(--space-4); }
+
+  .compare__verdict {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: var(--border-mark) solid var(--ink);
+    font-size: var(--size-5);
+    max-width: 46rem;
+    text-wrap: pretty;
+  }
+</style>

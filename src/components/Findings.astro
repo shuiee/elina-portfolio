@@ -1,0 +1,43 @@
+---
+/* Percentage results. Figures in Optician Sans — the acuity face from 01.
+   items = [[figure, caption], ...] */
+const { items = [], note } = Astro.props;
+---
+<div class="findings reveal">
+  <ul>
+    {items.map(([figure, caption]) => (
+      <li>
+        <span class="figure-num findings__fig">{figure}</span>
+        <span class="findings__cap">{caption}</span>
+      </li>
+    ))}
+  </ul>
+  {note && <p class="findings__note meta">{note}</p>}
+</div>
+
+<style>
+  .findings { margin: var(--space-6) 0 0; }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-6) var(--space-5);
+    /* Fixed 2 then 3 columns rather than auto-fit: six findings should read as
+       two tidy rows, not five across with one orphan underneath. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 46rem;
+  }
+  li {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: var(--border-mark) solid var(--ink);
+  }
+  .findings__fig { font-size: var(--size-8); line-height: 1; }
+  .findings__cap { font-size: var(--size-2); line-height: var(--leading-body); }
+  @media (min-width: 700px) {
+    ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .findings__note { margin-top: var(--space-6); max-width: var(--measure); }
+</style>

@@ -1,0 +1,193 @@
+---
+number: "02"
+order: 2
+title: Patchwork
+shortTitle: Patchwork
+accent: patchwork
+dates: August 2025 – ongoing
+projectType: Personal, group
+role: Product and UX lead
+instrument: A five-feature matrix across seven platforms — because "slow" and "meaningful" cannot be compared and features can.
+question: How do you design a digital space that rewards authenticity rather than performance?
+sections:
+  - { id: question,  label: The question }
+  - { id: criteria,  label: What counts as good }
+  - { id: method,    label: Method }
+  - { id: showed,    label: What it showed }
+  - { id: means,     label: What it means }
+---
+
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+Patchwork is a slow platform for sharing cultural fragments — the small, specific
+things people notice about where they live and where they are from. The design
+problem is that every mechanism that makes sharing feel rewarding is also the
+mechanism that makes it feel like performance.
+
+So the question is not how to remove social reward. It is which rewards can be kept
+without importing the anxiety that comes with them.
+
+<Figure ratio="16/9" caption="TODO(elina): Patchwork MVP screens — capture, save-and-revisit, and the small-circle view." />
+
+</Section>
+
+<Section id="criteria" label="What counts as good">
+
+<CriterionBlock
+  claim="Compare features, not stated values."
+  rows={[
+    ["Instrument", "A five-feature matrix across seven platforms"],
+    ["Graded on", "In-app capture · posting constraints · small-circle sharing · memory archiving · public validation metrics"],
+    ["Chosen because", "Each of the five is a feature that measurably changes how often, how carefully and to whom a person posts."],
+  ]}
+  rejected="Comparing what platforms say they are for"
+>
+Every platform in this space describes itself as authentic, calm or meaningful.
+Those words do not sit next to each other on a page and produce a difference.
+
+Features do. Whether an app lets you post from the camera roll, whether it caps how
+often you can post, whether it shows a like count — these are decisions someone made,
+and they can be put in a grid and argued with.
+</CriterionBlock>
+
+<Matrix
+  caption="Seven platforms against the five features that shape posting behaviour."
+  columns={["BeReal", "Day One", "Journey", "VSCO", "Instagram", "Retro", "Beli"]}
+  rows={[
+    ["In-app capture / creative tools", ["yes","no","no","yes","yes","no","no"]],
+    ["Posting constraints", ["yes","yes","yes","no","no","no","no"]],
+    ["Small-circle / private sharing", ["no","yes","yes","no","partial","yes","yes"]],
+    ["Memory archiving / past timeline", ["yes","yes","yes","yes","yes","no","yes"]],
+    ["Public validation (likes / follows)", ["no","no","no","no","yes","no","yes"]],
+  ]}
+  gap="No platform supports slow, intimate, culturally meaningful sharing without public validation metrics. That gap is the product."
+/>
+
+<p class="meta">TODO(elina): confirm the seven platform names and the cell values against your
+own matrix — the logos in the deck are not all legible at export resolution.</p>
+
+</Section>
+
+<Section id="method" label="Method">
+
+<Method>
+
+<Step n="01" title="Competitor analysis">
+Seven platforms that overlap with what Patchwork cares about — slow sharing, small
+circles, documenting everyday moments — read against the five features above rather
+than against their positioning.
+</Step>
+
+<Step n="02" title="User interviews, and then the same interviews again">
+This is the part of the project worth reading.
+
+Round one produced clear themes: connection, sharing habits, fatigue with existing
+platforms. It was usable data, and it pulled the project toward the behaviours people
+already have — which is to say, toward the platforms Patchwork exists because of.
+
+I did not treat those findings as requirements. I re-analysed the same data against
+what the project set out to do, looking for tensions inside existing behaviour rather
+than for confirmation of it.
+
+The exhibit that came out of it is in [what it showed](#showed).
+
+<Figure ratio="16/9" caption="TODO(elina): affinity diagram from round 1 alongside the round 2 thematic grouping." />
+</Step>
+
+<Step n="03" title="A rough MVP, built out of sequence">
+I built a working MVP before formalising UX strategy or wireframes — early, and
+deliberately out of order — so the team had something concrete to disagree with
+instead of a document.
+
+It was vibe-coded rather than hand-built. As a way of testing whether a feature set
+holds together in context, that was the right trade; as evidence of front-end
+craft, it is not one, and I am not presenting it as one.
+</Step>
+
+<Step n="04" title="Narrowing scope">
+Evaluating the MVP against the reframed analysis made it possible to say which
+directions risked reproducing existing social platforms. Scope narrowed to features
+that only make sense if the goal is intentional use: lightweight save-and-revisit,
+optional structure around posting, and limits that make passive scrolling
+unrewarding.
+</Step>
+
+</Method>
+
+</Section>
+
+<Section id="showed" label="What it showed">
+
+<p class="lede">The same interviews, read twice.</p>
+
+<Compare
+  criteriaLabel="Re-read against"
+  note="The values the project started with, written down before the interviews."
+  criteria={[
+    "slow, low-pressure sharing",
+    "cultural specificity",
+    "no public validation",
+    "intimacy over reach",
+  ]}
+  options={[
+    {
+      label: "Round 1 — as reported",
+      title: "What people said they wanted",
+      points: [
+        "Easier ways to stay in touch",
+        "Fatigue with fast, ad-heavy feeds",
+        "Familiar posting patterns, described as preferences",
+      ],
+    },
+    {
+      label: "Round 2 — re-analysed",
+      title: "What the same answers implied",
+      points: [
+        "Fatigue is with the reward mechanism, not the frequency",
+        "Hesitation to post is about audience, not effort",
+        "The stated preference was for a better version of what already exists",
+      ],
+    },
+  ]}
+  verdict="Round 1 answers described the platforms people already use. Read against the project's own values, the same answers pointed somewhere else: the unmet need was a place where documenting something does not immediately become a bid for approval."
+/>
+
+<div class="prose">
+
+The primary user is 20–35, oriented around 소확행 — small but certain happiness. Not a
+demographic so much as a posture: people who want to keep a record of something
+specific and unspectacular, and who currently do not, because the places available
+for it turn it into a performance.
+
+Two things came out of the second pass that the first pass could not have produced:
+
+- Fatigue is with the reward mechanism, not with frequency. People are not asking to
+  post less. They are asking for posting not to be scored.
+- The hesitation to document a meaningful moment is about who will see it and how
+  fast it will be consumed — not about the effort of making it.
+
+</div>
+
+</Section>
+
+<Section id="means" label="What it means">
+
+<div class="prose">
+
+The transferable part is not the product. It is that interview findings are a
+description of the present, and a project whose entire purpose is to differ from the
+present cannot take them as requirements. Round one was not wrong. It was answering
+a different question from the one the project was asking.
+
+**Honest status:** Patchwork is at MVP-draft stage. Nothing has shipped to users, and
+there are no usage numbers to report. What exists is a feature scope with reasons
+attached, and a draft build.
+
+**Next:** UX strategy and wireframes against the narrowed scope, then testing whether
+the constraints that are supposed to reduce pressure actually do.
+
+</div>
+
+</Section>

@@ -1,0 +1,167 @@
+---
+number: "01"
+order: 1
+title: Seeing Information in Transport Systems
+shortTitle: Transport signage
+accent: signage
+dates: March – June 2022
+projectType: Academic, group
+role: Co-author
+instrument: A three-tier marking scheme for misremembered station names. "Shoredich" still gets you on the right bus.
+question: How much does a person take in at once, and what should a design do when it asks for more?
+sections:
+  - { id: question,  label: The question }
+  - { id: criteria,  label: What counts as good }
+  - { id: method,    label: Method }
+  - { id: showed,    label: What it showed }
+  - { id: means,     label: What it means }
+---
+
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+Six million people use London buses every day. I kept seeing passengers hesitate at
+the stop, or board the wrong bus, and the sign was usually the reason.
+
+The comparison that started it was Korean. Korean bus signage carries more
+information in the same space and is easier to scan, and the reason is mechanical
+rather than aesthetic: Korean characters need less horizontal space, so more fits at
+the same legibility. That reframed the problem. London's signs are not badly
+designed so much as asked to carry an amount of information the writing system
+cannot fit at a readable size.
+
+So the question was not "which sign looks clearer". It was how much a person can
+take in at once, and what a sign should do when it needs to say more than that.
+
+<Figure
+  ratio="16/9"
+  caption="TODO(elina): side-by-side photograph of a London bus sign and a Korean bus sign at equivalent distance."
+/>
+
+</Section>
+
+<Section id="criteria" label="What counts as good">
+
+<CriterionBlock
+  claim="A recalled station name is not right or wrong."
+  rows={[
+    ["Instrument", "Three-tier scale — incorrect / correct (enough) / perfect"],
+    ["Graded on", "Correct letters · total word length · letters in the correct position"],
+    ["Applied to", "Fictitious station names shown at scrolling intervals of 1.5, 3 and 4.5 seconds. Participants typed the name they recalled."],
+  ]}
+  figures={[
+    ["5 / 9", "letters correct"],
+    ["6 / 9", "letters in the correct position"],
+  ]}
+  rejected="Binary right / wrong"
+>
+A passenger who recalls "Shoredich" still boards the right bus. Binary grading
+measures spelling, and the sign is not a spelling test — it is an instruction that
+has to survive being read once, at distance, while moving.
+
+Grading on letters and their positions measures the thing the sign is actually for:
+whether the passenger could still act on what they read.
+</CriterionBlock>
+
+<p>The same principle set the terms for the two physical experiments. Neither was
+asked whether a sign looked clearer. Both were asked to produce numbers another
+person could re-measure.</p>
+
+</Section>
+
+<Section id="method" label="Method">
+
+<Method>
+
+<Step n="01" title="Physical measurement at PEARL" when="UCL PEARL facility">
+A printed sign and an LED sign, both showing **Shoreditch 388** — chosen for its
+length and for mixing straight and curved letterforms.
+
+Illuminance was sampled at eight fixed points, mirrored across both signs.
+Luminance was sampled at fixed black and white points. Both were repeated at five
+distances from 0.5 to 2.5 m.
+
+Fixed, mirrored sampling points are the whole trick here: they make the printed and
+the LED sign directly comparable, and they make the run repeatable by somebody else.
+
+<Figure ratio="16/9" caption="TODO(elina): PEARL experiment setup — printed sign and LED sign rigs, with the illuminance sampling grid marked." />
+</Step>
+
+<Step n="02" title="Font analysis in MATLAB">
+`regionprops` for the area, eccentricity and circularity of every character.
+`improfile` for pixel-intensity profiles drawn horizontally through the text,
+showing how sharply brightness moves from background to letter edge and back.
+
+Johnston 100 Medium — TfL's own face — was benchmarked against Optician Sans, which
+is used in clinical visual-acuity testing, and against Arial, Times New Roman,
+Motorway and Apple Chancery. The point was not to declare a threshold. It was to see
+whether Johnston 100 behaves like a clinical-clarity font or a decorative one when
+you look only at geometry.
+
+The output is a workflow, not a verdict: a transport operator can run it on a new
+font or a new sign and get the same kind of number back.
+
+<Figure ratio="16/9" caption="TODO(elina): MATLAB output — grayscale, threshold and bounding-box stages, plus the intensity profile plots for printed and LED at close and far range." />
+</Step>
+
+<Step n="03" title="Passenger survey">
+An online survey (Qualtrics) covering four questions: whether the current placement
+of bus number and destination reads clearly; whether people want information the
+signs do not currently carry; which occupancy symbol communicates fastest; and what
+scrolling interval still allows recall.
+
+The occupancy symbols tested were geometric rather than illustrative, because the
+luminance work had already shown that high contrast and simple shapes are what
+survive low light and a pixel grid.
+
+<Figure ratio="16/9" caption="TODO(elina): the three occupancy symbol designs tested, and the front/side sign concepts." />
+</Step>
+
+</Method>
+
+</Section>
+
+<Section id="showed" label="What it showed">
+
+<Findings
+  items={[
+    ["81%", "wanted main stations displayed on bus signs"],
+    ["72.6%", "wanted occupancy information for the current bus"],
+    ["84.2%", "wanted occupancy information for the next bus"],
+    ["53.7%", "wanted occupancy for both current and next"],
+    ["68.6%", "preferred the bus number on the left"],
+    ["82.2%", "ranked Design 1 the clearest occupancy symbol"],
+  ]}
+  note="For scrolling legibility, a 3-second interval produced the most reliable recall. Recall fell away with longer words and with less predictable movement."
+/>
+
+</Section>
+
+<Section id="means" label="What it means">
+
+<div class="prose">
+
+Four implications came out of the three experiments together.
+
+1. **Prioritise luminance contrast, not colour accents.** Contrast is the primary
+   driver of readability, especially under bright ambient light. Changing colour does
+   very little once contrast falls below a usable threshold.
+2. **Use fonts that hold their clarity under pixelation.** Curved and decorative
+   letterforms lose definition first on an LED matrix at distance. Geometric faces
+   keep their edges.
+3. **Keep motion predictable and minimise scrolling content.** Recall peaks at a
+   3-second interval and drops with longer or less rhythmically consistent movement.
+4. **Keep decision-critical information static.** Route number, destination, via
+   stops and occupancy are what people act on. If they move, people hesitate.
+
+The site you are reading follows all four. That is stated once, in the footer, and
+it is the only place this research is used as decoration.
+
+**Still open:** testing under varied lighting and viewing angles; other display
+types such as LCD; refining the visual-acuity metrics; and establishing how much
+information can actually fit on a sign before clarity goes.
+
+</div>
+
+</Section>

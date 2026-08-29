@@ -1,0 +1,14 @@
+---
+/* One of the five fixed case-study sections. The order never changes:
+   question -> criteria -> method -> what it showed -> what it means. */
+const { id, label } = Astro.props;
+---
+<section id={id} class="section reveal" aria-labelledby={`${id}-h`}>
+  <h2 class="eyebrow section__label" id={`${id}-h`}>{label}</h2>
+  <div class="section__body"><slot /></div>
+</section>
+<style>
+  .section { margin-top: var(--space-9); scroll-margin-top: var(--space-6); }
+  .section__label { padding-bottom: var(--space-4); border-bottom: var(--border-hair) solid var(--rule); }
+  .section__body { margin-top: var(--space-6); }
+</style>
