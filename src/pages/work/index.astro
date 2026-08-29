@@ -17,7 +17,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 
     <ol class="wl">
       {work.map((p) => (
-        <li class="wl__item reveal" data-accent={p.data.accent}>
+        <li class="wl__item reveal">
           <a href={href(`/work/${p.id}/`)}>
             <span class="figure-num wl__num">{p.data.number}</span>
             <span>

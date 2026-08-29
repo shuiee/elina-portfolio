@@ -21,9 +21,12 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 
     <hr />
 
+    {/* No data-accent on these items on purpose: project accents belong inside
+        case studies, not on the chassis. The listing is black and white, and the
+        accent is the first thing that changes when you open a case study. */}
     <ol class="work-list">
       {work.map((p) => (
-        <li class="work-item reveal" data-accent={p.data.accent}>
+        <li class="work-item reveal">
           <div class="work-item__id">
             <a class="work-item__link" href={href(`/work/${p.id}/`)}>
               <span class="figure-num work-item__num">{p.data.number}</span>
