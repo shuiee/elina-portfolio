@@ -3,8 +3,11 @@
    what the argument is, and sends the reader to /work/. The four projects live
    there — repeating them here would make the visitor choose before they have
    been told anything. */
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { href, asset } from '../lib/url.js';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base description="Engineer. I design the measurement before I design the thing.">
   <div class="page landing">
@@ -14,10 +17,6 @@ import { href, asset } from '../lib/url.js';
     </h1>
 
     <div class="landing__thesis">
-      <p class="note landing__note">
-        Moving from energy infrastructure into product design and design strategy
-      </p>
-
       <div class="landing__centre">
         <p class="landing__claim">
           I&rsquo;m an engineer that likes finding structure<br />in creativity, and creativity in structure.
@@ -31,20 +30,26 @@ import { href, asset } from '../lib/url.js';
         />
       </div>
 
-      <p class="note landing__note landing__note--right">
-        Four investigations in problem framing, from a bus sign to a nuclear slab
-      </p>
     </div>
+
+
+    <nav class="landing__contents" aria-label="Contents">
+      <ol>
+        {work.map((p) => (
+          <li>
+            <a href={href(`/work/${p.id}/`)}>
+              <span class="figure-num landing__contents-num">{p.data.number}</span>
+              <span class="landing__contents-title">{p.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
 
     <p class="landing__enter">
       <a href={href('/work/')}>
         See my work <span aria-hidden="true">&rarr;</span>
       </a>
-    </p>
-
-    <p class="landing__foot">
-      In each project there is a moment where I stop and define what
-      &ldquo;good&rdquo; would mean, in terms someone else could check.
     </p>
 
   </div>
@@ -56,15 +61,13 @@ import { href, asset } from '../lib/url.js';
      reference. Every other page keeps --page-max. */
   .landing {
     max-width: 1600px;
-    min-height: calc(100vh - 200px);
-    display: flex;
-    flex-direction: column;
-    padding-top: var(--space-6);
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-7);
   }
 
   /* -- the name ----------------------------------------------------------- */
   .landing__name {
-    margin: var(--space-8) 0 var(--space-8);
+    margin: var(--space-5) 0 var(--space-6);
     text-align: center;
     line-height: 0.9;
     letter-spacing: var(--track-head);
@@ -89,24 +92,15 @@ import { href, asset } from '../lib/url.js';
   .landing__thesis {
     display: grid;
     justify-items: center;
-    gap: var(--space-6);
     text-align: center;
   }
-  @media (min-width: 1000px) {
-    .landing__thesis {
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-      align-items: center;
-      gap: var(--space-9);
-    }
-    .landing__note { justify-self: end; text-align: right; }
-    .landing__note--right { justify-self: start; text-align: left; }
-  }
-  .landing__centre { display: grid; justify-items: center; gap: var(--space-6); }
+
+  .landing__centre { display: grid; justify-items: center; gap: var(--space-5); }
 
   /* The drawing from the cover of the portfolio deck, keyed to transparency so
      the page ground shows through the face rather than a white box. */
   .landing__portrait {
-    width: clamp(112px, 15vw, 186px);
+    width: clamp(104px, 12vw, 150px);
     height: auto;
   }
 
@@ -121,7 +115,7 @@ import { href, asset } from '../lib/url.js';
 
   /* -- enter + footnote --------------------------------------------------- */
   .landing__enter {
-    margin: var(--space-8) 0 0;
+    margin: var(--space-6) 0 0;
     text-align: center;
     font-size: var(--size-5);
   }
@@ -129,12 +123,36 @@ import { href, asset } from '../lib/url.js';
     text-decoration-thickness: var(--border-hair);
     text-underline-offset: 0.3em;
   }
-  .landing__foot {
-    margin: auto auto 0;
-    padding-top: var(--space-8);
-    text-align: center;
-    font-size: var(--size-2);
-    color: var(--ink-quiet);
-    max-width: 46ch;
+  /* A quiet contents list. Set in --ink-quiet so it recedes behind the name and
+     the tagline, but that is still 7.72:1 — quiet, never unreadable. */
+  /* A quiet contents list, centred, in the same all-caps letterspaced style the
+     side notes used. --ink-quiet is 7.72:1, so it recedes without being faint. */
+  .landing__contents {
+    margin: 0;
+    padding-top: var(--space-7);
+    width: 100%;
   }
+  .landing__contents ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    text-align: center;
+  }
+  .landing__contents a {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--ink-quiet);
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .landing__contents a:hover { color: var(--ink); }
+  .landing__contents a:hover .landing__contents-title { text-decoration: underline; }
+  .landing__contents-num { flex: none; letter-spacing: 0; }
 </style>

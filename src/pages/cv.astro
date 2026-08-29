@@ -5,11 +5,7 @@ import Base from '../layouts/Base.astro';
    Source: Elina_PD.pdf (CV draft). Spelling anglicised to match the rest of
    the site; content otherwise unchanged. */
 
-const summary = `Engineer and Harvard Master in Design Engineering student, moving from
-technical, client-facing engineering into hands-on, human-centred product design. Three years
-of translating ambiguous technical and regulatory requirements into clear, decision-ready
-outcomes; increasingly focused on human–computer interaction and physical prototyping,
-building digital and physical concepts from user research through to working MVPs.`;
+
 
 const education = [
   {
@@ -123,7 +119,14 @@ const groups = [
     <header class="cv__head">
       <p class="corner"><span class="figure-num">03</span> CV</p>
       <h1 class="script cv__title">Curriculum vitae</h1>
-      <p class="cv__summary">{summary}</p>
+      <p class="cv__summary">
+        Engineer and Harvard Master in Design Engineering student, moving from
+        <strong>technical, client-facing engineering</strong> into
+        <strong>hands-on, human-centred product design</strong>. Three years of translating
+        ambiguous technical and regulatory requirements into clear, decision-ready outcomes;
+        increasingly focused on human&ndash;computer interaction and physical prototyping,
+        building digital and physical concepts from user research through to working MVPs.
+      </p>
     </header>
 
     {groups.map((g) => (
@@ -167,6 +170,9 @@ const groups = [
     letter-spacing: -0.01em;
     margin-top: var(--space-4);
   }
+  /* The two phrases that name the move she is making — from what, to what.
+     Emphasis only, no colour: the accents belong to the projects. */
+  .cv__summary strong { font-weight: var(--weight-bold); }
   .cv__summary {
     margin-top: var(--space-5);
     max-width: var(--measure);

@@ -4,10 +4,10 @@
    instrument, not just a title. */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { href } from '../../lib/url.js';
+import { href, asset } from '../../lib/url.js';
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Work" description="Four investigations in problem framing.">
+<Base title="Work" description="Five investigations in problem framing.">
   <div class="page wk">
     <header class="wk__head">
       <p class="corner"><span class="figure-num">02</span> Work</p>
@@ -28,8 +28,38 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
           </div>
 
           <div class="wk__case">
+            <a class="wk__peek" href={href(`/work/${p.id}/`)} tabindex="-1" aria-hidden="true">
+              {p.data.thumb ? (
+                <img src={asset(p.data.thumb)} alt="" width="1280" height="720" loading="lazy" />
+              ) : (
+                <span class="wk__peek-empty"><span class="eyebrow">Image to come</span></span>
+              )}
+            </a>
+
             <p class="wk__about">{p.data.about}</p>
             <p class="wk__q">{p.data.question}</p>
+
+            <dl class="wk__facets">
+              {p.data.concepts.length > 0 && (
+                <div class="wk__facet">
+                  <dt class="eyebrow">Concepts</dt>
+                  <dd>{p.data.concepts.join(' · ')}</dd>
+                </div>
+              )}
+              {p.data.skills.length > 0 && (
+                <div class="wk__facet">
+                  <dt class="eyebrow">Skills</dt>
+                  <dd>{p.data.skills.join(' · ')}</dd>
+                </div>
+              )}
+              {p.data.tools.length > 0 && (
+                <div class="wk__facet">
+                  <dt class="eyebrow">Tools</dt>
+                  <dd>{p.data.tools.join(' · ')}</dd>
+                </div>
+              )}
+            </dl>
+
             <a class="wk__more" href={href(`/work/${p.id}/`)}>
               Read the full project <span aria-hidden="true">&rarr;</span>
             </a>
@@ -76,6 +106,31 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
   .wk__meta { margin-top: var(--space-4); }
 
   .wk__case { min-width: 0; }
+
+  /* The preview. Decorative and aria-hidden: the title next to it is already a
+     link to the same place, so a screen reader should not hear it twice. The
+     alt text for each image lives in the thumbAlt frontmatter field, ready for
+     when one of these becomes a content image rather than a teaser. */
+  .wk__peek {
+    display: block;
+    margin-bottom: var(--space-6);
+    background: var(--field);
+    border-top: var(--border-mark) solid var(--accent);
+  }
+  .wk__peek img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .wk__peek-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    border: var(--border-hair) dashed var(--rule);
+    border-top: 0;
+  }
   /* What the project is, first — plain text on the page, no container.
      A white sheet is reserved for an actual exhibit (a matrix, a marking
      scheme); wrapping a two-line description in one adds weight without
@@ -97,5 +152,22 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     font-size: var(--size-6);
     line-height: 1.15;
   }
-  .wk__more { display: inline-block; margin-top: var(--space-5); font-weight: var(--weight-med); }
+  /* What the project explores, what it took, and what it was made with.
+     Labelled rows rather than tag pills: these are sentences worth reading, not
+     keywords to be scanned and forgotten. */
+  .wk__facets {
+    margin: var(--space-6) 0 0;
+    padding-top: var(--space-5);
+    border-top: var(--border-hair) solid var(--rule);
+    display: grid;
+    gap: var(--space-4);
+  }
+  .wk__facet { display: grid; gap: var(--space-1); }
+  @media (min-width: 700px) {
+    .wk__facet { grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-5); }
+  }
+  .wk__facet dt { padding-top: 0.3em; }
+  .wk__facet dd { margin: 0; font-size: var(--size-3); line-height: var(--leading-body); }
+
+  .wk__more { display: inline-block; margin-top: var(--space-6); font-weight: var(--weight-med); }
 </style>
