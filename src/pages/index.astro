@@ -16,35 +16,35 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       <span class="landing__full">Elina J. Lee</span>
     </h1>
 
-    <div class="landing__thesis">
-      <div class="landing__centre">
-        <p class="landing__claim">
-          I&rsquo;m an engineer that likes finding structure<br />in creativity, and creativity in structure.
-        </p>
-        <img
-          class="landing__portrait"
-          src={asset('/images/elina-portrait.png')}
-          alt="Ink drawing of Elina, from the cover of her portfolio."
-          width="900"
-          height="970"
-        />
-      </div>
+    <p class="landing__claim">
+      I&rsquo;m an engineer that likes finding structure<br />in creativity, and creativity in structure.
+    </p>
 
+    {/* The drawing with the projects orbiting it. Without JavaScript this is a
+        plain centred list under the portrait, which is what it degrades to —
+        the circular placement and the dragging are both added by script. */}
+    <div class="stage" id="stage">
+      <img
+        class="stage__portrait"
+        src={asset('/images/elina-portrait.png')}
+        alt="Ink drawing of Elina, from the cover of her portfolio."
+        width="900"
+        height="970"
+      />
+
+      <nav class="stage__contents" aria-label="Contents">
+        <ol>
+          {work.map((p) => (
+            <li class="orbit">
+              <a href={href(`/work/${p.id}/`)} draggable="false">
+                <span class="figure-num orbit__num">{p.data.number}</span>
+                <span class="orbit__title">{p.data.shortTitle}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
     </div>
-
-
-    <nav class="landing__contents" aria-label="Contents">
-      <ol>
-        {work.map((p) => (
-          <li>
-            <a href={href(`/work/${p.id}/`)}>
-              <span class="figure-num landing__contents-num">{p.data.number}</span>
-              <span class="landing__contents-title">{p.data.title}</span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    </nav>
 
     <p class="landing__enter">
       <a href={href('/work/')}>
@@ -89,31 +89,83 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
   }
 
   /* -- the claim, flanked by two notes ------------------------------------ */
-  .landing__thesis {
-    display: grid;
-    justify-items: center;
-    text-align: center;
-  }
-
-  .landing__centre { display: grid; justify-items: center; gap: var(--space-5); }
-
-  /* The drawing from the cover of the portfolio deck, keyed to transparency so
-     the page ground shows through the face rather than a white box. */
-  .landing__portrait {
-    width: clamp(104px, 12vw, 150px);
-    height: auto;
-  }
-
   .landing__claim {
     font-size: var(--size-5);
     font-weight: var(--weight-bold);
     line-height: var(--leading-head);
     letter-spacing: var(--track-head);
+    text-align: center;
     text-wrap: balance;
+    margin-inline: auto;
   }
   @media (min-width: 700px) { .landing__claim { font-size: var(--size-6); } }
 
-  /* -- enter + footnote --------------------------------------------------- */
+  /* ---------------------------------------------------------------- stage
+     The portrait sits in the middle; the projects are placed around it by
+     script and can then be dragged anywhere. The stage is the drag boundary. */
+  .stage {
+    position: relative;
+    margin: var(--space-6) auto 0;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-5);
+  }
+
+  .stage__portrait {
+    width: clamp(116px, 13vw, 168px);
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .stage__contents ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    text-align: center;
+  }
+
+  .orbit a {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--ink-quiet);
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .orbit a:hover { color: var(--ink); }
+  .orbit a:hover .orbit__title { text-decoration: underline; }
+  .orbit__num { flex: none; letter-spacing: 0; }
+
+  /* Applied by script once the projects have been placed in a circle. From
+     here on the stage is a positioned canvas rather than a stacked list. */
+  .stage.is-orbiting { display: block; height: var(--stage-h, 520px); }
+  .stage.is-orbiting .stage__portrait {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .stage.is-orbiting .stage__contents ol { display: block; }
+  .stage.is-orbiting .orbit {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    touch-action: none;
+    white-space: nowrap;
+  }
+  .stage.is-orbiting .orbit a { cursor: inherit; }
+  .stage.is-orbiting .orbit.is-dragging { z-index: 2; }
+  .stage.is-orbiting .orbit.is-dragging a { color: var(--ink); }
+
   .landing__enter {
     margin: var(--space-6) 0 0;
     text-align: center;
@@ -156,3 +208,109 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
   .landing__contents a:hover .landing__contents-title { text-decoration: underline; }
   .landing__contents-num { flex: none; letter-spacing: 0; }
 </style>
+
+<script>
+  /* The projects orbit the drawing, and can be dragged anywhere on the stage.
+     Both are enhancements: the markup is a plain list of links, and if this
+     script never runs the page is still a readable, clickable contents list.
+
+     Two rules make the dragging behave:
+       - a pointer that moves less than a few pixels is a CLICK, so the link
+         still navigates; anything further is a drag and the click is suppressed
+       - an item that has been dragged is never repositioned by a later resize,
+         because the reader put it there on purpose */
+  const stage = document.getElementById('stage');
+
+  if (stage) {
+    const items = [...stage.querySelectorAll('.orbit')];
+    const MIN_WIDTH = 760;   // below this the circle is not worth attempting
+    const THRESHOLD = 4;     // px of travel before a press counts as a drag
+
+    function layout() {
+      if (window.innerWidth < MIN_WIDTH) {
+        stage.classList.remove('is-orbiting');
+        stage.style.removeProperty('--stage-h');
+        items.forEach((el) => {
+          el.style.left = '';
+          el.style.top = '';
+          delete el.dataset.moved;
+        });
+        return;
+      }
+
+      const h = Math.round(Math.min(500, Math.max(420, window.innerWidth * 0.36)));
+      stage.style.setProperty('--stage-h', h + 'px');
+      stage.classList.add('is-orbiting');
+
+      const w = stage.clientWidth;
+      const cx = w / 2;
+      const cy = h / 2;
+      const r = Math.min(215, h / 2 - 40, w / 2 - 160);
+
+      items.forEach((el, i) => {
+        if (el.dataset.moved) return;
+        const angle = -Math.PI / 2 + (i * 2 * Math.PI) / items.length;
+        el.style.left = cx + r * Math.cos(angle) + 'px';
+        el.style.top = cy + r * Math.sin(angle) + 'px';
+      });
+    }
+
+    layout();
+    window.addEventListener('resize', layout);
+
+    items.forEach((el) => {
+      const link = el.querySelector('a');
+      let startX = 0, startY = 0, originX = 0, originY = 0;
+      let dragging = false, moved = false;
+
+      el.addEventListener('pointerdown', (event) => {
+        if (!stage.classList.contains('is-orbiting')) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        dragging = true;
+        moved = false;
+        startX = event.clientX;
+        startY = event.clientY;
+        originX = parseFloat(el.style.left) || 0;
+        originY = parseFloat(el.style.top) || 0;
+        /* Capture keeps the drag alive if the pointer outruns the element.
+           It can throw if the pointer is already gone, which must not take the
+           drag down with it. */
+        try { el.setPointerCapture(event.pointerId); } catch (e) { /* no active pointer */ }
+        el.classList.add('is-dragging');
+      });
+
+      el.addEventListener('pointermove', (event) => {
+        if (!dragging) return;
+        const dx = event.clientX - startX;
+        const dy = event.clientY - startY;
+        if (!moved && Math.hypot(dx, dy) > THRESHOLD) moved = true;
+        if (!moved) return;
+        event.preventDefault();
+        const w = stage.clientWidth;
+        const h = stage.clientHeight;
+        el.style.left = Math.min(Math.max(originX + dx, 12), w - 12) + 'px';
+        el.style.top = Math.min(Math.max(originY + dy, 12), h - 12) + 'px';
+      });
+
+      function release(event) {
+        if (!dragging) return;
+        dragging = false;
+        el.classList.remove('is-dragging');
+        try { el.releasePointerCapture(event.pointerId); } catch (e) { /* already released */ }
+        if (moved) el.dataset.moved = 'true';
+      }
+
+      el.addEventListener('pointerup', release);
+      el.addEventListener('pointercancel', release);
+
+      /* A drag that finishes on the link must not also open it. */
+      link.addEventListener('click', (event) => {
+        if (moved) {
+          event.preventDefault();
+          moved = false;
+        }
+      });
+      link.addEventListener('dragstart', (event) => event.preventDefault());
+    });
+  }
+</script>

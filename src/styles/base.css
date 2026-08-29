@@ -47,6 +47,14 @@ a:hover { text-decoration-thickness: var(--border-mark); }
 
 img { max-width: 100%; height: auto; display: block; }
 
+/* Selected text inverts rather than turning the browser's default blue.
+   --paper on --ink is 16.1:1, so a highlighted passage is if anything easier
+   to read than an unhighlighted one. */
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
 hr {
   border: 0;
   border-top: var(--border-hair) solid var(--rule);

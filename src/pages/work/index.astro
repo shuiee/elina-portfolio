@@ -4,7 +4,7 @@
    instrument, not just a title. */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { href, asset } from '../../lib/url.js';
+import { href } from '../../lib/url.js';
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base title="Work" description="Five investigations in problem framing.">
@@ -28,14 +28,6 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
           </div>
 
           <div class="wk__case">
-            <a class="wk__peek" href={href(`/work/${p.id}/`)} tabindex="-1" aria-hidden="true">
-              {p.data.thumb ? (
-                <img src={asset(p.data.thumb)} alt="" width="1280" height="720" loading="lazy" />
-              ) : (
-                <span class="wk__peek-empty"><span class="eyebrow">Image to come</span></span>
-              )}
-            </a>
-
             <p class="wk__about">{p.data.about}</p>
             <p class="wk__q">{p.data.question}</p>
 
@@ -107,51 +99,6 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 
   .wk__case { min-width: 0; }
 
-  /* The preview. Decorative and aria-hidden: the title next to it is already a
-     link to the same place, so a screen reader should not hear it twice. The
-     alt text for each image lives in the thumbAlt frontmatter field, ready for
-     when one of these becomes a content image rather than a teaser. */
-  .wk__peek {
-    display: block;
-    margin-bottom: var(--space-6);
-    background: var(--field);
-    border-top: var(--border-mark) solid var(--accent);
-  }
-  .wk__peek img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    display: block;
-  }
-  .wk__peek-empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 16 / 9;
-    border: var(--border-hair) dashed var(--rule);
-    border-top: 0;
-  }
-  /* What the project is, first — plain text on the page, no container.
-     A white sheet is reserved for an actual exhibit (a matrix, a marking
-     scheme); wrapping a two-line description in one adds weight without
-     adding information. The project's colour survives on the number. */
-  .wk__about {
-    font-size: var(--size-5);
-    line-height: var(--leading-body);
-    text-wrap: pretty;
-  }
-
-  /* Then the question, in the written half — it is her voice, so it is set in
-     the same italic that opens the project page itself. */
-  /* No max-width: the question fills the same column as the panel above it, so
-     both blocks end on the same right margin. */
-  .wk__q {
-    margin-top: var(--space-6);
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--size-6);
-    line-height: 1.15;
-  }
   /* What the project explores, what it took, and what it was made with.
      Labelled rows rather than tag pills: these are sentences worth reading, not
      keywords to be scanned and forgotten. */
