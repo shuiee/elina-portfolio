@@ -14,20 +14,25 @@
      The chassis. Five values. Neutral by instruction — the colour lives
      inside the case studies, never on the frame. */
 
-  --paper:      #FFFFFF;  /* page ground. The v3 deck's ground on all 18 pages. */
-  --ink:        #000000;  /* body + headings. 21:1 on --paper.
-                             Deliberately not a soft off-black: hedging contrast
-                             on a site about contrast is the one indefensible
-                             move available. See DESIGN-NOTES.md. */
-  --ink-quiet:  #4A4E54;  /* the ONLY grey allowed to touch type: dates, roles,
+  --paper:      #EDEDEB;  /* page ground. A soft warm grey rather than white —
+                             the ground note taken from the reference. Paper,
+                             not screen. */
+  --ink:        #111111;  /* body + headings. 16.1:1 on --paper, 18.9:1 on
+                             --field. Near-black rather than pure black now that
+                             the ground is grey: on #EDEDEB pure black rings
+                             slightly hard, and 16:1 is far past any threshold
+                             that matters. */
+  --ink-quiet:  #454950;  /* the ONLY grey allowed to touch type: dates, roles,
                              captions, table headers.
-                             8.37:1 on --paper, 7.48:1 on --field.
+                             7.72:1 on --paper, 9.04:1 on --field.
                              There is no third text tier. If something needs to
                              be quieter than this, cut it instead. */
-  --field:      #F4F2ED;  /* exhibit ground. Sampled from the cream process
-                             cards on p.3 of portfolio_v3.pdf.
-                             --ink on it = 19:1, --ink-quiet on it = 7.48:1. */
-  --rule:       #C9CCD0;  /* hairlines, table gridlines, unfilled progress track.
+  --field:      #FFFFFF;  /* exhibit ground — now WHITE, sitting on the grey
+                             page like a sheet laid on a desk. This inverts the
+                             old relationship: exhibits are lighter than the
+                             page, not darker, which lifts them without a border.
+                             --ink on it = 18.9:1, --ink-quiet = 9.04:1. */
+  --rule:       #C9C7C2;  /* hairlines, table gridlines, unfilled progress track.
                              Non-text only. The FILLED part of any progress
                              indicator is --ink, so orientation never depends on
                              telling two greys apart. */
@@ -62,6 +67,17 @@
   --font-text:   "InterVariable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-figure: "Optician Sans", "InterVariable", system-ui, sans-serif;
 
+  /* The written half. Instrument Serif Italic — a high-contrast italic with
+     swashed capitals, set against Inter's flat geometry. Display only: the
+     name in the hero, the leading word of a page title, pull statements.
+     It never sets anything that has to be read at speed or at size 15.
+
+     Note for the record: this face contradicts finding 2 from case study 01
+     (fonts with stable geometry hold up better under degradation). That was a
+     deliberate call — see DESIGN-NOTES.md. The footer no longer claims the
+     site follows that particular finding. */
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+
   /* 1.20 modular scale, rounded to whole px. Nothing below --size-1 is used
      for text anywhere on the site. */
   --size-1:  13px;  /* eyebrow labels, letterspaced. Not for sentences. */
@@ -72,7 +88,9 @@
   --size-6:  27px;  /* section heads, the question */
   --size-7:  34px;  /* project titles in listings */
   --size-8:  44px;  /* case study h1 (mobile), findings figures */
-  --size-9:  60px;  /* home thesis, case study h1 (desktop) */
+  --size-9:  60px;  /* case study h1 (desktop) */
+  --size-10: 92px;  /* the hero name — display only */
+  --size-11: 232px; /* the hero name at full desktop width */
 
   --leading-tight: 1.15;
   --leading-head:  1.22;
@@ -83,7 +101,7 @@
   --weight-med:    500;
   --weight-bold:   700;
 
-  --track-label:  0.08em;   /* eyebrow labels only */
+  --track-label:  0.14em;   /* eyebrow labels and the small-caps side notes */
   --track-head:  -0.02em;   /* large headings — Inter needs tightening at size */
 
   --measure:      62ch;     /* max line length for body prose */
@@ -130,22 +148,22 @@
 /* --------------------------------------------------------------------------
    Project accents. Applied with data-accent="..." on the case study <body>.
 
-   --accent-ink is computed against --field (#F4F2ED), NOT against white,
-   because that is where accent-coloured text actually sits: the figures in the
-   criterion block and the markers in a comparison. A value that clears 7:1 on
-   white can fail on the cream field — this pair originally did, at 6.46:1.
-   Checked against the darker of the two backgrounds, each clears 7:1 on both.
+   --accent-ink is computed against the DARKER of the two grounds it can land
+   on, so it cannot fail by being moved between them.
 
-     signage   sampled #1A5F6E teal    -> ink #185966  (7.06 field / 7.90 white)
-     patchwork sampled #0CA514 green   -> ink #075F0C  (7.08 / 7.92)
-     steel     sampled #9746FF violet  -> ink #6400E4  (7.05 / 7.89)
-     arena     sampled #AA8F71 glulam  -> ink #614E3A  (7.06 / 7.90)
+   Recomputed against the grey --paper, which is now the darker of the two
+   grounds, so each clears 7:1 on the page AND on a white exhibit sheet.
+
+     signage   sampled #1A5F6E teal    -> ink #175563  (7.12 paper / 8.35 field)
+     patchwork sampled #0CA514 green   -> ink #075B0B  (7.14 / 8.37)
+     steel     sampled #9746FF violet  -> ink #6000DC  (7.08 / 8.30)
+     arena     sampled #AA8F71 glulam  -> ink #5D4B38  (7.08 / 8.30)
    -------------------------------------------------------------------------- */
 
-[data-accent="signage"]   { --accent: #1A5F6E; --accent-ink: #185966; }
-[data-accent="patchwork"] { --accent: #0CA514; --accent-ink: #075F0C; }
-[data-accent="steel"]     { --accent: #9746FF; --accent-ink: #6400E4; }
-[data-accent="arena"]     { --accent: #AA8F71; --accent-ink: #614E3A; }
+[data-accent="signage"]   { --accent: #1A5F6E; --accent-ink: #175563; }
+[data-accent="patchwork"] { --accent: #0CA514; --accent-ink: #075B0B; }
+[data-accent="steel"]     { --accent: #9746FF; --accent-ink: #6000DC; }
+[data-accent="arena"]     { --accent: #AA8F71; --accent-ink: #5D4B38; }
 
 /* --------------------------------------------------------------------------
    Fonts are declared in src/layouts/Base.astro, not here.

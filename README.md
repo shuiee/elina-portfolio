@@ -45,7 +45,10 @@ src/
     03-steel-concrete.mdx
     04-arena.mdx
   content.config.ts      the list of fields a case study must have
-  pages/                 one file per page: index (home), about, cv, work/
+  pages/
+    index.astro          THE LANDING PAGE — name, thesis, one link. No project list.
+    work/index.astro     the contents page — all four projects live here
+    about.astro  cv.astro  404.astro
   layouts/               the page frames
   components/            the reusable pieces used inside case studies
   styles/
@@ -53,7 +56,7 @@ src/
     base.css             element styles; reads tokens only
   lib/url.js             internal-link helper (see "Deploy" below)
 public/
-  fonts/                 Inter and Optician Sans, both SIL Open Font License
+  fonts/                 Inter, Optician Sans, Instrument Serif — all SIL OFL
   images/                put your exported images here
 ```
 
@@ -162,6 +165,29 @@ Some examples:
 ```
 
 Change the value, save, and the whole site follows.
+
+### The three typefaces
+
+| Token | Face | Used for |
+|---|---|---|
+| `--font-text` | Inter | everything that has to be read |
+| `--font-figure` | Optician Sans | digits only — 01–04, percentages, thresholds |
+| `--font-display` | Instrument Serif Italic | the written half: the hero name, page titles, the question opening each case study |
+
+To set something in the written half, add `class="script"`. Keep it to display sizes —
+it is not built for paragraphs.
+
+### The ✧ cursor
+
+The ✧ is the mouse pointer, not a bullet. It is an outline while you read and fills
+in over anything clickable — the only hover feedback on the site.
+
+It lives at the bottom of `src/styles/base.css`, drawn as an inline SVG data URI, so
+there is no image file and nothing to break when the base path changes. To change its
+shape, edit the `STAR` path; to change its size, edit the `width`/`height`/`viewBox`
+and keep the hotspot numbers (`12 12`) at the centre.
+
+Touch devices get the normal cursor — there is nothing to point with.
 
 ### The one rule to keep
 

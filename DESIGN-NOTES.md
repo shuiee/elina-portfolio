@@ -19,27 +19,33 @@ cut.
 
 ## Colour
 
-**Chosen.** Five chassis values. White paper, pure black ink, one grey, one cream field,
-one rule grey. Four project accents, each sampled from that project's own material in
-your PDF, appearing only inside case studies.
+**Chosen.** A soft warm grey page (`#EDEDEB`) with near-black ink, and **white**
+exhibit sheets sitting on top of it. This is the second version of the palette; the
+first was white page / cream exhibit, and it was inverted after taking the ground note
+from the reference layout.
 
-**Rejected — off-black body text.** The first pass used `#101112` instead of `#000000`,
-because softening black is a designer reflex. On a site whose central exhibit is a
-finding that luminance contrast is the primary driver of readability, spending contrast
-on taste is the one indefensible move available. Pure black, 21:1.
+The inversion is the better idea. An exhibit that is *lighter* than the page reads as a
+sheet laid on a desk, and it lifts off the ground without needing a border or a shadow.
+Four project accents, each sampled from that project's own material, appear only inside
+case studies.
 
-**Rejected — accent colour on the chassis.** The nav, home page and footer are
-black-and-white only. The accents earn their place by being evidence (this is
-Patchwork's green, this is the SAP2000 violet), and using them as decoration on the
-frame would turn them back into styling.
+**Rejected — pure black on the grey.** `#000000` on `#EDEDEB` rings slightly hard.
+`#111111` gives 16.1:1 on the page and 18.9:1 on a white sheet, which is far past any
+threshold that matters, and it sits better on a warm ground.
+
+**Rejected — accent colour on the chassis.** The nav, landing page and footer are
+grey-and-black only. The accents are evidence — this is Patchwork's green, this is the
+SAP2000 violet — and using them as decoration on the frame would turn them back into
+styling. Accent appears for the first time when a case study opens.
 
 **The mistake worth recording.** The accent text variants were first computed to clear
-7:1 **against white**. They are used on the cream `--field`, where they measured 6.46:1
-and 6.27:1 — a real failure, caught by auditing the rendered pages rather than the
-palette. They are now computed against `--field`, so they clear 7:1 on both grounds. The
-lowest contrast anywhere on the site is 7.05:1.
+7:1 **against white**. They are used on coloured grounds, where two of them measured
+6.46:1 and 6.27:1 — a real failure, caught by auditing the rendered pages rather than
+the palette. They are now computed against the *darker* of the two grounds they can
+land on, so they cannot fail by being moved between them. The lowest contrast anywhere
+on the site is 7.08:1.
 
-Sampled values, and why each:
+Sampled accent values, and why each:
 
 | Project | Sampled | From |
 |---|---|---|
@@ -48,39 +54,62 @@ Sampled values, and why each:
 | 03 Steel Concrete | `#9746FF` | SAP2000 plot output, p.15 |
 | 04 Arena | `#AA8F71` | glulam tone in the arch renders, p.17 |
 
-Your brief called the Steel Concrete accent magenta; the actual plotted colour is a
-violet, and the sampled value is what is in the file. Change it in `tokens.css` if you
-prefer the brief's reading.
-
 ---
 
 ## Typography
 
-**Chosen — Inter, for everything.** Not a taste call. A width analysis of the Type3
-glyphs in your source deck ranks the Inter family top on every page tested, reproducing
-your original line widths to within 1–3%. Continuity with the deck is measured rather
-than eyeballed. Inter also satisfies your own criterion from case study 01: large
-x-height, open apertures, unambiguous `1 / l / I`, stable geometry under degradation.
+Three faces, each with one job.
 
-**Chosen — Optician Sans, for digits and short markers only.** `01–04`, the percentage
-findings, the criterion thresholds. Optician Sans is the face used in clinical
-visual-acuity testing — the benchmark you measured Johnston 100 against. The numbers on
-this site are set in the instrument you used to judge letterforms. It is scoped to
-figures so its idiosyncratic lowercase never has to carry running text.
+**Inter — everything that has to be read.** Not a taste call. A width analysis of the
+Type3 glyphs in the source deck ranks the Inter family top on every page tested,
+reproducing the original line widths to within 1–3%. Body, navigation, tables,
+captions.
 
-**Rejected — IBM Plex Mono, cut on your instruction.** It was proposed as a third face
-for verbatim technical strings (`regionprops`, `improfile`) and numeric table columns. A
-mono is what I would reach for on any engineering portfolio, which is exactly why it did
-not survive: "it aligns numbers" is a reason, not an argument. Inline code now renders as
-Inter Medium on the cream field, which distinguishes it without adding a family.
+**Optician Sans — digits and short markers only.** `01–04`, the percentage findings,
+the criterion thresholds. Optician Sans is the face used in clinical visual-acuity
+testing: the benchmark Johnston 100 was measured against in case study 01. The numbers
+on this site are set in the instrument used to judge letterforms.
 
-**Rejected — any serif.** Your finding: curved and decorative letterforms degrade first.
-A high-contrast display serif on this site would be the same category error as the
-off-black.
+**Instrument Serif Italic — the written half.** A high-contrast italic with swashed
+capitals, set against Inter's flat geometry. It sets the name in the landing hero, the
+page titles (*Work*, *About*, *Curriculum vitae*), and the question that opens each
+case study. It never sets a paragraph and never appears below display size.
+
+**On the constraint it breaks — recorded deliberately.** The original brief forbade
+decorative and curved letterforms, because finding 2 of case study 01 is that they lose
+definition first under degradation. This face contradicts that, and Elina instructed
+that the constraint be set aside for the sake of the design. It was, knowingly.
+
+The consequence was not left implicit. The footer previously claimed the site followed
+all four of her findings; it now claims **two** — contrast over colour accents, and
+minimal predictable motion — and says plainly that the display face is chosen against
+the third. A site that claimed all four while visibly breaking one would be worse than
+a site that claims two and means them.
+
+**Rejected — IBM Plex Mono, cut on instruction.** Proposed as a fourth face for verbatim
+technical strings. A mono is what anyone would reach for on an engineering portfolio,
+which is exactly why it did not survive. Inline code renders as Inter Medium instead.
 
 ---
 
 ## Layout
+
+**Chosen — the landing page is a title page, not a contents page.** It carries the
+name, the thesis, two short notes and one link. The four projects are not listed there;
+they live on `/work/`, which became the contents page. A visitor who has just arrived
+has not yet been told anything, and asking them to choose between four projects before
+they have been given a reason to care puts the decision in the wrong place.
+
+**Chosen — ✧ as the cursor.** It was first used as a mark set before every section
+label and corner note, which read as a bullet point and cluttered the very labels it
+was meant to quieten. It is now the pointer itself: an outline while reading, filled
+over anything clickable. That makes it present on every page without occupying any
+space in the layout, and it doubles as the site's only hover feedback. Touch devices
+get the system cursor.
+
+**Chosen — the navigation stays at the top.** The reference puts it mid-page under the
+name; this site keeps a fixed top bar, and below 560px it stacks into two rows rather
+than collapsing into a menu. Every destination stays visible.
 
 **Chosen — a fixed five-part case study order.** The question → what counts as good →
 the method → what it showed → what it means. Identical in all four. This is the
@@ -178,6 +207,13 @@ project's own values. That was the brief's instruction and it is also the better
 **Steel Concrete has no results section.** Only the method is written up, behind a visible
 `TODO(elina)`, until you confirm what is publishable. A visible placeholder beats a
 plausible invention.
+
+**Tone, second pass.** The first draft was too wry — lines like "the sign is not a
+spelling test", "it was just filed under engineering", "the situation where a team
+quietly picks whichever one the strongest opinion in the room prefers". The dryness was
+in the brief, but it had tipped into edge, and edge reads as performance, which is the
+opposite of what the work is arguing. Every case study, the about page and the landing
+copy were rewritten flatter: same claims, same specificity, fewer sharp endings.
 
 **Nothing is claimed that was not supplied.** No metrics, outcomes, testimonials or
 awards have been invented. Every gap is a marked `TODO(elina):`.

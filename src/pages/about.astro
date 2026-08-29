@@ -5,7 +5,8 @@ import { href } from '../lib/url.js';
 <Base title="About" description="Engineer moving from civil and structural engineering in energy into product design and design strategy.">
   <div class="page about">
     <header>
-      <h1>About</h1>
+      <p class="corner">02 &mdash; Who this is</p>
+      <h1 class="script about__title">About</h1>
     </header>
 
     <div class="about__grid">
@@ -26,17 +27,17 @@ import { href } from '../lib/url.js';
           The work I was best at was rarely the calculation. It was translation:
           turning an ambiguous client requirement into something a team could build
           against, turning a technical constraint into a decision a stakeholder could
-          actually take, getting peer reviewers and regulators to agree on what
-          counted as evidence. That is a design job. It was just filed under
-          engineering.
+          take, helping peer reviewers and regulators agree on what counted as
+          evidence. That is design work; in engineering it is not usually called
+          that.
         </p>
 
         <p>
-          I left because of what the work optimised for. Cost and programme are real
+          I moved on because of what the work optimised for. Cost and programme are real
           constraints and I am not sentimental about them, but a solution can satisfy
-          both and still be disconnected from the people it lands on. Nobody in the
-          process is accountable for that gap. I would rather work where it is
-          someone's explicit job.
+          both and still be disconnected from the people it reaches. That gap is rarely
+          anyone's responsibility in the process, and I would rather work somewhere it
+          is.
         </p>
 
         <p>
@@ -47,27 +48,27 @@ import { href } from '../lib/url.js';
 
         <p>
           I am a dual Korean and British citizen and native in both languages, which
-          is mostly useful as a comparison instrument. My dissertation started because
+          is most useful to me as a point of comparison. My dissertation started because
           Korean bus signage is denser and easier to scan than London's, and the reason
-          turned out to be structural rather than a matter of taste — Korean characters
+          turned out to be structural rather than a matter of taste: Korean characters
           need less horizontal space, so more information fits at the same legibility.
-          I notice problems in one place by having a second place to hold it against.
+          Having a second reference point is how I notice problems in the first one.
         </p>
 
         <h2>What I am not claiming</h2>
 
         <p>
           Nothing in this portfolio has shipped to users. All four projects sit at
-          concept, analysis or MVP-draft stage, and I have presented them as
-          investigations rather than products. The Patchwork MVP was vibe-coded, not
-          hand-built; I am working through CS50 in C separately, and this site is the
-          first thing here I built by hand.
+          concept, analysis or MVP-draft stage, and they are presented here as
+          investigations rather than products. The Patchwork MVP was vibe-coded rather
+          than hand-built. I am working through CS50 in C separately, and this site is
+          the first thing here I built by hand.
         </p>
 
         <p>
-          My habit of defining the frame early is a strength once a project is moving
-          and a liability in the divergent part, where the frame arrives before enough
-          options do. I am working on holding it open longer.
+          My habit of defining the frame early is a strength once a project is moving,
+          and less helpful in the divergent stage, where the frame can arrive before
+          enough options do. I am working on holding it open longer.
         </p>
 
         <h2>Outside</h2>
@@ -103,7 +104,12 @@ import { href } from '../lib/url.js';
 
 <style>
   .about { padding-top: var(--space-8); }
-  .about h1 { font-size: var(--size-8); margin-bottom: var(--space-7); }
+  .about__title {
+    font-size: clamp(var(--size-8), 9vw, var(--size-10));
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin: var(--space-4) 0 var(--space-7);
+  }
   .about__grid { display: grid; gap: var(--space-8); }
   @media (min-width: 950px) {
     .about__grid { grid-template-columns: minmax(0, 1fr) 260px; gap: var(--space-10); }

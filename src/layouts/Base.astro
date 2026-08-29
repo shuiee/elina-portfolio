@@ -14,7 +14,7 @@ const fullTitle = title ? `${title} — Elina J. Lee` : 'Elina J. Lee';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
-    <meta name="description" content={description ?? 'Engineer. I design the measurement before I design the thing.'} />
+    <meta name="description" content={description ?? 'Engineer. Finding structure in creativity, and creativity in structure.'} />
     <link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
 
     <!-- Font declarations live here, not in tokens.css: @font-face src cannot
@@ -27,6 +27,13 @@ const fullTitle = title ? `${title} — Elina J. Lee` : 'Elina J. Lee';
         font-weight: 100 900;
         font-display: swap;
         src: url("${asset('/fonts/InterVariable.woff2')}") format("woff2");
+      }
+      @font-face {
+        font-family: "Instrument Serif";
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url("${asset('/fonts/InstrumentSerif-Italic.woff2')}") format("woff2");
       }
       @font-face {
         font-family: "Optician Sans";

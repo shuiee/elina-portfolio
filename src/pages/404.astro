@@ -5,7 +5,7 @@ import { href } from '../lib/url.js';
 <Base title="Not found" description="That page does not exist.">
   <div class="page nf">
     <p class="figure-num nf__code">404</p>
-    <h1>That page does not exist.</h1>
+    <h1 class="script nf__title">That page does not exist.</h1>
     <p class="nf__body">
       The link is either out of date or mistyped. Everything on this site is reachable
       from <a href={href('/work/')}>the work index</a>.
@@ -16,6 +16,6 @@ import { href } from '../lib/url.js';
 <style>
   .nf { padding-block: var(--space-9) var(--space-10); }
   .nf__code { font-size: var(--size-8); line-height: 1; color: var(--ink-quiet); }
-  .nf h1 { font-size: var(--size-7); margin: var(--space-4) 0; max-width: 20ch; }
+  .nf__title { font-size: var(--size-8); margin: var(--space-4) 0; max-width: 18ch; line-height: 1.05; letter-spacing: -0.01em; }
   .nf__body { max-width: var(--measure); }
 </style>

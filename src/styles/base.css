@@ -154,17 +154,29 @@ hr {
 
 /* ------------------------------------------------------------------ lede
    The opening statement of a case study section. Used in .mdx files. */
+/* The question that opens a case study — set in the written half. It is the
+   most quotable line on the page and it is display scale, so it can carry the
+   italic without asking anyone to read a paragraph in it. */
 .lede {
-  font-size: var(--size-6);
-  line-height: var(--leading-head);
-  letter-spacing: var(--track-head);
-  font-weight: var(--weight-bold);
-  max-width: 26ch;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-normal);
+  font-size: var(--size-7);
+  line-height: 1.1;
+  letter-spacing: 0;
+  max-width: 22ch;
   text-wrap: balance;
   margin-bottom: var(--space-6);
 }
+@media (min-width: 800px) { .lede { font-size: var(--size-8); } }
+
+/* The small variant stays in the digital half: it carries real information
+   (a status note, a TODO) rather than a statement. */
 .lede--small {
+  font-family: var(--font-text);
+  font-style: normal;
   font-size: var(--size-5);
+  line-height: var(--leading-head);
   max-width: var(--measure);
   font-weight: var(--weight-med);
 }
@@ -172,3 +184,54 @@ hr {
 /* Content written directly in an .mdx section, outside .prose. */
 .section__body > p { max-width: var(--measure); }
 .section__body > * + * { margin-top: var(--space-6); }
+
+/* The written half. Display only — never a paragraph, never below --size-6. */
+.script {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Small-caps side notes, borrowed from the reference layout: short, centred,
+   letterspaced, and never more than three lines. */
+.note {
+  font-size: var(--size-1);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  line-height: 1.75;
+  color: var(--ink);
+  max-width: 26ch;
+}
+
+/* Corner meta — the tiny text that sits in the page's four corners. */
+.corner {
+  font-size: var(--size-2);
+  line-height: 1.45;
+  color: var(--ink-quiet);
+}
+
+/* ------------------------------------------------------------------ cursor
+   The ✧ is the pointer, not a bullet. Outline while reading, filled over
+   anything clickable — the only piece of hover feedback on the site.
+
+   Drawn as an SVG data URI (no file, so no base-path problem) with a white
+   under-stroke so it stays visible over the black display type. `auto` is the
+   final fallback: if a browser refuses SVG cursors it gets the normal arrow,
+   which is a cosmetic loss and nothing more.
+
+   Not applied to text inputs or to anything with a native resize cursor —
+   there are none on this site today, but if you add a form, let it keep its
+   own cursor. */
+body {
+  cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%201.4C12.7%208.1%2015.9%2011.3%2022.6%2012C15.9%2012.7%2012.7%2015.9%2012%2022.6C11.3%2015.9%208.1%2012.7%201.4%2012C8.1%2011.3%2011.3%208.1%2012%201.4Z%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%223.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12%201.4C12.7%208.1%2015.9%2011.3%2022.6%2012C15.9%2012.7%2012.7%2015.9%2012%2022.6C11.3%2015.9%208.1%2012.7%201.4%2012C8.1%2011.3%2011.3%208.1%2012%201.4Z%22%20fill%3D%22none%22%20stroke%3D%22%23111111%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 12 12, auto;
+}
+a, button, summary, [role="button"], label {
+  cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M12%201.4C12.7%208.1%2015.9%2011.3%2022.6%2012C15.9%2012.7%2012.7%2015.9%2012%2022.6C11.3%2015.9%208.1%2012.7%201.4%2012C8.1%2011.3%2011.3%208.1%2012%201.4Z%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%223.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12%201.4C12.7%208.1%2015.9%2011.3%2022.6%2012C15.9%2012.7%2012.7%2015.9%2012%2022.6C11.3%2015.9%208.1%2012.7%201.4%2012C8.1%2011.3%2011.3%208.1%2012%201.4Z%22%20fill%3D%22%23111111%22%20stroke%3D%22%23111111%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 12 12, pointer;
+}
+
+/* Coarse pointers have no cursor to style, and forcing one costs a download
+   for nothing. */
+@media (pointer: coarse) {
+  body, a, button, summary, [role="button"], label { cursor: auto; }
+}

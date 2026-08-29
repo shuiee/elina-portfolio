@@ -1,31 +1,46 @@
 ---
+/* The contents page. Since the landing page no longer lists projects, this is
+   where a reader meets all four for the first time — so each entry carries the
+   instrument, not just a title. */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { href } from '../../lib/url.js';
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Work" description="Four case studies.">
-  <div class="page">
-    <header class="wh">
-      <h1>Work</h1>
-      <p class="wh__sub">
-        Four investigations. Each one is structured the same way — the question, what
-        counts as good, the method, what it showed, what it means &mdash; because that
-        is the order the work actually happened in.
+<Base title="Work" description="Four investigations in problem framing.">
+  <div class="page wk">
+    <header class="wk__head">
+      <p class="corner">01 &mdash; Four investigations</p>
+      <h1 class="script wk__title">Work</h1>
+      <p class="wk__sub">
+        Each one is set out the same way: the question, what counts as good, the
+        method, what it showed, what it means. That is the order the work happened in.
       </p>
     </header>
 
-    <ol class="wl">
+    <ol class="wk__list">
       {work.map((p) => (
-        <li class="wl__item reveal">
-          <a href={href(`/work/${p.id}/`)}>
-            <span class="figure-num wl__num">{p.data.number}</span>
-            <span>
-              <span class="wl__title">{p.data.title}</span>
-              <span class="meta wl__meta">{p.data.dates} &middot; {p.data.role}</span>
-              <span class="wl__inst">{p.data.instrument}</span>
-            </span>
-          </a>
+        <li class="wk__item reveal" data-accent={p.data.accent}>
+          <div class="wk__id">
+            <a class="wk__link" href={href(`/work/${p.id}/`)}>
+              <span class="figure-num wk__num">{p.data.number}</span>
+              <span class="wk__name">{p.data.title}</span>
+            </a>
+            <p class="meta wk__meta">
+              {p.data.dates}<br />{p.data.projectType}<br />{p.data.role}
+            </p>
+          </div>
+
+          <div class="wk__case">
+            <div class="wk__instrument">
+              <p class="eyebrow">The instrument</p>
+              <p class="wk__instrument-text">{p.data.instrument}</p>
+            </div>
+            <p class="wk__q">{p.data.question}</p>
+            <a class="wk__more" href={href(`/work/${p.id}/`)}>
+              Read case study {p.data.number} <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
         </li>
       ))}
     </ol>
@@ -33,26 +48,53 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 </Base>
 
 <style>
-  .wh { padding-block: var(--space-8) var(--space-6); }
-  .wh h1 { font-size: var(--size-8); }
-  .wh__sub { margin-top: var(--space-5); max-width: var(--measure); font-size: var(--size-5); }
-  .wl { list-style: none; padding: 0; margin: var(--space-6) 0 0; }
-  .wl__item { border-top: var(--border-hair) solid var(--rule); }
-  .wl__item a {
-    display: flex;
-    gap: var(--space-5);
-    align-items: baseline;
-    text-decoration: none;
-    padding-block: var(--space-6);
+  .wk { padding-top: var(--space-7); }
+  .wk__head { padding-bottom: var(--space-7); }
+  .wk__title {
+    font-size: clamp(var(--size-8), 9vw, var(--size-10));
+    line-height: 0.95;
+    margin: var(--space-4) 0 var(--space-5);
+    letter-spacing: -0.01em;
   }
-  .wl__num { font-size: var(--size-6); color: var(--accent-ink); flex: none; }
-  .wl__title {
-    display: block;
+  .wk__sub { max-width: var(--measure); font-size: var(--size-5); }
+
+  .wk__list { list-style: none; padding: 0; margin: 0; }
+  .wk__item {
+    padding-block: var(--space-8);
+    border-top: var(--border-hair) solid var(--rule);
+    display: grid;
+    gap: var(--space-5);
+  }
+  @media (min-width: 950px) {
+    .wk__item {
+      grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+      gap: var(--space-8);
+      align-items: start;
+    }
+  }
+  .wk__link { display: flex; gap: var(--space-4); align-items: baseline; text-decoration: none; }
+  .wk__link:hover .wk__name { text-decoration: underline; }
+  .wk__num { font-size: var(--size-6); color: var(--accent-ink); flex: none; }
+  .wk__name {
     font-size: var(--size-6);
     font-weight: var(--weight-bold);
+    line-height: var(--leading-head);
     letter-spacing: var(--track-head);
   }
-  .wl__item a:hover .wl__title { text-decoration: underline; }
-  .wl__meta { display: block; margin-top: var(--space-2); }
-  .wl__inst { display: block; margin-top: var(--space-3); max-width: var(--measure); }
+  .wk__meta { margin-top: var(--space-4); }
+
+  .wk__case { min-width: 0; }
+  .wk__instrument {
+    background: var(--field);
+    border-top: var(--border-mark) solid var(--accent);
+    padding: var(--space-5) var(--space-6) var(--space-6);
+  }
+  .wk__instrument-text {
+    margin-top: var(--space-2);
+    font-size: var(--size-5);
+    line-height: var(--leading-head);
+    text-wrap: pretty;
+  }
+  .wk__q { margin-top: var(--space-5); max-width: var(--measure); color: var(--ink-quiet); }
+  .wk__more { display: inline-block; margin-top: var(--space-5); font-weight: var(--weight-med); }
 </style>

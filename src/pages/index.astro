@@ -1,128 +1,165 @@
 ---
-import { getCollection } from 'astro:content';
+/* The landing page is a title page, not a contents page. It says who she is and
+   what the argument is, and sends the reader to /work/. The four projects live
+   there — repeating them here would make the visitor choose before they have
+   been told anything. */
 import Base from '../layouts/Base.astro';
-import { href } from '../lib/url.js';
-
-const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+import { href, asset } from '../lib/url.js';
 ---
 <Base description="Engineer. I design the measurement before I design the thing.">
-  <div class="page">
+  <div class="page landing">
 
-    <section class="hero">
-      <h1 class="hero__thesis">I design the measurement before I design the thing.</h1>
-      <p class="hero__proof">
-        Four projects. In each one there is a moment where I stop and define what
-        &ldquo;good&rdquo; would mean, in terms someone else could argue with. A marking
-        scheme for misremembered station names. A feature matrix across seven platforms.
-        A sensitivity band. Five criteria agreed before anyone drew anything. Those
-        moments are what this site shows.
+    <div class="landing__corners">
+      <p class="corner">
+        Open to product design and<br />design engineering roles
       </p>
-    </section>
+      <p class="corner landing__corner-right">
+        Folio<br />Vol.&thinsp;1 &mdash;
+      </p>
+    </div>
 
-    <hr />
+    <h1 class="landing__name">
+      <span class="landing__full">Elina J. Lee</span><span class="landing__sup">(MDE)</span>
+    </h1>
 
-    {/* No data-accent on these items on purpose: project accents belong inside
-        case studies, not on the chassis. The listing is black and white, and the
-        accent is the first thing that changes when you open a case study. */}
-    <ol class="work-list">
-      {work.map((p) => (
-        <li class="work-item reveal">
-          <div class="work-item__id">
-            <a class="work-item__link" href={href(`/work/${p.id}/`)}>
-              <span class="figure-num work-item__num">{p.data.number}</span>
-              <span class="work-item__title">{p.data.title}</span>
-            </a>
-            <p class="meta work-item__meta">{p.data.dates}<br />{p.data.projectType}<br />{p.data.role}</p>
-          </div>
+    <div class="landing__thesis">
+      <p class="note landing__note">
+        Moving from energy infrastructure into product design and design strategy
+      </p>
 
-          <div class="work-item__case">
-            <div class="work-item__instrument">
-              <p class="eyebrow">The instrument</p>
-              <p class="work-item__instrument-text">{p.data.instrument}</p>
-            </div>
+      <div class="landing__centre">
+        <p class="landing__claim">
+          I&rsquo;m an engineer that likes finding structure<br />in creativity, and creativity in structure.
+        </p>
+        <img
+          class="landing__portrait"
+          src={asset('/images/elina-portrait.png')}
+          alt="Ink drawing of Elina, from the cover of her portfolio."
+          width="900"
+          height="970"
+        />
+      </div>
 
-            <p class="work-item__q">{p.data.question}</p>
+      <p class="note landing__note landing__note--right">
+        Four investigations in problem framing, from a bus sign to a nuclear slab
+      </p>
+    </div>
 
-            <a class="work-item__more" href={href(`/work/${p.id}/`)}>
-              Read case study {p.data.number} <span aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-        </li>
-      ))}
-    </ol>
+    <p class="landing__enter">
+      <a href={href('/work/')}>
+        See my work <span aria-hidden="true">&rarr;</span>
+      </a>
+    </p>
+
+    <p class="landing__foot">
+      In each project there is a moment where I stop and define what
+      &ldquo;good&rdquo; would mean, in terms someone else could check.
+    </p>
 
   </div>
 </Base>
 
 <style>
-  .hero { padding-block: var(--space-9) var(--space-8); }
-  .hero__thesis {
-    font-size: var(--size-8);
-    max-width: var(--measure-lede);
-  }
-  @media (min-width: 800px) { .hero__thesis { font-size: var(--size-9); } }
-  .hero__proof {
-    margin-top: var(--space-6);
-    font-size: var(--size-5);
-    max-width: var(--measure);
-    line-height: var(--leading-loose);
+  /* The landing page runs wider than the rest of the site so the name can fill
+     the measure and the two notes can sit out near the edges, as on the
+     reference. Every other page keeps --page-max. */
+  .landing {
+    max-width: 1600px;
+    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--space-6);
   }
 
-  .work-list { list-style: none; padding: 0; margin: 0; }
-  .work-item {
-    padding-block: var(--space-8);
-    border-bottom: var(--border-hair) solid var(--rule);
-    display: grid;
+  /* -- corners ------------------------------------------------------------ */
+  .landing__corners {
+    display: flex;
+    justify-content: space-between;
     gap: var(--space-5);
   }
-  /* Two columns from 950px: identity on the left, the argument on the right.
-     Below that they stack in the same reading order. */
-  @media (min-width: 950px) {
-    .work-item {
-      grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
-      gap: var(--space-8);
-      align-items: start;
-    }
-  }
-  .work-item__link {
+  .landing__corner-right { text-align: right; }
+
+  /* -- the name ----------------------------------------------------------- */
+  .landing__name {
+    margin: var(--space-7) 0 var(--space-8);
+    text-align: center;
+    line-height: 0.9;
+    letter-spacing: var(--track-head);
+    /* Sized off the viewport so it always fills the line, capped so it cannot
+       run away on a very wide monitor. */
+    font-size: clamp(var(--size-8), 15.6vw, var(--size-11));
     display: flex;
-    gap: var(--space-4);
+    flex-wrap: nowrap;
     align-items: baseline;
-    text-decoration: none;
+    justify-content: center;
+    gap: 0.04em;
   }
-  .work-item__link:hover .work-item__title { text-decoration: underline; }
-  .work-item__num { font-size: var(--size-6); color: var(--accent-ink); flex: none; }
-  .work-item__title {
-    /* size-6, not size-7: the big scale belongs to the case study page. */
-    font-size: var(--size-6);
+
+  /* The name is set in one face. The written half lives on the page titles and
+     on the question that opens each case study, not on her own name. */
+  .landing__full {
+    font-weight: var(--weight-bold);
+    letter-spacing: -0.035em;
+  }
+  .landing__sup {
+    font-size: 0.14em;
+    font-weight: var(--weight-normal);
+    letter-spacing: var(--track-label);
+    align-self: flex-start;
+    padding-top: 0.55em;
+    color: var(--ink-quiet);
+  }
+
+  /* -- the claim, flanked by two notes ------------------------------------ */
+  .landing__thesis {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-6);
+    text-align: center;
+  }
+  @media (min-width: 1000px) {
+    .landing__thesis {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: var(--space-9);
+    }
+    .landing__note { justify-self: end; text-align: right; }
+    .landing__note--right { justify-self: start; text-align: left; }
+  }
+  .landing__centre { display: grid; justify-items: center; gap: var(--space-6); }
+
+  /* The drawing from the cover of the portfolio deck, keyed to transparency so
+     the page ground shows through the face rather than a white box. */
+  .landing__portrait {
+    width: clamp(112px, 15vw, 186px);
+    height: auto;
+  }
+
+  .landing__claim {
+    font-size: var(--size-5);
     font-weight: var(--weight-bold);
     line-height: var(--leading-head);
     letter-spacing: var(--track-head);
+    text-wrap: balance;
   }
-  .work-item__meta { margin-top: var(--space-4); }
+  @media (min-width: 700px) { .landing__claim { font-size: var(--size-6); } }
 
-  .work-item__instrument {
-    background: var(--field);
-    border-top: var(--border-mark) solid var(--accent);
-    padding: var(--space-5) var(--space-6) var(--space-6);
-  }
-  .work-item__instrument-text {
-    margin-top: var(--space-2);
+  /* -- enter + footnote --------------------------------------------------- */
+  .landing__enter {
+    margin: var(--space-8) 0 0;
+    text-align: center;
     font-size: var(--size-5);
-    line-height: var(--leading-head);
-    text-wrap: pretty;
   }
-
-  .work-item__q {
-    margin-top: var(--space-5);
-    max-width: var(--measure);
-    color: var(--ink-quiet);
-  }
-  .work-item__case { min-width: 0; }
-  .work-item__more {
-    display: inline-block;
-    margin-top: var(--space-5);
-    font-weight: var(--weight-med);
+  .landing__enter a {
     text-decoration-thickness: var(--border-hair);
+    text-underline-offset: 0.3em;
+  }
+  .landing__foot {
+    margin: auto auto 0;
+    padding-top: var(--space-8);
+    text-align: center;
+    font-size: var(--size-2);
+    color: var(--ink-quiet);
+    max-width: 46ch;
   }
 </style>

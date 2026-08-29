@@ -66,7 +66,8 @@ const groups = [
 <Base title="CV" description="Curriculum vitae — Elina J. Lee.">
   <div class="page cv">
     <header class="cv__head">
-      <h1>Curriculum vitae</h1>
+      <p class="corner">03 &mdash; The record</p>
+      <h1 class="script cv__title">Curriculum vitae</h1>
       <p class="meta">
         TODO(elina): add a downloadable PDF to <code>public/</code> and link it here.
       </p>
@@ -106,7 +107,12 @@ const groups = [
 
 <style>
   .cv { padding-top: var(--space-8); max-width: 56rem; }
-  .cv__head h1 { font-size: var(--size-8); }
+  .cv__title {
+    font-size: clamp(var(--size-7), 7vw, var(--size-9));
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-top: var(--space-4);
+  }
   .cv__head .meta { margin-top: var(--space-3); }
   .cv__group { margin-top: var(--space-8); }
   .cv__group > h2 { padding-bottom: var(--space-3); border-bottom: var(--border-mark) solid var(--ink); }

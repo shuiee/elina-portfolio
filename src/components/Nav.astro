@@ -3,19 +3,24 @@ import { href } from '../lib/url.js';
 const path = Astro.url.pathname;
 const isOn = (p) => path === href(p) || (p !== '/' && path.startsWith(href(p)));
 const links = [
-  { p: '/work/', label: 'Work' },
-  { p: '/about/', label: 'About' },
-  { p: '/cv/', label: 'CV' },
+  { n: '01', p: '/work/', label: 'Work' },
+  { n: '02', p: '/about/', label: 'About' },
+  { n: '03', p: '/cv/', label: 'CV' },
 ];
 ---
 <header class="site-nav">
   <div class="page site-nav__inner">
-    <a class="site-nav__name" href={href('/')}>Elina J. Lee</a>
+    <a class="site-nav__name" href={href('/')}>
+        Elina J. Lee
+    </a>
     <nav aria-label="Primary">
       <ul>
         {links.map((l) => (
           <li>
-            <a href={href(l.p)} aria-current={isOn(l.p) ? 'page' : undefined}>{l.label}</a>
+            <a href={href(l.p)} aria-current={isOn(l.p) ? 'page' : undefined}>
+              <span class="figure-num site-nav__num" aria-hidden="true">{l.n}</span>
+              <span>{l.label}</span>
+            </a>
           </li>
         ))}
       </ul>
@@ -30,18 +35,35 @@ const links = [
     border-bottom: var(--border-hair) solid var(--rule);
     background: var(--paper);
   }
+  /* Below 560px the name and the links stack instead of competing for one
+     line — at 375px they overflowed and clipped "CV". Still no hamburger:
+     every destination stays visible, it just takes two rows. */
   .site-nav__inner {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--space-5);
+    gap: var(--space-2) var(--space-5);
     padding-block: var(--space-4);
+  }
+  @media (max-width: 560px) {
+    .site-nav__inner { flex-direction: column; align-items: flex-start; }
+    .site-nav__inner ul { width: 100%; justify-content: space-between; gap: var(--space-4); }
   }
   .site-nav__name {
     font-weight: var(--weight-bold);
-    font-size: var(--size-3);
+    font-size: var(--size-4);
     text-decoration: none;
     letter-spacing: var(--track-head);
+    white-space: nowrap;
+  }
+  .site-nav__num {
+    font-size: var(--size-1);
+    color: var(--ink-quiet);
+    margin-right: 0.5em;
+  }
+  @media (max-width: 380px) {
+    .site-nav__num { display: none; }
   }
   ul {
     display: flex;
@@ -51,6 +73,7 @@ const links = [
     margin: 0;
     font-size: var(--size-3);
   }
+  ul a { display: inline-flex; align-items: baseline; }
   a { text-decoration: none; }
   a:hover { text-decoration: underline; }
   a[aria-current='page'] {
