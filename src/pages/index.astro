@@ -277,8 +277,18 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
         return Math.hypot(gapX, gapY);
       }
 
+      /* Explicit angles, not an even sweep. Five labels spread evenly would put
+         the two side ones slightly above the middle; placing them at 0 and 180
+         sits them exactly level with the drawing and exactly mirrored, which is
+         what the arrangement is for. The bottom pair stays symmetric about the
+         vertical. Any other number of projects falls back to even spacing. */
+      const PRESET = { 5: [-90, 0, 60, 120, 180] };
+      const preset = PRESET[items.length];
+
       const placements = items.map((el, i) => {
-        const angle = -Math.PI / 2 + (i * 2 * Math.PI) / items.length;
+        const angle = preset
+          ? (preset[i] * Math.PI) / 180
+          : -Math.PI / 2 + (i * 2 * Math.PI) / items.length;
         const dx = Math.cos(angle);
         const dy = Math.sin(angle);
         const box = el.getBoundingClientRect();
