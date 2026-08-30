@@ -1,0 +1,35 @@
+---
+/* A row of app screens at their real proportions. Used on SaveEat, which shows
+   captures rather than deck slides. `items` is [[src, caption], ...]. */
+import { asset } from '../lib/url.js';
+const { items = [], cap = 3 } = Astro.props;
+---
+<ol class="screens" style={`--cap:${cap}`}>
+  {items.map(([src, caption]) => (
+    <li class="screens__item">
+      <img src={asset(src)} alt={caption} loading="lazy" decoding="async" />
+      <p class="screens__caption meta">{caption}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .screens {
+    list-style: none;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    max-width: calc(var(--cap) * 15rem);
+    align-items: start;
+  }
+  .screens__item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: var(--field);
+    border: var(--border-hair) solid var(--rule);
+  }
+  .screens__caption { margin-top: var(--space-3); }
+</style>

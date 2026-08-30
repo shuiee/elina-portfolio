@@ -4,31 +4,185 @@ order: 2
 title: SaveEat
 shortTitle: SaveEat
 accent: saveeat
-dates: TODO(elina) — dates
+dates: April – June 2026
 projectType: Group project
-role: Product lead
-about: An AI-assisted app for surplus food, on the TooGoodToGo model but built for a market where diners care as much about what is in the food as about what it costs.
-question: Does a surplus-food marketplace still work when the people buying are choosing on health rather than on price?
+role: Product direction, UX designer
+about: An app for surplus food on the TooGoodToGo model, built for a market where diners choose on what is in the food as much as on what it costs.
 concepts:
   - Surplus-food marketplaces
   - Onboarding and expectation setting
   - Designing for a health-led market
+  - Buyer and merchant as two sides of one product
 skills:
   - Product direction
-  - Feature scoping
+  - Feature scoping and functional specification
   - Target-user definition
-  - UI and UX design
+  - UX and UI design
+  - A/B comparison of layouts
 tools:
   - Figma
+  - Notion
+  - AI-assisted prototyping
+question: Does a surplus-food marketplace still work when the people buying are choosing on health rather than on price?
 sections:
-  - { id: slides, label: Slides }
+  - { id: question, label: The question }
+  - { id: method, label: How it ran }
+  - { id: onboarding, label: Onboarding }
+  - { id: app, label: The main flow }
+  - { id: ab, label: A/B comparison }
+  - { id: stands, label: Where it stands }
 ---
+
+{/* Source: the team's Figma file "Screen (1st Ver)" and the Notion project page.
+    The Figma link is a dev link into the working file, so it is deliberately NOT
+    published here: anyone with the URL could reach the live file. If you want a
+    link on the page, publish a read-only Figma prototype and put that URL here
+    instead. */}
+
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+TooGoodToGo works on a straightforward trade. A shop has food it cannot sell, and you
+get it cheaply on the understanding that you do not get to choose what it is. The
+surprise is the point, and the discount is what makes the surprise acceptable.
+
+Korean dining has moved toward health-conscious eating, where people often choose a meal
+on what is in it rather than on what it costs. That puts pressure on the part of the
+model that usually does the work: if the buyer cares about ingredients, a mystery bag is
+not a bargain, it is a risk. The project is an attempt to keep the surplus-food model
+while removing that risk.
+
+</Section>
+
+<Section id="method" label="How the project ran">
 
 <div class="prose">
 
-<p class="lede lede--small">TODO(elina): SaveEat is not in the December 2025 deck, so it has
-no slides yet.</p>
+The team worked in weekly cycles, and the record of those meetings falls into three
+phases: **research**, then **feature**, then **screen**. Weekly notes run from the
+beginning of April to the end of June 2026.
 
-Add its pages to the PDF and re-render, or give me the Figma frames to use here.
+<p class="lede lede--small">TODO(elina): is the team still meeting? If so the dates want changing to April 2026 to present.</p>
 
 </div>
+
+<Method>
+
+<Step n="01" title="Research" when="April 2026">
+Ground rules, background and target user. This is where the health-led framing was
+settled, and it is the decision everything downstream depends on: it is why the product
+cannot simply copy the mystery-bag mechanic.
+</Step>
+
+<Step n="02" title="Feature" when="April 2026">
+Key features, where AI would and would not be applied, and a functional specification.
+Writing the spec before the screens meant the later screen work was about how to present
+decisions that had already been argued, rather than making them by drawing.
+</Step>
+
+<Step n="03" title="Screen" when="May – June 2026">
+Wireframes, then screens. Each member built MVP screens with AI assistance and brought
+them into a shared Figma file. That surfaced its own problem, which is covered below.
+</Step>
+
+</Method>
+
+</Section>
+
+<Section id="onboarding" label="Onboarding">
+
+<div class="prose">
+
+Onboarding is where a surplus-food app either sets expectations about uncertainty or
+fails to, so it is the right place to start when the open question is whether buyers
+will accept not choosing. The flow asks two things before it shows any food: what kind
+of user you are, and what you eat.
+
+</div>
+
+<Screens
+  items={[
+    ["/images/saveeat/onboarding-1-brand.jpg", "Entry. Kakao, Apple, Google or email, so the first screen asks for nothing but a way in."],
+    ["/images/saveeat/onboarding-2-user-type.jpg", "Buyer or merchant, chosen before anything else, because the two sides of the marketplace see different products."],
+    ["/images/saveeat/onboarding-3-diet.jpg", "Dietary preference. This is the screen that answers the framing question: it is how a mystery bag stops being a risk."],
+  ]}
+/>
+
+</Section>
+
+<Section id="app" label="The main flow">
+
+<div class="prose">
+
+The buyer side runs from a home feed and a map of nearby bags, into a store, into a
+pickup pass. Filters and dietary tags carry the onboarding answers forward, so the
+preference collected at the start does work on every subsequent screen rather than
+sitting in a profile.
+
+</div>
+
+<Screens
+  cap={2}
+  items={[
+    ["/images/saveeat/home.jpg", "Home. Bags near you, sorted and filtered, with the dietary tags from onboarding applied."],
+    ["/images/saveeat/store-detail.jpg", "Store detail. Stock, what is in the bag, dietary tags, and reviews, which is the information a health-led buyer needs before committing."],
+  ]}
+/>
+
+</Section>
+
+<Section id="ab" label="The A/B comparison">
+
+<div class="prose">
+
+The map view, where you see what is available near you, was drawn twice and the two
+versions put side by side. The question underneath them is how the screen should split
+between the map and the list of bags, and that decision is not obvious: the map is what
+tells you a pickup is walkable, and the list is what tells you whether the food is worth
+walking for.
+
+</div>
+
+<Screens
+  cap={2}
+  items={[
+    ["/images/saveeat/ab-variant-a.jpg", "A. A fixed split. The map stops partway down and the list sits below it, so three bags read in full without any interaction."],
+    ["/images/saveeat/ab-variant-b.jpg", "B. A draggable sheet over a taller map. More of the area is visible, and an extra pin appears with it, but the list is cut to two and a half cards."],
+  ]}
+/>
+
+<div class="prose">
+
+Everything else is held constant: the same category chips over the map, the same cards,
+the same four-item bottom navigation. The variable is the split, and what changes with it
+is which of the two questions the screen answers first.
+
+<p class="lede lede--small">TODO(elina): which one did you go with, and what decided it?</p>
+
+The comparison is in the file. The decision is not written down anywhere I can find, and
+that is the part worth adding, because it is the difference between having run a
+comparison and having used one.
+
+</div>
+
+</Section>
+
+<Section id="stands" label="Where it stands">
+
+<div class="prose">
+
+Building the MVP screens with AI assistance got the team to something concrete quickly,
+and then produced a second problem worth recording: the screens arrived as editable
+layers with overlapping elements and mismatched containers. The team agreed to
+componentise the repeated parts, buttons, cards and chips, and to replace ad-hoc emoji
+with a proper icon library. My MVP screens, the merchant pages and the impact UI, were
+taken as the basis for completing the whole flow.
+
+That is a fair description of where the project is: a full buyer flow and a merchant
+side designed, a working prototype, a design system being retrofitted rather than
+planned, and nothing shipped to users.
+
+</div>
+
+</Section>

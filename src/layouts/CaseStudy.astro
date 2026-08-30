@@ -6,7 +6,7 @@ import { href } from '../lib/url.js';
 const { entry, projects, prev, next } = Astro.props;
 const d = entry.data;
 ---
-<Base title={d.title} description={d.instrument} accent={d.accent}>
+<Base title={d.title} description={d.about} accent={d.accent}>
   <div class="page cs">
     <Rail sections={d.sections} number={d.number} projects={projects} />
 
