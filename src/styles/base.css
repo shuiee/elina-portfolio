@@ -187,6 +187,11 @@ hr {
   line-height: var(--leading-head);
   max-width: var(--measure);
   font-weight: var(--weight-med);
+  /* NOT balanced. Balancing evens out the line lengths, which pulls them
+     short of the measure and makes this read as a narrower column than the
+     paragraphs under it. The big italic .lede still balances — it is a
+     standalone statement, not the first paragraph of a column. */
+  text-wrap: pretty;
 }
 
 /* Content written directly in an .mdx section, outside .prose. */
