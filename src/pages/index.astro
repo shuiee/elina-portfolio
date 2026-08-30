@@ -253,20 +253,28 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       /* How much clear space to leave between the drawing and every label.
          This is the number to change if the ring wants to sit tighter or
          looser; everything else follows from it. */
-      const CLEARANCE = 84;
-      const gap = Math.max(pr.width, pr.height) / 2 + CLEARANCE;
+      const CLEARANCE = 92;
 
       /* For each label, find how far along its radial line its centre has to
-         sit so that the NEAREST POINT of its box is `gap` from the middle.
-         That is what the eye measures — not the distance to the box centre,
-         and not the distance to the edge along the radius. There is no tidy
-         closed form for an axis-aligned box, and the distance grows steadily
-         with the offset, so a short binary search is the clearest way to get
-         it exactly. */
-      function nearestEdgeDistance(offset, dx, dy, hw, hh) {
-        const ex = Math.max(Math.abs(dx) * offset - hw, 0);
-        const ey = Math.max(Math.abs(dy) * offset - hh, 0);
-        return Math.hypot(ex, ey);
+         sit so that the gap between ITS box and the DRAWING's box is the same
+         for every label.
+
+         Measuring from the drawing's centre instead looks wrong, and it is
+         worth saying why: a wide label like "Handball Arena" has to be pushed
+         further out to keep its corner on the circle, which drags it downward
+         along its angle and quietly shrinks the horizontal gap you actually
+         see. Box to box is what the eye measures, so box to box is what we
+         solve for. Side labels then sit exactly CLEARANCE from the drawing's
+         edge, whatever their width. */
+      const phw = pr.width / 2;
+      const phh = pr.height / 2;
+
+      function boxGap(offset, dx, dy, hw, hh) {
+        const lx = dx * offset;
+        const ly = dy * offset;
+        const gapX = Math.max(lx - hw - phw, -phw - (lx + hw), 0);
+        const gapY = Math.max(ly - hh - phh, -phh - (ly + hh), 0);
+        return Math.hypot(gapX, gapY);
       }
 
       const placements = items.map((el, i) => {
@@ -278,10 +286,10 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
         const hh = box.height / 2;
 
         let lo = 0;
-        let hi = gap + Math.hypot(hw, hh) + 1;
-        for (let step = 0; step < 40; step++) {
+        let hi = CLEARANCE + Math.hypot(phw + hw, phh + hh) + 1;
+        for (let step = 0; step < 44; step++) {
           const mid = (lo + hi) / 2;
-          if (nearestEdgeDistance(mid, dx, dy, hw, hh) < gap) lo = mid;
+          if (boxGap(mid, dx, dy, hw, hh) < CLEARANCE) lo = mid;
           else hi = mid;
         }
         const offset = hi;
