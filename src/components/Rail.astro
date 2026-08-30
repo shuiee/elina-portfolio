@@ -12,6 +12,10 @@ import { href } from '../lib/url.js';
 const { number, projects = [] } = Astro.props;
 ---
 <nav class="rail" aria-label="Where you are">
+  <a class="rail__back" href={href('/work/')}>
+    <span aria-hidden="true">&larr;</span> All work
+  </a>
+
   <ol class="rail__projects" aria-label="All projects">
     {projects.map((p) => (
       <li>
@@ -38,10 +42,22 @@ const { number, projects = [] } = Astro.props;
       font-size: var(--size-2);
     }
   }
+  /* Back to the index. The top nav can also get you there, but from inside a
+     project the nearer, more specific way out is worth having. */
+  .rail__back {
+    display: inline-flex;
+    gap: var(--space-2);
+    align-items: baseline;
+    text-decoration: none;
+    font-size: var(--size-2);
+    color: var(--ink-quiet);
+  }
+  .rail__back:hover { color: var(--ink); text-decoration: underline; }
+
   .rail__projects {
     list-style: none;
     padding: var(--space-5) 0 0;
-    margin: var(--space-6) 0 0;
+    margin: var(--space-5) 0 0;
     border-top: var(--border-hair) solid var(--rule);
     display: grid;
     gap: var(--space-3);
