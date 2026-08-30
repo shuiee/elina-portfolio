@@ -1,0 +1,127 @@
+---
+/* The pages of the PDF portfolio that belong to one project, as click-through
+   slides. Rendered to images rather than served as the PDF, which is 44 MB.
+
+   Usage inside a case study:  <Slides from={2} to={7} />
+   The numbers are PAGE NUMBERS IN THE DECK, not slide positions, so they stay
+   meaningful if the deck is re-exported. */
+import { asset } from '../lib/url.js';
+const { from, to, note } = Astro.props;
+const pages = Array.from({ length: to - from + 1 }, (_, i) => from + i);
+---
+<div class="deck" data-deck>
+  <ol class="deck__slides">
+    {pages.map((n, i) => (
+      <li class="deck__slide" data-index={i}>
+        <img
+          src={asset(`/portfolio/page-${String(n).padStart(2, '0')}.jpg`)}
+          alt={`Portfolio page ${n}`}
+          width="1800"
+          height="1012"
+          loading={i < 2 ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      </li>
+    ))}
+  </ol>
+
+  <div class="deck__controls" hidden>
+    <button type="button" class="deck__nav" data-step="-1" aria-label="Previous slide">
+      <span aria-hidden="true">&larr;</span>
+    </button>
+    <p class="deck__count" aria-live="polite">
+      <span class="figure-num" data-current>01</span>
+      <span>/</span>
+      <span class="figure-num">{String(pages.length).padStart(2, '0')}</span>
+    </p>
+    <button type="button" class="deck__nav" data-step="1" aria-label="Next slide">
+      <span aria-hidden="true">&rarr;</span>
+    </button>
+  </div>
+
+  {note && <p class="deck__note meta">{note}</p>}
+</div>
+
+<style>
+  .deck { margin-top: var(--space-6); }
+  .deck__slides { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-5); }
+  .deck__slide img { width: 100%; height: auto; display: block; background: var(--field); }
+
+  /* Single-slide mode, switched on by the script. Without it the slides stack
+     and can be scrolled, which is a perfectly good way to read a deck. */
+  .deck.is-live .deck__slides { display: block; gap: 0; }
+  .deck.is-live .deck__slide { display: none; }
+  .deck.is-live .deck__slide.is-current { display: block; }
+
+  .deck__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+  .deck__nav {
+    font: inherit;
+    font-size: var(--size-5);
+    line-height: 1;
+    background: none;
+    border: 0;
+    padding: var(--space-2) var(--space-3);
+    color: var(--ink);
+  }
+  .deck__nav[disabled] { color: var(--rule); }
+  .deck__count {
+    font-size: var(--size-2);
+    letter-spacing: var(--track-label);
+    display: flex;
+    gap: var(--space-2);
+    color: var(--ink-quiet);
+  }
+  .deck__note { margin-top: var(--space-4); text-align: center; }
+</style>
+
+<script>
+  /* Click the slide, use the arrows, or use the keyboard. Written to handle any
+     number of decks on a page, so a project could show more than one. */
+  document.querySelectorAll('[data-deck]').forEach((deck) => {
+    const slides = [...deck.querySelectorAll('.deck__slide')];
+    if (slides.length === 0) return;
+
+    const controls = deck.querySelector('.deck__controls');
+    const counter = deck.querySelector('[data-current]');
+    const buttons = [...deck.querySelectorAll('.deck__nav')];
+    let index = 0;
+
+    deck.classList.add('is-live');
+    controls.hidden = false;
+
+    function show(next) {
+      index = Math.min(Math.max(next, 0), slides.length - 1);
+      slides.forEach((s, i) => s.classList.toggle('is-current', i === index));
+      counter.textContent = String(index + 1).padStart(2, '0');
+      buttons.forEach((b) => {
+        const step = Number(b.dataset.step);
+        b.disabled = step < 0 ? index === 0 : index === slides.length - 1;
+      });
+      const ahead = slides[index + 1]?.querySelector('img');
+      if (ahead) ahead.loading = 'eager';
+    }
+
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => show(index + Number(b.dataset.step)))
+    );
+
+    /* Clicking the slide advances; the last wraps back to the first. */
+    deck.querySelector('.deck__slides').addEventListener('click', () => {
+      show(index === slides.length - 1 ? 0 : index + 1);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.target instanceof HTMLInputElement) return;
+      if (event.key === 'ArrowRight') show(index + 1);
+      if (event.key === 'ArrowLeft') show(index - 1);
+    });
+
+    show(0);
+  });
+</script>
