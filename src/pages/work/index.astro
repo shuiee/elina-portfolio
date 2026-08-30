@@ -22,8 +22,10 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
               <span class="figure-num wk__num">{p.data.number}</span>
               <span class="wk__name">{p.data.title}</span>
             </a>
+            {/* No dates here: the project page carries them, and this list is
+                meant to be scanned rather than dated. */}
             <p class="meta wk__meta">
-              {p.data.dates}<br />{p.data.projectType}<br />{p.data.role}
+              {p.data.projectType}<br />{p.data.role}
             </p>
           </div>
 
