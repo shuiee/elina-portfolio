@@ -163,6 +163,8 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     white-space: nowrap;
   }
   .stage.is-orbiting .orbit a { cursor: inherit; }
+  /* Mirrored: title first, number last, so the number is on the outside. */
+  .stage.is-orbiting .orbit[data-side='right'] a { flex-direction: row-reverse; }
   .stage.is-orbiting .orbit.is-dragging { z-index: 2; }
   .stage.is-orbiting .orbit.is-dragging a { color: var(--ink); }
 
@@ -234,6 +236,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
           el.style.left = '';
           el.style.top = '';
           delete el.dataset.moved;
+          delete el.dataset.side;
         });
         return;
       }
@@ -253,7 +256,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       /* How much clear space to leave between the drawing and every label.
          This is the number to change if the ring wants to sit tighter or
          looser; everything else follows from it. */
-      const CLEARANCE = 92;
+      const CLEARANCE = 104;
 
       /* For each label, find how far along its radial line its centre has to
          sit so that the gap between ITS box and the DRAWING's box is the same
@@ -293,6 +296,12 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
           else hi = mid;
         }
         const offset = hi;
+
+        /* Which side of the drawing this label ends up on. Used to mirror the
+           right-hand labels so the number always sits on the OUTER edge: with
+           number-then-title on both sides, the left labels read outward and the
+           right labels read inward, and the ring looks lopsided. */
+        el.dataset.side = dx > 0.15 ? 'right' : dx < -0.15 ? 'left' : 'centre';
 
         return { el, x: offset * dx, y: offset * dy, hh };
       });
