@@ -249,7 +249,12 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
          same gap away from the drawing, which is what the eye measures. */
       const portrait = stage.querySelector('.stage__portrait');
       const pr = portrait.getBoundingClientRect();
-      const gap = Math.max(pr.width, pr.height) / 2 + 38;
+
+      /* How much clear space to leave between the drawing and every label.
+         This is the number to change if the ring wants to sit tighter or
+         looser; everything else follows from it. */
+      const CLEARANCE = 84;
+      const gap = Math.max(pr.width, pr.height) / 2 + CLEARANCE;
 
       /* For each label, find how far along its radial line its centre has to
          sit so that the NEAREST POINT of its box is `gap` from the middle.
