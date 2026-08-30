@@ -22,18 +22,23 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
               <span class="figure-num wk__num">{p.data.number}</span>
               <span class="wk__name">{p.data.title}</span>
             </a>
-            {/* No dates here: the project page carries them, and this list is
-                meant to be scanned rather than dated. */}
-            <p class="meta wk__meta">
-              {p.data.projectType}<br />{p.data.role}
-            </p>
           </div>
 
           <div class="wk__case">
             <p class="wk__about">{p.data.about}</p>
             <p class="wk__q">{p.data.question}</p>
 
+            {/* Type and role read as labelled facts like the rest, rather than as
+                a caption under the title. Dates stay on the project page. */}
             <dl class="wk__facets">
+              <div class="wk__facet">
+                <dt class="eyebrow">Type</dt>
+                <dd>{p.data.projectType}</dd>
+              </div>
+              <div class="wk__facet">
+                <dt class="eyebrow">Role</dt>
+                <dd>{p.data.role}</dd>
+              </div>
               {p.data.concepts.length > 0 && (
                 <div class="wk__facet">
                   <dt class="eyebrow">Concepts</dt>
@@ -97,7 +102,6 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     line-height: var(--leading-head);
     letter-spacing: var(--track-head);
   }
-  .wk__meta { margin-top: var(--space-4); }
 
   .wk__case { min-width: 0; }
 
