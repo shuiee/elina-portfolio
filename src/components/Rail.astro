@@ -19,10 +19,10 @@ const { number, projects = [] } = Astro.props;
   <ol class="rail__projects" aria-label="All projects">
     {projects.map((p) => (
       <li>
-        <a href={href(`/work/${p.id}/`)} class="figure-num" aria-current={p.number === number ? 'page' : undefined}>
-          {p.number}
+        <a href={href(`/work/${p.id}/`)} aria-current={p.number === number ? 'page' : undefined}>
+          <span class="figure-num rail__num" aria-hidden="true">{p.number}</span>
+          <span class="rail__word">{p.shortTitle}</span>
         </a>
-        <span class="rail__projtitle">{p.shortTitle}</span>
       </li>
     ))}
   </ol>
@@ -62,15 +62,28 @@ const { number, projects = [] } = Astro.props;
     display: grid;
     gap: var(--space-3);
   }
-  .rail__projects li { display: flex; gap: var(--space-3); align-items: baseline; }
-  .rail__projects a { text-decoration: none; color: var(--ink-quiet); font-size: var(--size-3); }
-  .rail__projects a[aria-current='page'] { color: var(--ink); font-weight: var(--weight-bold); }
-  .rail__projects a:hover { color: var(--ink); text-decoration: underline; }
-  .rail__projtitle {
-    font-size: var(--size-1);
+  /* The whole entry is one link, number and title together, so the title is
+     what you click and what a screen reader reads as the link's name. It used
+     to be the number alone, which gave a two-digit link name and a target the
+     size of a chip. */
+  .rail__projects li { display: block; }
+  .rail__projects a {
+    display: inline-flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    text-decoration: none;
     color: var(--ink-quiet);
-    line-height: var(--leading-body);
   }
+  .rail__num { font-size: var(--size-3); }
+  .rail__word { font-size: var(--size-1); line-height: var(--leading-body); }
+
+  /* Same rule as the top nav: the underline belongs to the word, not to the
+     number in front of it. */
+  .rail__projects a:hover { color: var(--ink); }
+  .rail__projects a:hover .rail__word { text-decoration: underline; }
+  .rail__projects a[aria-current='page'] { color: var(--ink); }
+  .rail__projects a[aria-current='page'] .rail__num,
+  .rail__projects a[aria-current='page'] .rail__word { font-weight: var(--weight-bold); }
 
   /* Mobile progress bar */
   .rail__bar {
