@@ -154,16 +154,27 @@
    Recomputed against the grey --paper, which is now the darker of the two
    grounds, so each clears 7:1 on the page AND on a white exhibit sheet.
 
-     signage   sampled #1A5F6E teal    -> ink #175563  (7.12 paper / 8.35 field)
-     patchwork sampled #0CA514 green   -> ink #075B0B  (7.14 / 8.37)
+     signage   chosen  #B0392F red     -> ink #8D2E26  (7.02 paper / 8.23 field)
+     saveeat   sampled #244824 green   -> ink #244824  (8.84 / 10.36)
+     patchwork chosen  #7B4A32 brown   -> ink #70442E  (7.01 / 8.22)
      steel     sampled #9746FF violet  -> ink #6000DC  (7.08 / 8.30)
-     arena     sampled #AA8F71 glulam  -> ink #5D4B38  (7.08 / 8.30)
+     arena     chosen  #1B4FA0 blue    -> ink #1A4C9B  (7.02 / 8.23)
+
+   signage, patchwork and arena are Elina's choices, not samples: a muted TfL
+   bus red, a muted brown, and a blue after the Birmingham 2022 Commonwealth
+   Games identity. saveeat is the true brand green sampled from the app's own
+   onboarding screen, and it already clears 7:1, so accent and ink match.
+
+   Hues are spread 5 / 20 / 120 / 217 / 266 degrees. The tightest pair is
+   signage red and patchwork brown at 15 degrees apart; they separate on
+   saturation instead, the red vivid and the brown muted.
    -------------------------------------------------------------------------- */
 
-[data-accent="signage"]   { --accent: #1A5F6E; --accent-ink: #175563; }
-[data-accent="patchwork"] { --accent: #0CA514; --accent-ink: #075B0B; }
+[data-accent="signage"]   { --accent: #B0392F; --accent-ink: #8D2E26; }
+[data-accent="saveeat"]   { --accent: #244824; --accent-ink: #244824; }
+[data-accent="patchwork"] { --accent: #7B4A32; --accent-ink: #70442E; }
 [data-accent="steel"]     { --accent: #9746FF; --accent-ink: #6000DC; }
-[data-accent="arena"]     { --accent: #AA8F71; --accent-ink: #5D4B38; }
+[data-accent="arena"]     { --accent: #1B4FA0; --accent-ink: #1A4C9B; }
 
 /* --------------------------------------------------------------------------
    Fonts are declared in src/layouts/Base.astro, not here.
