@@ -7,6 +7,12 @@ import { asset } from '../lib/url.js';
 
 const { title, description, accent } = Astro.props;
 const fullTitle = title ? `${title} — Elina J. Lee` : 'Elina J. Lee';
+
+/* Absolute URLs for the tags that require them. Astro.site comes from
+   astro.config.mjs, so these follow the deploy target without a second
+   place to keep in sync. */
+const desc = description ?? 'Engineer. Finding structure in creativity, and creativity in structure.';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 <!doctype html>
 <html lang="en">
@@ -14,8 +20,27 @@ const fullTitle = title ? `${title} — Elina J. Lee` : 'Elina J. Lee';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
-    <meta name="description" content={description ?? 'Engineer. Finding structure in creativity, and creativity in structure.'} />
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />
+
+    <!-- Link previews. Without these a pasted link renders as bare text in
+         Slack, LinkedIn and iMessage, which is most of how a portfolio URL
+         actually travels. og:image is public/images/og-card.png, a 1200x630
+         card built from the same tokens as the site: --paper ground, --ink
+         text, her own drawing. It is deliberately NOT the bare portrait PNG,
+         which is transparent and would render black-on-black in Slack, and
+         near-square so a large-summary card would crop her face. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Elina J. Lee" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(asset('/images/og-card.png'), Astro.site).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={new URL(asset('/images/og-card.png'), Astro.site).href} />
 
     <!-- Font declarations live here, not in tokens.css: @font-face src cannot
          read a CSS variable, and this site may be served from a sub-path.
@@ -44,7 +69,13 @@ const fullTitle = title ? `${title} — Elina J. Lee` : 'Elina J. Lee';
       }
     `}></style>
 
+    <!-- All three faces render above the fold on every page: Inter for body,
+         Instrument Serif for the h1, Optician Sans for the 01/02/03 numbers.
+         The two display faces are 27KB and 13KB, so preloading them costs
+         little and stops the heading and the nav numbers reflowing. -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/InterVariable.woff2')} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/InstrumentSerif-Italic.woff2')} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/Optician-Sans.woff2')} />
   </head>
 
   <body data-accent={accent}>

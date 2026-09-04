@@ -9,7 +9,7 @@ import { href, asset } from '../lib/url.js';
 
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base description="Engineer. I like finding structure in creativity, and creativity in structure.">
+<Base description="I’m an engineer that likes finding structure in creativity, and creativity in structure.">
   <div class="page landing">
 
     <h1 class="landing__name">
@@ -159,7 +159,12 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     left: 0;
     top: 0;
     transform: translate(-50%, -50%);
-    touch-action: none;
+    /* pan-y, not none. The orbit turns on at 760px, which includes every
+       tablet, and `none` meant a finger landing on a label could not scroll
+       the page at all. pan-y leaves vertical scrolling to the browser and
+       keeps the horizontal half of the drag. Mouse dragging is unaffected,
+       since touch-action only governs touch. */
+    touch-action: pan-y;
     white-space: nowrap;
   }
   .stage.is-orbiting .orbit a { cursor: inherit; }

@@ -3,11 +3,22 @@
    captures rather than deck slides. `items` is [[src, caption], ...]. */
 import { asset } from '../lib/url.js';
 const { items = [], cap = 3 } = Astro.props;
+
+/* Every capture is a full-length phone screen, so the intrinsic ratio varies
+   per image. Without a reserved box the page grows as each one arrives and
+   everything below it jumps. `ratio` is optional per item; the default is the
+   750-wide frame these were exported at. */
 ---
 <ol class="screens" style={`--cap:${cap}`}>
-  {items.map(([src, caption]) => (
+  {items.map(([src, caption, ratio]) => (
     <li class="screens__item">
-      <img src={asset(src)} alt={caption} loading="lazy" decoding="async" />
+      <img
+        src={asset(src)}
+        alt={caption}
+        loading="lazy"
+        decoding="async"
+        style={`aspect-ratio:${ratio ?? '750/1600'}`}
+      />
       <p class="screens__caption meta">{caption}</p>
     </li>
   ))}
