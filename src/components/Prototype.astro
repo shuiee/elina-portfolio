@@ -1,0 +1,277 @@
+---
+/* A looping playback of the real Figma screens inside a phone frame, for the
+   top of a project page.
+
+   Not a GIF. A recording would be a megabyte or more, would blur on a retina
+   screen, and could not be paused, which WCAG 2.2.2 requires of anything that
+   moves for more than five seconds. This plays the same JPEGs the page already
+   loads further down, so it costs nothing extra on a warm cache, stays crisp at
+   any density, and comes with a real pause control.
+
+   `items` is [src, alt, naturalHeight]. Screens taller than the phone viewport
+   pan upward while they are on screen, which is what makes it read as a
+   recording of someone using the app rather than a slideshow.
+
+   The frame is drawn in the site's own line weight rather than as a glossy
+   device render: this chassis has no gloss anywhere else.
+*/
+import { asset } from '../lib/url.js';
+const { items = [], width = 750, viewport = 1580, caption } = Astro.props;
+const pct = (viewport / width) * 100;
+---
+<figure class="proto" data-proto data-viewport={viewport} data-width={width}>
+  <div class="proto__stage">
+    <div class="proto__phone" style={`--proto-ratio:${pct}%`}>
+      <span class="proto__notch" aria-hidden="true"></span>
+      <ol class="proto__screens" data-screens>
+        {items.map(([src, alt, h], i) => (
+          <li class="proto__screen" data-screen data-h={h} aria-hidden={i === 0 ? undefined : 'true'}>
+            <img
+              src={asset(src)}
+              alt={alt}
+              width={width}
+              height={h}
+              loading={i < 2 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="proto__controls">
+      <button type="button" class="proto__play" data-play aria-pressed="false">
+        <span data-playlabel>Pause</span>
+      </button>
+      <ol class="proto__dots" data-dots>
+        {items.map(([, alt], i) => (
+          <li>
+            <button type="button" data-dot={i} aria-label={`Show screen ${i + 1}: ${alt}`}>
+              <span></span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+
+  {caption && <figcaption class="proto__cap meta">{caption}</figcaption>}
+</figure>
+
+<style>
+  .proto { margin: var(--space-7) 0 0; }
+  .proto__stage {
+    background: var(--field);
+    border: var(--border-hair) solid var(--rule);
+    padding: var(--space-7) var(--space-5) var(--space-5);
+    display: grid;
+    justify-items: center;
+    gap: var(--space-5);
+  }
+
+  .proto__phone {
+    position: relative;
+    width: min(248px, 62vw);
+    padding-bottom: calc(var(--proto-ratio) * min(248px, 62vw) / 100);
+    height: 0;
+    border: 2px solid var(--ink);
+    border-radius: 26px;
+    background: var(--paper);
+    overflow: hidden;
+  }
+  .proto__notch {
+    position: absolute;
+    top: 7px; left: 50%;
+    transform: translateX(-50%);
+    width: 34%; height: 7px;
+    background: var(--ink);
+    border-radius: 99px;
+    z-index: 2;
+  }
+
+  .proto__screens {
+    position: absolute;
+    inset: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .proto__screen {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+  /* Before the script runs, and with JavaScript off, the first screen shows. */
+  .proto__screen:first-child { opacity: 1; }
+  .proto__screen.is-on { opacity: 1; }
+  .proto[data-ready] .proto__screen {
+    transition: opacity 420ms var(--motion-ease);
+  }
+  .proto__screen img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    will-change: transform;
+  }
+
+  .proto__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .proto__play {
+    font: inherit;
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    background: none;
+    border: var(--border-hair) solid var(--rule);
+    padding: 0.3em 0.8em;
+    cursor: inherit;
+  }
+  .proto__play:hover { color: var(--ink); border-color: var(--ink); }
+
+  .proto__dots {
+    display: flex;
+    gap: var(--space-3);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .proto__dots button {
+    background: none;
+    border: 0;
+    padding: 6px 2px;
+    cursor: inherit;
+    display: block;
+  }
+  .proto__dots span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--rule);
+  }
+  .proto__dots button[aria-current='true'] span { background: var(--accent-ink); }
+  .proto__dots button:hover span { background: var(--ink); }
+
+  .proto__cap { margin-top: var(--space-4); }
+
+  /* No autoplay, no panning. The dots and the first screen still work, so the
+     reader can step through it deliberately. */
+  @media (prefers-reduced-motion: reduce) {
+    .proto[data-ready] .proto__screen { transition: none; }
+    .proto__screen img { transition: none !important; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-proto]').forEach((proto) => {
+    const screens = [...proto.querySelectorAll('[data-screen]')];
+    const dots    = [...proto.querySelectorAll('[data-dot]')];
+    const play    = proto.querySelector('[data-play]');
+    const label   = proto.querySelector('[data-playlabel]');
+    const phone   = proto.querySelector('.proto__phone');
+    if (screens.length < 2) return;
+
+    const reduce  = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const vh      = Number(proto.dataset.viewport);
+    const vw      = Number(proto.dataset.width);
+
+    const SHORT = 2600;   // a screen that fits: long enough to read the headline
+    const PAN   = 5200;   // a screen that has to travel
+    /* Below this the crop is imperceptible and panning it would just slow the
+       loop down for nothing. onboarding 2 and 3 overflow by 52px. */
+    const PANS_ABOVE = 120;
+
+    let i = 0;
+    let timer = null;
+    let running = !reduce;
+
+    proto.setAttribute('data-ready', '');
+
+    /* Overflow in image-space pixels: how much taller the screen is than the
+       phone viewport, both measured at the source width. */
+    function overflowOf(el) {
+      return Math.max(0, Number(el.dataset.h) - vh);
+    }
+
+    function show(n, { user = false } = {}) {
+      screens[i]?.classList.remove('is-on');
+      screens[i]?.setAttribute('aria-hidden', 'true');
+      i = (n + screens.length) % screens.length;
+
+      const el = screens[i];
+      const img = el.querySelector('img');
+      el.classList.add('is-on');
+      el.removeAttribute('aria-hidden');
+      dots.forEach((d, k) => d.setAttribute('aria-current', k === i ? 'true' : 'false'));
+
+      /* Reset, then pan if the screen is taller than the viewport. The pan is
+         driven here rather than in CSS so reduced motion can simply skip it. */
+      const over = overflowOf(el);
+      /* translateY as a percentage resolves against the IMAGE's own height,
+         not the viewport, so the travel is over/h and not over/vh. */
+      const ratio = (over / Number(el.dataset.h)) * 100;
+      img.style.transition = 'none';
+      img.style.transform = 'translateY(0)';
+
+      if (!reduce && over > PANS_ABOVE && running) {
+        // force a reflow so the reset lands before the transition starts
+        void img.offsetHeight;
+        img.style.transition = `transform ${PAN - 900}ms linear 700ms`;
+        img.style.transform = `translateY(-${ratio}%)`;
+      }
+
+      if (user) stop();
+      else queue(over > PANS_ABOVE ? PAN : SHORT);
+    }
+
+    function queue(ms) {
+      clearTimeout(timer);
+      if (!running) return;
+      timer = setTimeout(() => show(i + 1), ms);
+    }
+
+    function stop() {
+      running = false;
+      clearTimeout(timer);
+      play.setAttribute('aria-pressed', 'true');
+      label.textContent = 'Play';
+    }
+
+    function start() {
+      running = true;
+      play.setAttribute('aria-pressed', 'false');
+      label.textContent = 'Pause';
+      show(i);
+    }
+
+    play.addEventListener('click', () => (running ? stop() : start()));
+    dots.forEach((d, k) => d.addEventListener('click', () => show(k, { user: true })));
+    phone.addEventListener('click', () => show(i + 1, { user: true }));
+
+    /* Do not animate off screen: it wastes work and means the reader always
+       arrives at the start of the flow rather than halfway through it. */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) { if (running) show(i); }
+          else clearTimeout(timer);
+        }
+      }, { threshold: 0.2 }).observe(proto);
+    }
+
+    if (reduce) {
+      running = false;
+      play.setAttribute('aria-pressed', 'true');
+      label.textContent = 'Play';
+    }
+    show(0);
+  });
+</script>
