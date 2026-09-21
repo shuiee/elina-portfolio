@@ -28,7 +28,183 @@ tools:
   - UCL PEARL facility
 question: How much does a person take in at once, and what should a design do when it asks more than that?
 sections:
-  - { id: slides, label: Slides }
+  - { id: question, label: The question }
+  - { id: route, label: The route }
+  - { id: slides, label: Reference }
 ---
 
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+Over six million people in London rely on buses every day, and I kept seeing
+passengers hesitate or board the wrong one because the signs were hard to read.
+Coming from Korea, where bus signage is denser and easier to scan, the contrast
+was hard to ignore.
+
+A sign has a fixed amount of room and a reader who is moving, often in bad light,
+often at a distance. Every question below is a version of the same one: how much
+can you ask of that reader before they stop being able to answer.
+
+</Section>
+
+<Section id="route" label="How it ran">
+
+<div class="prose">
+
+The project ran as a route, so the page runs as one too. Each stop is a stage of
+the work in the order it happened, and each one had to produce something
+measurable before the next could start.
+
+</div>
+
+<Route label="The route">
+
+<Stop label="Stop 01" title="Background">
+
+Buses are the part of the network people use without planning, which is exactly
+why the signage has to work at a glance. London's does not, reliably. Korean bus
+signage carries more information in the same space and is easier to scan, and
+that difference is what made me want to measure rather than assume.
+
+</Stop>
+
+<Stop label="Stop 02" title="Vision">
+
+Work out how information is actually perceived in a transport environment, and
+whether design choices like LED against printed, or a change of orientation,
+make a sign measurably clearer rather than just different.
+
+</Stop>
+
+<Stop label="Stop 03" title="Problem framing">
+
+A literature review turned up four recurring failures. Human vision leans on
+quick fixations and pre-attentive cues, and none of these support that.
+
+<ul class="tags">
+  <li>Unclear information hierarchy</li>
+  <li>Inconsistent contrast and lighting</li>
+  <li>Fonts that lose clarity when digitised</li>
+  <li>LED scrolling that outruns reading</li>
+</ul>
+
+</Stop>
+
+<Stop label="Stop 04" title="Measuring luminance and illuminance">
+
+Turning readability into something measurable. I compared a printed sign against
+an LED sign under controlled conditions at UCL's PEARL facility, recording how
+much light each sign emits from its white letters and black ground, and how much
+light falls onto it.
+
+The test word was chosen before the test day rather than during it: a single word
+of at least seven characters with both straight and curved letters, so edges and
+curves were measured under the same conditions.
+
+<ul class="tags">
+  <li>Test word: Shoreditch 388</li>
+  <li>8 fixed illuminance points, mirrored on both signs</li>
+  <li>5 distances, 0.5 to 2.5 m</li>
+  <li>Lighting passport to control for ambient light</li>
+  <li>Black cloth under the LED screen to kill reflections</li>
+</ul>
+
+</Stop>
+
+<Stop label="Stop 05" title="Evaluating fonts with MATLAB">
+
+Translating legibility into geometry and pixel data. A script measured area,
+eccentricity and circularity for every character, then pulled a pixel-intensity
+profile along a horizontal line through the text, which shows how sharply
+brightness moves from ground to letter edge.
+
+The point was never a perfect threshold. It was whether Johnston 100 behaves like
+a clinical-clarity font or a decorative one when you look only at geometry, which
+is why it is benchmarked against the face used in visual-acuity testing.
+
+<ul class="tags">
+  <li>Johnston 100 Medium</li>
+  <li>Arial</li>
+  <li>Times New Roman</li>
+  <li>Motorway</li>
+  <li>Apple Chancery</li>
+  <li>Benchmarked against Optician Sans</li>
+</ul>
+
+Johnston 100 held the most stable geometry under pixelation. Serif and decorative
+faces degraded quickly with distance on LED, and the intensity profiles confirmed
+soft edges beyond about two metres.
+
+</Stop>
+
+<Stop label="Stop 06" title="Passenger opinion">
+
+A Qualtrics survey on what people want shown, and how much they can actually read
+off a scrolling sign.
+
+The part worth keeping is the marking scheme. Someone who recalls "Shoredich"
+will still board the right bus, so scoring recall as right or wrong would have
+thrown away the truth. I built fictitious station names, showed them at three
+scroll intervals, and graded what people typed back.
+
+<ul class="tags">
+  <li>Threshold: 5 of 9 letters correct</li>
+  <li>6 of 9 in the right position</li>
+  <li>Intervals 1.5 s, 3 s, 4.5 s</li>
+  <li>Graded incorrect, correct enough, perfect</li>
+</ul>
+
+English also costs more horizontal space than Korean does, which is a large part
+of why a Korean sign can carry more without losing legibility. That constraint
+shaped the design variations rather than sitting in the background.
+
+</Stop>
+
+<Stop label="Stop 07" title="What passengers said">
+
+<ul class="figures">
+  <li><b>81%</b><span>wanted main stations shown on bus signs</span></li>
+  <li><b>84.2%</b><span>wanted occupancy for the next bus</span></li>
+  <li><b>82.2%</b><span>ranked Design 1 the clearest occupancy symbol</span></li>
+  <li><b>3 s</b><span>the scroll interval with the most reliable recall</span></li>
+</ul>
+
+Passengers valued simple, high-contrast cues confirming destination and occupancy
+at a glance, above decorative clarity.
+
+</Stop>
+
+<Stop label="Terminus" title="Design implications">
+
+Four rules came out of it, each traceable to a specific experiment rather than to
+taste.
+
+<ul class="tags">
+  <li>Prioritise luminance contrast, not colour accents</li>
+  <li>Use fonts that hold their shape under pixelation</li>
+  <li>Keep motion predictable and scrolling short</li>
+  <li>Keep decision-critical information static</li>
+</ul>
+
+What I would test next: varied lighting and viewing angles, LCD as well as LED,
+sharper visual-acuity metrics, and how much information a sign can carry before
+clarity starts to fall away.
+
+</Stop>
+
+</Route>
+
+</Section>
+
+<Section id="slides" label="Reference">
+
+<div class="prose">
+
+The original deck pages, kept as a record of how the project was submitted.
+
+</div>
+
 <Slides from={2} to={7} />
+
+</Section>

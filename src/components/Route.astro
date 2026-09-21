@@ -1,0 +1,201 @@
+---
+/* A bus route as the spine of a project page.
+
+   This exists for case study 01 only, and it is not a generic device: the road
+   comes from the diagram on deck page 2, and the stops are the stages of the
+   work in the order they happened. Numbering is earned the same way it is in
+   Method — this is a genuine sequence — so the same rule applies, do not reuse
+   it as decoration.
+
+   The road is GENERATED from the measured position of each stop rather than
+   drawn to fixed coordinates, so it stays aligned to the text at any width and
+   after any reflow. Everything is readable before the script runs: the script
+   adds the road, the bus and the current-stop highlight, and removes nothing.
+*/
+const { label = 'The route' } = Astro.props;
+---
+<div class="route" data-route>
+  <p class="eyebrow route__label">{label}</p>
+
+  <div class="route__grid">
+    {/* aria-hidden: the road repeats what the ordered list already says. */}
+    <div class="route__road" data-road aria-hidden="true">
+      <svg data-svg preserveAspectRatio="none" focusable="false">
+        <path data-base fill="none" stroke="var(--ink)" stroke-width="15" stroke-linecap="round" />
+        <path data-dash fill="none" stroke="var(--paper)" stroke-width="1.6"
+              stroke-dasharray="7 9" stroke-linecap="round" />
+        <path data-done fill="none" stroke="var(--accent)" stroke-width="15" stroke-linecap="round" />
+        <g data-dots></g>
+        <g data-bus>
+          <rect x="-11" y="-7.5" width="22" height="15" rx="3"
+                fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6" />
+          <rect x="-7.5" y="-4.5" width="6.5" height="5" fill="var(--ink)" />
+          <rect x="1" y="-4.5" width="6.5" height="5" fill="var(--ink)" />
+          <circle cx="-5.5" cy="7.5" r="2.4" fill="var(--ink)" />
+          <circle cx="5.5" cy="7.5" r="2.4" fill="var(--ink)" />
+        </g>
+      </svg>
+    </div>
+
+    <ol class="route__stops" data-stops><slot /></ol>
+  </div>
+</div>
+
+<style>
+  .route { margin-top: var(--space-8); }
+  .route__label {
+    padding-bottom: var(--space-4);
+    border-bottom: var(--border-hair) solid var(--rule);
+  }
+  .route__grid {
+    margin-top: var(--space-6);
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+  }
+  .route__road { position: relative; }
+  .route__road svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    overflow: visible;
+  }
+  .route__stops {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  /* Until the script measures the page there is no road, so the gutter would
+     be dead space. Collapse it and let the stops use the full measure; the
+     script restores the grid once it has drawn something. */
+  .route:not([data-ready]) .route__grid { grid-template-columns: 0 minmax(0, 1fr); }
+
+  @media (max-width: 760px) {
+    .route__grid { grid-template-columns: 44px minmax(0, 1fr); }
+  }
+</style>
+
+<script>
+  /* One route per page. Scoped by data attribute rather than id so the
+     component can be dropped in twice without colliding. */
+  document.querySelectorAll('[data-route]').forEach((route) => {
+    const svg   = route.querySelector('[data-svg]');
+    const base  = route.querySelector('[data-base]');
+    const dash  = route.querySelector('[data-dash]');
+    const done  = route.querySelector('[data-done]');
+    const dots  = route.querySelector('[data-dots]');
+    const bus   = route.querySelector('[data-bus]');
+    const road  = route.querySelector('[data-road]');
+    const list  = route.querySelector('[data-stops]');
+    const stops = [...route.querySelectorAll('[data-stop]')];
+    if (!svg || !stops.length) return;
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let len = 0;
+    let marks = [];
+
+    function build() {
+      const W = road.clientWidth;
+      const H = list.offsetHeight;
+      /* Below the mobile breakpoint the gutter is too narrow to be a road, and
+         before layout settles both can be zero. */
+      if (!H || W < 8) return;
+
+      route.setAttribute('data-ready', '');
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.style.height = `${H}px`;
+
+      const top = list.getBoundingClientRect().top;
+      const ys = stops.map((s) => s.getBoundingClientRect().top - top + 26);
+
+      const inset = Math.min(34, W * 0.3);
+      let left = inset;
+      let right = W - inset;
+      if (W < 60) { left = W / 2 - 6; right = W / 2 + 6; }
+
+      const pts = ys.map((y, i) => [i % 2 ? right : left, y]);
+      pts.unshift([left, 0]);
+      pts.push([pts[pts.length - 1][0], H]);
+
+      let d = `M ${pts[0][0]} ${pts[0][1]}`;
+      for (let i = 1; i < pts.length; i++) {
+        const [x0, y0] = pts[i - 1];
+        const [x1, y1] = pts[i];
+        const my = (y0 + y1) / 2;
+        d += ` C ${x0} ${my}, ${x1} ${my}, ${x1} ${y1}`;
+      }
+      base.setAttribute('d', d);
+      dash.setAttribute('d', d);
+      done.setAttribute('d', d);
+
+      len = base.getTotalLength();
+      done.style.strokeDasharray = String(len);
+
+      /* Bisect for the arc length at each stop's y, so the dots sit ON the
+         road rather than beside it. The path is monotonic in y by
+         construction, which is what makes this safe. */
+      marks = ys.map((y) => {
+        let lo = 0;
+        let hi = len;
+        for (let k = 0; k < 24; k++) {
+          const mid = (lo + hi) / 2;
+          if (base.getPointAtLength(mid).y < y) lo = mid; else hi = mid;
+        }
+        return (lo + hi) / 2;
+      });
+
+      dots.textContent = '';
+      for (const m of marks) {
+        const p = base.getPointAtLength(m);
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', String(p.x));
+        c.setAttribute('cy', String(p.y));
+        c.setAttribute('r', '4.5');
+        c.setAttribute('fill', 'var(--paper)');
+        c.setAttribute('stroke', 'var(--ink)');
+        c.setAttribute('stroke-width', '2');
+        dots.appendChild(c);
+      }
+
+      place(reduce ? 0 : progress());
+    }
+
+    function progress() {
+      const r = route.getBoundingClientRect();
+      const focus = innerHeight * 0.45;
+      return Math.max(0, Math.min(1, (focus - r.top) / Math.max(1, r.height)));
+    }
+
+    function place(p) {
+      if (!len) return;
+      const at = p * len;
+      const pt = base.getPointAtLength(at);
+      const nx = base.getPointAtLength(Math.min(len, at + 1.5));
+      const ang = (Math.atan2(nx.y - pt.y, nx.x - pt.x) * 180) / Math.PI;
+      bus.setAttribute('transform', `translate(${pt.x} ${pt.y}) rotate(${ang - 90})`);
+      done.style.strokeDashoffset = String(len - at);
+
+      let best = 0;
+      let bd = Infinity;
+      marks.forEach((m, i) => {
+        const dd = Math.abs(m - at);
+        if (dd < bd) { bd = dd; best = i; }
+      });
+      stops.forEach((s, i) => s.classList.toggle('is-here', i === best && p > 0.001));
+    }
+
+    let ticking = false;
+    if (!reduce) {
+      addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { place(progress()); ticking = false; });
+      }, { passive: true });
+    }
+    addEventListener('resize', build, { passive: true });
+    if (document.fonts?.ready) document.fonts.ready.then(build);
+    build();
+  });
+</script>

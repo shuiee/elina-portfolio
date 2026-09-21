@@ -1,0 +1,95 @@
+---
+/* One stop on the Route. `label` is the stop marker ("Stop 01", "Terminus"),
+   `title` the stage of work. Deliberately not a .reveal: the bus already
+   supplies the motion on this page, and a stop that starts at opacity 0 would
+   be unreadable in the still frame a reader lands on. */
+const { label, title } = Astro.props;
+---
+<li class="stop" data-stop>
+  <div class="stop__head">
+    <span class="figure-num stop__label">{label}</span>
+    <h3 class="stop__title">{title}</h3>
+  </div>
+  <div class="stop__body"><slot /></div>
+</li>
+
+<style>
+  .stop {
+    background: var(--field);
+    border: var(--border-hair) solid var(--rule);
+    padding: var(--space-5) var(--space-6);
+    transition: border-color var(--motion-base) var(--motion-ease),
+                box-shadow var(--motion-base) var(--motion-ease);
+  }
+  /* The bus is passing this stop. An outline rather than a fill, so the body
+     text keeps the same ground and the same contrast wherever the bus is. */
+  .stop.is-here {
+    border-color: var(--accent-ink);
+    box-shadow: 0 0 0 var(--border-hair) var(--accent-ink);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stop { transition: none; }
+  }
+
+  .stop__head {
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .stop__label {
+    font-size: var(--size-1);
+    color: var(--accent-ink);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    flex: none;
+  }
+  .stop__title { font-size: var(--size-4); margin: 0; }
+  .stop__body { margin-top: var(--space-4); }
+  .stop__body > * + * { margin-top: var(--space-4); }
+  .stop__body p { max-width: var(--measure); }
+
+  /* A run of short factual tags: instruments, fonts tested, thresholds. Reads
+     as data rather than as prose, which is what it is. */
+  .stop__body :global(.tags) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    list-style: none;
+    padding: 0;
+    font-size: var(--size-1);
+    color: var(--ink-quiet);
+  }
+  .stop__body :global(.tags li) {
+    border: var(--border-hair) solid var(--rule);
+    padding: 0.15em 0.6em;
+    background: var(--paper);
+  }
+
+  /* The survey percentages. These are the most quotable thing in the project
+     and are currently only legible if you zoom into a slide. */
+  .stop__body :global(.figures) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-7);
+    list-style: none;
+    padding: 0;
+  }
+  .stop__body :global(.figures > li) { max-width: 16ch; }
+  .stop__body :global(.figures b) {
+    display: block;
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: var(--size-7);
+    line-height: 1;
+    font-weight: 400;
+    color: var(--accent-ink);
+  }
+  .stop__body :global(.figures span) {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: var(--size-1);
+    color: var(--ink-quiet);
+    line-height: var(--leading-body);
+  }
+</style>
