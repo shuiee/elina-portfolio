@@ -12,10 +12,12 @@
    after any reflow. Everything is readable before the script runs: the script
    adds the road, the bus and the current-stop highlight, and removes nothing.
 */
-const { label = 'The route' } = Astro.props;
+/* label is optional: when the Route is the only thing in a Section, the
+   Section's own label already names it and a second eyebrow just repeats it. */
+const { label } = Astro.props;
 ---
 <div class="route" data-route>
-  <p class="eyebrow route__label">{label}</p>
+  {label && <p class="eyebrow route__label">{label}</p>}
 
   <div class="route__grid">
     {/* aria-hidden: the road repeats what the ordered list already says. */}
@@ -49,6 +51,8 @@ const { label = 'The route' } = Astro.props;
   }
   .route__grid {
     margin-top: var(--space-6);
+    /* No label above means no rule to sit under, so the grid provides its own
+       breathing room instead of inheriting the label's. */
     display: grid;
     grid-template-columns: 132px minmax(0, 1fr);
   }
