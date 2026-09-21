@@ -28,33 +28,24 @@ tools:
   - UCL PEARL facility
 question: How much does a person take in at once, and what should a design do when it asks more than that?
 sections:
-  - { id: question, label: The question }
   - { id: route, label: The route }
+  - { id: framing, label: Problem framing }
+  - { id: light, label: Light }
+  - { id: fonts, label: Fonts }
+  - { id: survey, label: Passengers }
+  - { id: findings, label: Findings }
   - { id: slides, label: Reference }
 ---
 
-<Section id="question" label="The question">
+<Section id="route" label="The route">
 
 <p class="lede">{frontmatter.question}</p>
 
-Over six million people in London rely on buses every day, and I kept seeing
-passengers hesitate or board the wrong one because the signs were hard to read.
-Coming from Korea, where bus signage is denser and easier to scan, the contrast
-was hard to ignore.
-
-A sign has a fixed amount of room and a reader who is moving, often in bad light,
-often at a distance. Every question below is a version of the same one: how much
-can you ask of that reader before they stop being able to answer.
-
-</Section>
-
-<Section id="route" label="How it ran">
-
 <div class="prose">
 
-The project ran as a route, so the page runs as one too. Each stop is a stage of
-the work in the order it happened, and each one had to produce something
-measurable before the next could start.
+The road below is the one from the deck. The first three stops are where the
+project started, and the five after them are the stages it ran through. Each of
+those five opens further down the page.
 
 </div>
 
@@ -62,66 +53,132 @@ measurable before the next could start.
 
 <Stop label="Stop 01" title="Background">
 
-Buses are the part of the network people use without planning, which is exactly
-why the signage has to work at a glance. London's does not, reliably. Korean bus
-signage carries more information in the same space and is easier to scan, and
-that difference is what made me want to measure rather than assume.
+In London, over six million people rely on buses every day, yet I often saw
+passengers hesitating or boarding the wrong one because the signs were hard to
+read. Coming from Korea, where bus signage is more information-rich and easier
+to scan, this contrast stood out even more. It made me question why a city as
+connected as London still struggles with such a fundamental part of wayfinding,
+and how clearer visual systems could genuinely improve the passenger experience.
 
 </Stop>
 
 <Stop label="Stop 02" title="Vision">
 
-Work out how information is actually perceived in a transport environment, and
-whether design choices like LED against printed, or a change of orientation,
-make a sign measurably clearer rather than just different.
+My objective was to explore how information is perceived in the transport
+environment, and how better design choices, for example LED against printed signs
+or using different orientations, can make bus signs clearer, friendlier, more
+informative, and ultimately improve traveller experience.
 
 </Stop>
 
-<Stop label="Stop 03" title="Problem framing">
+<Stop label="Stop 03" title="Problem framing" href="#framing">
 
-A literature review turned up four recurring failures. Human vision leans on
-quick fixations and pre-attentive cues, and none of these support that.
+A literature review into why passengers struggle with bus signs. Human vision
+depends heavily on quick fixations and pre-attentive cues, and current signage
+does not support that.
+
+</Stop>
+
+<Stop label="Stop 04" title="Measuring luminance and illuminance" href="#light">
+
+Turning readability into something measurable, under controlled conditions at
+UCL's PEARL facility.
+
+</Stop>
+
+<Stop label="Stop 05" title="Evaluating fonts with MATLAB" href="#fonts">
+
+Translating legibility into geometry and pixel data, to see whether Johnston 100
+behaves like a clinical-clarity font or a decorative one.
+
+</Stop>
+
+<Stop label="Stop 06" title="Passenger opinion" href="#survey">
+
+A survey on what people want shown, and how much they can actually read off a
+scrolling sign.
+
+</Stop>
+
+<Stop label="Terminus" title="Findings and future work" href="#findings">
+
+What the four experiments agreed on, and the four design rules that came out of
+them.
+
+</Stop>
+
+</Route>
+
+</Section>
+
+<Section id="framing" label="Problem framing">
+
+<div class="prose">
+
+I conducted a literature review to understand why passengers struggle with bus
+signs. Four failures came up repeatedly.
+
+</div>
 
 <ul class="tags">
   <li>Unclear information hierarchy</li>
   <li>Inconsistent contrast and lighting</li>
-  <li>Fonts that lose clarity when digitised</li>
-  <li>LED scrolling that outruns reading</li>
+  <li>Fonts that change clarity when digitised</li>
+  <li>LED scrolling systems that can be difficult to read</li>
 </ul>
 
-</Stop>
+<div class="prose">
 
-<Stop label="Stop 04" title="Measuring luminance and illuminance">
+Human vision depends heavily on quick fixations and pre-attentive cues, which
+current signage does not support. That is the gap the rest of the project sets
+out to measure rather than assert.
 
-Turning readability into something measurable. I compared a printed sign against
-an LED sign under controlled conditions at UCL's PEARL facility, recording how
-much light each sign emits from its white letters and black ground, and how much
-light falls onto it.
+</div>
 
-The test word was chosen before the test day rather than during it: a single word
-of at least seven characters with both straight and curved letters, so edges and
-curves were measured under the same conditions.
+</Section>
+
+<Section id="light" label="Measuring luminance and illuminance">
+
+<div class="prose">
+
+Turning readability into something measurable. I compared a real printed sign
+against an LED sign under controlled conditions at UCL's PEARL facility, measuring
+how much light each sign emits from its white letters and black background, and
+how much light falls onto each sign.
+
+The test word was settled before the test day rather than during it: a single
+word of at least seven characters containing both straight and curved letters, so
+edges and curves could be tested under the same conditions. That word was
+Shoreditch 388.
+
+</div>
 
 <ul class="tags">
-  <li>Test word: Shoreditch 388</li>
-  <li>8 fixed illuminance points, mirrored on both signs</li>
-  <li>5 distances, 0.5 to 2.5 m</li>
-  <li>Lighting passport to control for ambient light</li>
-  <li>Black cloth under the LED screen to kill reflections</li>
+  <li>Lighting passport to control ambient light and colour temperature</li>
+  <li>8 fixed illuminance points, mirrored on the LED sign</li>
+  <li>Luminance sampled on fixed black and white points</li>
+  <li>Five distances, 0.5 to 2.5 m, repeated to smooth out hand-held noise</li>
+  <li>Black cloth under the LED screen to reduce reflections</li>
 </ul>
 
-</Stop>
+</Section>
 
-<Stop label="Stop 05" title="Evaluating fonts with MATLAB">
+<Section id="fonts" label="Evaluating fonts with MATLAB">
 
-Translating legibility into geometry and pixel data. A script measured area,
-eccentricity and circularity for every character, then pulled a pixel-intensity
-profile along a horizontal line through the text, which shows how sharply
-brightness moves from ground to letter edge.
+<div class="prose">
 
-The point was never a perfect threshold. It was whether Johnston 100 behaves like
-a clinical-clarity font or a decorative one when you look only at geometry, which
-is why it is benchmarked against the face used in visual-acuity testing.
+Translating legibility into geometry and pixel data. Using MATLAB's regionprops,
+I calculated area, eccentricity and circularity for every character in Shoreditch
+388, then drew a horizontal line through the text to extract a pixel-intensity
+profile, which shows how brightness moves from a dark background to a bright
+letter edge and back.
+
+The aim was to remove subjectivity. Instead of saying one sign looks clearer, I
+wanted a repeatable workflow a transport operator could run on a new font or a new
+sign. Johnston 100 is benchmarked against Optician Sans, the face used in clinical
+visual-acuity testing, so the comparison has a reference point outside transport.
+
+</div>
 
 <ul class="tags">
   <li>Johnston 100 Medium</li>
@@ -132,68 +189,89 @@ is why it is benchmarked against the face used in visual-acuity testing.
   <li>Benchmarked against Optician Sans</li>
 </ul>
 
-Johnston 100 held the most stable geometry under pixelation. Serif and decorative
-faces degraded quickly with distance on LED, and the intensity profiles confirmed
-soft edges beyond about two metres.
+<div class="prose">
 
-</Stop>
+Johnston 100 showed the most stable geometry under pixelation. Serif and
+decorative fonts degraded quickly with distance on LED screens, and the
+pixel-intensity profiles confirmed soft edges beyond about two metres.
 
-<Stop label="Stop 06" title="Passenger opinion">
+</div>
 
-A Qualtrics survey on what people want shown, and how much they can actually read
-off a scrolling sign.
+</Section>
 
-The part worth keeping is the marking scheme. Someone who recalls "Shoredich"
-will still board the right bus, so scoring recall as right or wrong would have
-thrown away the truth. I built fictitious station names, showed them at three
-scroll intervals, and graded what people typed back.
+<Section id="survey" label="Passenger opinion">
+
+<div class="prose">
+
+Having quantified light and font behaviour, the last step was to find out how
+people actually prefer information to be shown, and how much they can realistically
+read from a scrolling LED sign. I sketched front and side sign concepts at the
+angles passengers really see a double-decker from, then built a Qualtrics survey
+around four questions: whether current placements are clear, whether people want
+occupancy and via stations, which symbol communicates occupancy best, and what
+scrolling interval allows a station name to be recalled.
+
+A constraint worth naming: letters in English take up more horizontal space than
+Korean characters do, which is a large part of why a Korean bus sign carries more
+information without losing legibility.
+
+</div>
+
+<div class="prose">
+
+The part I would keep is the marking scheme. If a passenger remembers
+"Shoredich" instead of "Shoreditch" they still comprehend the sign and will almost
+certainly board the right bus, so a binary right or wrong judgment would have
+thrown away the truth. I created fictitious station names, assigned them to
+different scrolling intervals, and graded what participants typed back.
+
+</div>
 
 <ul class="tags">
-  <li>Threshold: 5 of 9 letters correct</li>
-  <li>6 of 9 in the right position</li>
   <li>Intervals 1.5 s, 3 s, 4.5 s</li>
+  <li>Threshold: 5 of 9 letters correct</li>
+  <li>6 of 9 letters in the right position</li>
   <li>Graded incorrect, correct enough, perfect</li>
 </ul>
 
-English also costs more horizontal space than Korean does, which is a large part
-of why a Korean sign can carry more without losing legibility. That constraint
-shaped the design variations rather than sitting in the background.
+</Section>
 
-</Stop>
+<Section id="findings" label="Findings and future work">
 
-<Stop label="Stop 07" title="What passengers said">
+<Findings
+  items={[
+    ["81%", "wanted main stations displayed on bus signs"],
+    ["72.6%", "wanted occupancy information for the current bus"],
+    ["84.2%", "wanted occupancy information for the next bus"],
+    ["68.6%", "preferred the bus number on the left of the sign"],
+    ["82.2%", "ranked Design 1 the clearest occupancy symbol"],
+    ["3 s", "the scroll interval with the most reliable recall"],
+  ]}
+/>
 
-<ul class="figures">
-  <li><b>81%</b><span>wanted main stations shown on bus signs</span></li>
-  <li><b>84.2%</b><span>wanted occupancy for the next bus</span></li>
-  <li><b>82.2%</b><span>ranked Design 1 the clearest occupancy symbol</span></li>
-  <li><b>3 s</b><span>the scroll interval with the most reliable recall</span></li>
-</ul>
+<div class="prose">
 
-Passengers valued simple, high-contrast cues confirming destination and occupancy
-at a glance, above decorative clarity.
+Passengers valued simple, high-contrast cues confirming both destination and
+occupancy at a glance, above decorative clarity. Four design rules came out of it,
+each traceable to a specific experiment rather than to taste.
 
-</Stop>
-
-<Stop label="Terminus" title="Design implications">
-
-Four rules came out of it, each traceable to a specific experiment rather than to
-taste.
+</div>
 
 <ul class="tags">
   <li>Prioritise luminance contrast, not colour accents</li>
-  <li>Use fonts that hold their shape under pixelation</li>
-  <li>Keep motion predictable and scrolling short</li>
+  <li>Use fonts that retain clarity under pixelation</li>
+  <li>Keep motion predictable and minimise total scrolling content</li>
   <li>Keep decision-critical information static</li>
 </ul>
 
-What I would test next: varied lighting and viewing angles, LCD as well as LED,
-sharper visual-acuity metrics, and how much information a sign can carry before
-clarity starts to fall away.
+<div class="prose">
 
-</Stop>
+Looking ahead: testing under varied lighting and angles, assessing additional sign
+types such as liquid-crystal displays, refining the visual-acuity metrics, and
+studying how much information a sign can realistically carry before clarity starts
+to fall away.
 
-</Route>
+</div>
 
 </Section>
 

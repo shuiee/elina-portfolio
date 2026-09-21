@@ -248,3 +248,28 @@ a, button, summary, [role="button"], label {
 @media (pointer: coarse) {
   body, a, button, summary, [role="button"], label { cursor: auto; }
 }
+
+
+/* ------------------------------------------------------------------- tags
+   A run of short factual items: instruments, fonts tested, thresholds, rules.
+   Reads as data rather than as prose, which is what it is. Lives here rather
+   than in a component because case study 01 uses it both inside a Stop and
+   directly in a Section. */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  list-style: none;
+  padding: 0;
+  margin: var(--space-6) 0 0;
+  font-size: var(--size-1);
+  color: var(--ink-quiet);
+}
+.tags li {
+  border: var(--border-hair) solid var(--rule);
+  padding: 0.15em 0.6em;
+  background: var(--field);
+}
+/* Inside a Stop the card is already --field, so the chips take the page ground
+   instead, keeping the two surfaces distinguishable. */
+.stop .tags li { background: var(--paper); }

@@ -3,14 +3,21 @@
    `title` the stage of work. Deliberately not a .reveal: the bus already
    supplies the motion on this page, and a stop that starts at opacity 0 would
    be unreadable in the still frame a reader lands on. */
-const { label, title } = Astro.props;
+const { label, title, href } = Astro.props;
 ---
 <li class="stop" data-stop>
   <div class="stop__head">
     <span class="figure-num stop__label">{label}</span>
-    <h3 class="stop__title">{title}</h3>
+    <h3 class="stop__title">
+      {href ? <a href={href}>{title}</a> : title}
+    </h3>
   </div>
   <div class="stop__body"><slot /></div>
+  {href && (
+    <p class="stop__more">
+      <a href={href}>Read in detail <span aria-hidden="true">&darr;</span></a>
+    </p>
+  )}
 </li>
 
 <style>
@@ -45,51 +52,21 @@ const { label, title } = Astro.props;
     flex: none;
   }
   .stop__title { font-size: var(--size-4); margin: 0; }
+  /* A stop that stands for a section further down the page. The whole stop is
+     not a link: the summary inside it is readable content, and wrapping a
+     paragraph in an anchor would make it one enormous click target. */
+  .stop__title a { text-decoration: none; }
+  .stop__title a:hover { text-decoration: underline; }
+  .stop__more {
+    margin-top: var(--space-4);
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+  }
+  .stop__more a { color: var(--accent-ink); }
   .stop__body { margin-top: var(--space-4); }
   .stop__body > * + * { margin-top: var(--space-4); }
   .stop__body p { max-width: var(--measure); }
 
-  /* A run of short factual tags: instruments, fonts tested, thresholds. Reads
-     as data rather than as prose, which is what it is. */
-  .stop__body :global(.tags) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2) var(--space-3);
-    list-style: none;
-    padding: 0;
-    font-size: var(--size-1);
-    color: var(--ink-quiet);
-  }
-  .stop__body :global(.tags li) {
-    border: var(--border-hair) solid var(--rule);
-    padding: 0.15em 0.6em;
-    background: var(--paper);
-  }
 
-  /* The survey percentages. These are the most quotable thing in the project
-     and are currently only legible if you zoom into a slide. */
-  .stop__body :global(.figures) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-5) var(--space-7);
-    list-style: none;
-    padding: 0;
-  }
-  .stop__body :global(.figures > li) { max-width: 16ch; }
-  .stop__body :global(.figures b) {
-    display: block;
-    font-family: var(--font-display);
-    font-style: normal;
-    font-size: var(--size-7);
-    line-height: 1;
-    font-weight: 400;
-    color: var(--accent-ink);
-  }
-  .stop__body :global(.figures span) {
-    display: block;
-    margin-top: var(--space-2);
-    font-size: var(--size-1);
-    color: var(--ink-quiet);
-    line-height: var(--leading-body);
-  }
 </style>
