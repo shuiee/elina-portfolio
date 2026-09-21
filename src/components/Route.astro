@@ -96,14 +96,19 @@ const { label = 'The route' } = Astro.props;
     let len = 0;
     let marks = [];
 
+    /* Set BEFORE anything is measured. The stylesheet collapses the road
+       gutter to zero width until this is present, so measuring first would
+       read a width of zero, bail out, and leave the gutter collapsed for
+       good: the road can never be drawn because the road has no room, and it
+       has no room because the road was never drawn. */
+    route.setAttribute('data-ready', '');
+
     function build() {
       const W = road.clientWidth;
       const H = list.offsetHeight;
       /* Below the mobile breakpoint the gutter is too narrow to be a road, and
          before layout settles both can be zero. */
       if (!H || W < 8) return;
-
-      route.setAttribute('data-ready', '');
       svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
       svg.style.height = `${H}px`;
 
