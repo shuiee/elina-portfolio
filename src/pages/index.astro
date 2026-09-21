@@ -20,14 +20,6 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       I&rsquo;m an engineer that likes finding structure<br />in creativity, and creativity in structure.
     </p>
 
-    {/* The claim above is a disposition. This is the description: what a
-        recruiter scanning for "does this person design interfaces" needs, in
-        one quiet line that does not compete with the claim. */}
-    <p class="landing__what">
-      Product and design engineering. Four years in renewable energy and
-      new-build nuclear, now at Harvard&rsquo;s Master in Design Engineering.
-    </p>
-
     {/* The drawing with the projects orbiting it. Without JavaScript this is a
         plain centred list under the portrait, which is what it degrades to —
         the circular placement and the dragging are both added by script. */}
@@ -105,14 +97,6 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     text-align: center;
     text-wrap: balance;
     margin-inline: auto;
-  }
-  .landing__what {
-    margin: var(--space-4) auto 0;
-    max-width: 44ch;
-    font-size: var(--size-2);
-    color: var(--ink-quiet);
-    line-height: var(--leading-body);
-    text-wrap: pretty;
   }
   @media (min-width: 700px) { .landing__claim { font-size: var(--size-6); } }
 
