@@ -17,11 +17,12 @@
 */
 import { asset } from '../lib/url.js';
 const { items = [], width = 750, viewport = 1580, caption } = Astro.props;
-const pct = (viewport / width) * 100;
+/* Passed straight to the CSS aspect-ratio property. */
+const ar = `${width} / ${viewport}`;
 ---
 <figure class="proto" data-proto data-viewport={viewport} data-width={width}>
   <div class="proto__stage">
-    <div class="proto__phone" style={`--proto-ratio:${pct}%`}>
+    <div class="proto__phone" style={`--proto-ar:${ar}`}>
       <span class="proto__notch" aria-hidden="true"></span>
       <ol class="proto__screens" data-screens>
         {items.map(([src, alt, h], i) => (
@@ -72,8 +73,12 @@ const pct = (viewport / width) * 100;
   .proto__phone {
     position: relative;
     width: min(248px, 62vw);
-    padding-bottom: calc(var(--proto-ratio) * min(248px, 62vw) / 100);
-    height: 0;
+    /* aspect-ratio, not a padding-bottom percentage hack. The hack needs the
+       ratio as a bare percentage of the WIDTH; multiplying a percentage by a
+       length inside calc() is invalid, the declaration is dropped, and the
+       frame collapses to nothing. */
+    aspect-ratio: var(--proto-ar, 750 / 1580);
+    max-width: 100%;
     border: 2px solid var(--ink);
     border-radius: 26px;
     background: var(--paper);
