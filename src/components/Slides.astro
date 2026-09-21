@@ -2,11 +2,17 @@
 /* The pages of the PDF portfolio that belong to one project, as click-through
    slides. Rendered to images rather than served as the PDF, which is 44 MB.
 
-   Usage inside a case study:  <Slides from={2} to={7} />
+   Usage inside a case study:  <Slides from={2} to={7} alts={[...]} />
    The numbers are PAGE NUMBERS IN THE DECK, not slide positions, so they stay
-   meaningful if the deck is re-exported. */
+   meaningful if the deck is re-exported.
+
+   `alts` is one string per page, in order. Describe what is ON the page, not
+   that it is a page, the way the thumbAlt strings in the frontmatter do. The
+   fallback exists so the component cannot crash on a short array, but a deck
+   shipping with the fallback is a bug: on a site whose headline project is
+   about visual accessibility, "Portfolio page 4" is the worst possible alt. */
 import { asset } from '../lib/url.js';
-const { from, to, note } = Astro.props;
+const { from, to, note, alts = [] } = Astro.props;
 const pages = Array.from({ length: to - from + 1 }, (_, i) => from + i);
 ---
 <div class="deck" data-deck>
@@ -15,7 +21,7 @@ const pages = Array.from({ length: to - from + 1 }, (_, i) => from + i);
       <li class="deck__slide" data-index={i}>
         <img
           src={asset(`/portfolio/page-${String(n).padStart(2, '0')}.jpg`)}
-          alt={`Portfolio page ${n}`}
+          alt={alts[i] ?? `Portfolio page ${n}`}
           width="1800"
           height="1012"
           loading={i < 2 ? 'eager' : 'lazy'}

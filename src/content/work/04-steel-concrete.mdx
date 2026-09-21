@@ -29,4 +29,12 @@ sections:
   - { id: slides, label: Slides }
 ---
 
-<Slides from={13} to={15} />
+<Slides
+  from={13}
+  to={15}
+  alts={[
+    "The Steel Concrete title page. Background on why steel-concrete systems matter in nuclear projects, the three things the study did, and the central question of whether a modular SteelBrick slab can match a conventional reinforced concrete one under nuclear design codes.",
+    "Two verification flowcharts. The static one runs from assumed building dimensions through a SAP2000 baseline and Eurocode 2 hand checks, with a No branch looping back when deflection fails, then composite stiffness to AISC N690-24 and SCI P414. The second assesses aircraft impact, calculating penetration and scabbing depth against DOE-STD-3014.",
+    "Reference building plans, sections and elevations, a diagram of what distinguishes SteelBrick from a regular reinforced concrete slab, and magenta SAP2000 mesh views of the two-storey ten by ten metre model.",
+  ]}
+/>
