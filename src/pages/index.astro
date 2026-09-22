@@ -343,18 +343,26 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
         startY = event.clientY;
         originX = parseFloat(el.style.left) || 0;
         originY = parseFloat(el.style.top) || 0;
-        /* Capture keeps the drag alive if the pointer outruns the element.
-           It can throw if the pointer is already gone, which must not take the
-           drag down with it. */
-        try { el.setPointerCapture(event.pointerId); } catch (e) { /* no active pointer */ }
         el.classList.add('is-dragging');
+        /* Deliberately NOT capturing the pointer here. While a capture is
+           active the browser dispatches the derived click to the capture
+           target, so capturing on the wrapping <li> meant the <a> inside it
+           never received a click and the link never opened. Capture is only
+           needed once a drag is genuinely under way, so it is taken in
+           pointermove, at the moment the threshold is crossed. */
       });
 
       el.addEventListener('pointermove', (event) => {
         if (!dragging) return;
         const dx = event.clientX - startX;
         const dy = event.clientY - startY;
-        if (!moved && Math.hypot(dx, dy) > THRESHOLD) moved = true;
+        if (!moved && Math.hypot(dx, dy) > THRESHOLD) {
+          moved = true;
+          /* Now it is a drag. Capture keeps it alive if the pointer outruns
+             the element, and can throw if the pointer is already gone, which
+             must not take the drag down with it. */
+          try { el.setPointerCapture(event.pointerId); } catch (e) { /* no active pointer */ }
+        }
         if (!moved) return;
         event.preventDefault();
         const w = stage.clientWidth;
