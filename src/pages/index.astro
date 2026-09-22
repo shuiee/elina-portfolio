@@ -140,6 +140,15 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     text-transform: uppercase;
     line-height: 1.5;
   }
+  /* The anchor is 21px tall inside a 27.9px list item, which left a 5.5px
+     dead band above every label: a click that landed there hit the <li> and
+     did nothing, so the links read as broken. Padding grows the hit box to
+     35px, past the 24px minimum target size, and the matching negative margin
+     means the layout and the orbit placement are unchanged. */
+  .orbit a {
+    padding: 7px 6px;
+    margin: -7px -6px;
+  }
   .orbit a:hover { color: var(--ink); }
   .orbit a:hover .orbit__title { text-decoration: underline; }
   .orbit__num { flex: none; letter-spacing: 0; }
