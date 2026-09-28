@@ -14,6 +14,11 @@ const d = entry.data;
       <header class="cs__head">
         <p class="figure-num cs__number">{d.number}</p>
         <h1 class="cs__title">{d.title}</h1>
+        {/* The claim the project makes about the person who made it. Sits
+            between the title and the facts because that is the order a reader
+            wants them in: what is this, what does it show, when and with
+            whom. */}
+        {d.takeaway && <p class="cs__takeaway">{d.takeaway}</p>}
         <p class="meta cs__meta">
           {d.dates} &middot; {d.projectType} &middot; {d.role}
         </p>
@@ -60,6 +65,19 @@ const d = entry.data;
     max-width: 18ch;
   }
   @media (min-width: 800px) { .cs__title { font-size: var(--size-9); } }
+  /* --ink, not --accent-ink: this is body-weight prose at reading size, so it
+     takes the 16.1:1 ground colour rather than an accent. The accent does the
+     work on the rule above it instead. */
+  .cs__takeaway {
+    font-size: var(--size-4);
+    line-height: var(--leading-body);
+    max-width: 36ch;
+    margin: 0 0 var(--space-5);
+    padding-top: var(--space-4);
+    border-top: var(--border-mark) solid var(--accent);
+    text-wrap: pretty;
+  }
+  @media (min-width: 800px) { .cs__takeaway { font-size: var(--size-5); } }
   .cs__meta { padding-bottom: var(--space-5); border-bottom: var(--border-mark) solid var(--ink); }
 
   .cs__next { margin-top: var(--space-10); }

@@ -7,6 +7,9 @@ accent: saveeat
 dates: April 2026 – ongoing
 projectType: Personal, group
 role: Product direction, UX designer
+takeaway: >-
+  Finding the assumption a borrowed product model breaks on, and designing the
+  replacement.
 about: An app for surplus food on the TooGoodToGo model, built for a market where diners choose on what is in the food as much as on what it costs.
 concepts:
   - Surplus-food marketplaces
@@ -26,11 +29,12 @@ tools:
 question: Does a surplus-food marketplace still work when the people buying are choosing on health rather than on price?
 sections:
   - { id: question, label: The question }
-  - { id: method, label: How it ran }
-  - { id: onboarding, label: Onboarding }
-  - { id: app, label: The main flow }
-  - { id: ab, label: A/B comparison }
+  - { id: flow, label: The product }
+  - { id: diet, label: Asking what you eat first }
+  - { id: split, label: The map or the list }
+  - { id: team, label: How the team worked }
   - { id: stands, label: Where it stands }
+  - { id: reflection, label: What I took from it }
 ---
 
 {/* Source: the team's Figma file "Screen (1st Ver)" and the Notion project page.
@@ -67,7 +71,99 @@ while removing that risk.
 
 </Section>
 
-<Section id="method" label="How the project ran">
+<Section id="flow" label="The product">
+
+<div class="prose">
+
+The buyer side runs from a home feed and a map of nearby bags, into a store, into a
+pickup pass. Filters and dietary tags carry the onboarding answers forward, so the
+preference collected at the start does work on every subsequent screen rather than
+sitting in a profile.
+
+</div>
+
+<Screens
+  cap={2}
+  items={[
+    ["/images/saveeat/home.jpg", "Home. Bags near you, sorted and filtered, with the dietary tags from onboarding applied.", "750/2614"],
+    ["/images/saveeat/store-detail.jpg", "Store detail. Stock, what is in the bag, dietary tags, and reviews, which is the information a health-led buyer needs before committing.", "750/2302"],
+  ]}
+/>
+
+</Section>
+
+<Section id="diet" label="Asking what you eat first">
+
+<div class="prose">
+
+The flow asks two things before it shows any food: what kind of user you are, and what
+you eat. The second one is the decision the whole product rests on.
+
+Putting a question in front of the value is the expensive place to put it. Every screen
+before the first bag is a screen somebody can leave on, and most marketplaces earn the
+right to ask by showing you something first. This one cannot. If the first thing a
+health-led buyer sees is a wall of unlabelled mystery bags, the model has already failed
+for them, and no amount of filtering afterwards undoes that first impression. Asking
+early is what turns an unbounded surprise into a bounded one.
+
+</div>
+
+<Screens
+  items={[
+    ["/images/saveeat/onboarding-1-brand.jpg", "Entry. Kakao, Apple, Google or email, so the first screen asks for nothing but a way in.", "750/1560"],
+    ["/images/saveeat/onboarding-2-user-type.jpg", "Buyer or merchant, chosen before anything else, because the two sides of the marketplace see different products.", "750/1632"],
+    ["/images/saveeat/onboarding-3-diet.jpg", "Dietary preference. This is the screen that answers the framing question: it is how a mystery bag stops being a risk.", "750/1632"],
+  ]}
+/>
+
+</Section>
+
+<Section id="split" label="The map or the list">
+
+<div class="prose">
+
+The map view, where you see what is available near you, was drawn twice and the two
+versions put side by side. The question underneath them is how the screen should split
+between the map and the list of bags, and that decision is not obvious: the map is what
+tells you a pickup is walkable, and the list is what tells you whether the food is worth
+walking for.
+
+</div>
+
+<Compare
+  criteriaLabel="What the screen has to answer"
+  note="Held constant: the same chips, the same cards, the same bottom navigation. The variable is the split."
+  options={[
+    { label: 'A', title: 'Fixed split', points: [
+      'The map stops partway down and the list sits below it.',
+      'Three bags read in full without any interaction.',
+      'Less of the surrounding area is visible at once.',
+    ]},
+    { label: 'B', title: 'Draggable sheet over a taller map', points: [
+      'More of the area is visible, and an extra pin appears with it.',
+      'The list is cut to two and a half cards until you drag.',
+      'The gesture is one people in this market use every day.',
+    ]},
+  ]}
+  criteria={[
+    'Is this pickup close enough to walk to?',
+    'Is the food worth walking for?',
+    'How much attention does the screen itself take?',
+  ]}
+  verdict="We went with B, and the argument that settled it was not really about the screen. It is the layout KakaoMap uses, and KakaoMap is how most people in this market already look for something near them. Choosing it means the sheet is a gesture they have used before, so none of their attention goes on working out how the map behaves. A surplus-food app is already asking people to accept some uncertainty about the food. The interface is not the place to add more."
+/>
+
+<Screens
+  cap={2}
+  items={[
+    ["/images/saveeat/ab-variant-a.jpg", "A. A fixed split. The map stops partway down and the list sits below it, so three bags read in full without any interaction.", "650/1806"],
+    ["/images/saveeat/ab-variant-b.jpg", "B, the one we went with. A draggable sheet over a taller map. More of the area is visible, and an extra pin appears with it, but the list is cut to two and a half cards.", "650/1804"],
+  ]}
+/>
+
+</Section>
+
+<Section id="team" label="How the team worked">
 
 <div class="prose">
 
@@ -99,91 +195,44 @@ the basis for completing the whole flow.
 
 </Section>
 
-<Section id="onboarding" label="Onboarding">
-
-<div class="prose">
-
-Onboarding is where a surplus-food app sets expectations about uncertainty, so it is
-where we started. The flow asks two things before it shows any food: what kind of user
-you are, and what you eat.
-
-</div>
-
-<Screens
-  items={[
-    ["/images/saveeat/onboarding-1-brand.jpg", "Entry. Kakao, Apple, Google or email, so the first screen asks for nothing but a way in.", "750/1560"],
-    ["/images/saveeat/onboarding-2-user-type.jpg", "Buyer or merchant, chosen before anything else, because the two sides of the marketplace see different products.", "750/1632"],
-    ["/images/saveeat/onboarding-3-diet.jpg", "Dietary preference. This is the screen that answers the framing question: it is how a mystery bag stops being a risk.", "750/1632"],
-  ]}
-/>
-
-</Section>
-
-<Section id="app" label="The main flow">
-
-<div class="prose">
-
-The buyer side runs from a home feed and a map of nearby bags, into a store, into a
-pickup pass. Filters and dietary tags carry the onboarding answers forward, so the
-preference collected at the start does work on every subsequent screen rather than
-sitting in a profile.
-
-</div>
-
-<Screens
-  cap={2}
-  items={[
-    ["/images/saveeat/home.jpg", "Home. Bags near you, sorted and filtered, with the dietary tags from onboarding applied.", "750/2614"],
-    ["/images/saveeat/store-detail.jpg", "Store detail. Stock, what is in the bag, dietary tags, and reviews, which is the information a health-led buyer needs before committing.", "750/2302"],
-  ]}
-/>
-
-</Section>
-
-<Section id="ab" label="The A/B comparison">
-
-<div class="prose">
-
-The map view, where you see what is available near you, was drawn twice and the two
-versions put side by side. The question underneath them is how the screen should split
-between the map and the list of bags, and that decision is not obvious: the map is what
-tells you a pickup is walkable, and the list is what tells you whether the food is worth
-walking for.
-
-</div>
-
-<Screens
-  cap={2}
-  items={[
-    ["/images/saveeat/ab-variant-a.jpg", "A. A fixed split. The map stops partway down and the list sits below it, so three bags read in full without any interaction.", "650/1806"],
-    ["/images/saveeat/ab-variant-b.jpg", "B, the one we went with. A draggable sheet over a taller map. More of the area is visible, and an extra pin appears with it, but the list is cut to two and a half cards.", "650/1804"],
-  ]}
-/>
-
-<div class="prose">
-
-Everything else is held constant: the same category chips over the map, the same cards,
-the same four-item bottom navigation. The variable is the split, and what changes with it
-is which of the two questions the screen answers first.
-
-We went with B, and the argument that settled it was not really about the screen. It is
-the layout KakaoMap uses, and KakaoMap is how most people in this market already look for
-something near them. Choosing it means the sheet is a gesture they have used before, so
-none of their attention goes on working out how the map behaves. A surplus-food app is
-already asking people to accept some uncertainty about the food. The interface is not the
-place to add more.
-
-</div>
-
-</Section>
-
 <Section id="stands" label="Where it stands">
 
 <div class="prose">
 
+There are no usage numbers to report, because nothing has been put in front of a user
+yet. What the project is worth is the specificity of the proposal. Surplus-food
+marketplaces are well established where a discount is the draw; whether the model
+survives in a market that chooses a meal on what is in it has not really been answered,
+and this is an answer rather than an argument about one. The mechanism is small and
+testable: move the dietary question in front of the food, carry it through every
+subsequent screen, and a mystery bag becomes a bounded one.
+
 Where the project is: a full buyer flow and a merchant side designed, a working
 prototype, a design system being retrofitted rather than planned. Nothing yet shipped
 to users.
+
+</div>
+
+</Section>
+
+<Section id="reflection" label="What I took from it">
+
+<div class="prose">
+
+I had assumed the thinking happened while drawing. It did not. The cycle that worked was
+research, then feature, then screen, and writing the functional specification first meant
+the screen work was about presenting decisions that had already been argued rather than
+making them with a mouse. The screens got faster and the arguments got shorter.
+
+Choosing B was the decision I am most sure of and the one that felt least like designing.
+The instinct is to invent the interaction. The better answer was to borrow one the market
+already knows, and spend the attention we saved on the part of the product that is
+genuinely unfamiliar, which is being asked what you eat before you are shown any food.
+
+The honest regret is the design system. Colours, spacing and components were settled
+screen by screen and reconciled afterwards, which is slower than it sounds and leaves
+decisions that nobody can explain later. On the next one the system comes after the first
+flow is understood and before the rest of it is drawn, not at the end.
 
 </div>
 

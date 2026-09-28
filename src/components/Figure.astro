@@ -11,7 +11,7 @@ const { src, ratio = '16/9', caption, credit } = Astro.props;
 ---
 <figure class="fig reveal">
   {src ? (
-    <img src={asset(src)} alt={caption} style={`aspect-ratio:${ratio}`} />
+    <img src={asset(src)} alt={caption} style={`aspect-ratio:${ratio}`} loading="lazy" decoding="async" />
   ) : (
     <div class="fig__placeholder" style={`aspect-ratio:${ratio}`} role="img" aria-label={`Image placeholder: ${caption}`}>
       <span class="eyebrow">Image &mdash; {ratio.replace('/', ':')}</span>

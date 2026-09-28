@@ -2,12 +2,24 @@
 /* Percentage results. Figures in Optician Sans — the acuity face from 01.
    items = [[figure, caption], ...] */
 const { items = [], note } = Astro.props;
+/* Optician Sans is an all-caps face, so a lowercase unit in a figure renders
+   as a capital: "3 s" came out as "3 S", which reads as the wrong SI symbol on
+   a page arguing for legibility. A figure is therefore split on its first
+   space and anything after it is set in the UI face at reading weight. Figures
+   with no space ("81%", "5/9") are untouched. */
+const splitFigure = (f) => {
+  const i = String(f).indexOf(' ');
+  return i === -1 ? [String(f), ''] : [String(f).slice(0, i), String(f).slice(i + 1)];
+};
+
 ---
 <div class="findings reveal">
   <ul>
     {items.map(([figure, caption]) => (
       <li>
-        <span class="figure-num findings__fig">{figure}</span>
+        <span class="figure-num findings__fig">
+          {splitFigure(figure)[0]}{splitFigure(figure)[1] && <span class="unit">{splitFigure(figure)[1]}</span>}
+        </span>
         <span class="findings__cap">{caption}</span>
       </li>
     ))}
@@ -35,6 +47,13 @@ const { items = [], note } = Astro.props;
     border-top: var(--border-mark) solid var(--ink);
   }
   .findings__fig { font-size: var(--size-8); line-height: 1; }
+  .unit {
+    font-family: var(--font-text);
+    font-size: 0.42em;
+    letter-spacing: 0;
+    padding-left: 0.18em;
+  }
+
   .findings__cap { font-size: var(--size-2); line-height: var(--leading-body); }
   @media (min-width: 700px) {
     ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }

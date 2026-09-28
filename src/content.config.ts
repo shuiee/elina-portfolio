@@ -19,6 +19,11 @@ const work = defineCollection({
     // thing a reader meets on /work/, so it should describe the thing rather
     // than the method — the method is inside the project page.
     about: z.string(),
+    // One line, under the title: what this project DEMONSTRATES, not what it
+    // was. A reader who stops after the masthead should still leave knowing
+    // what the project says about the person who made it. Optional, because a
+    // project with nothing distinctive to claim is better off saying nothing.
+    takeaway: z.string().optional(),
     // Optional preview shown on /work/. 16:9. Omit and the entry shows a
     // marked placeholder instead.
     thumb: z.string().optional(),

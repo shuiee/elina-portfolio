@@ -13,11 +13,22 @@
      rows      [[label, value], ...] — the instrument, what it grades, its inputs
      figures   [[figure, caption], ...] — thresholds. Set in Optician Sans.
      rejected  the obvious alternative this replaced, e.g. 'Binary right / wrong'
+     id        optional anchor, so the block can be linked to like a Section
      slot      why that alternative was the wrong instrument. 1-3 sentences.
    ========================================================================= */
-const { claim, rows = [], figures = [], rejected } = Astro.props;
+const { claim, rows = [], figures = [], rejected, id } = Astro.props;
+/* Optician Sans is an all-caps face, so a lowercase unit in a figure renders
+   as a capital: "3 s" came out as "3 S", which reads as the wrong SI symbol on
+   a page arguing for legibility. A figure is therefore split on its first
+   space and anything after it is set in the UI face at reading weight. Figures
+   with no space ("81%", "5/9") are untouched. */
+const splitFigure = (f) => {
+  const i = String(f).indexOf(' ');
+  return i === -1 ? [String(f), ''] : [String(f).slice(0, i), String(f).slice(i + 1)];
+};
+
 ---
-<section class="criterion reveal" aria-labelledby="criterion-heading">
+<section class="criterion reveal" id={id} aria-labelledby="criterion-heading">
   <h2 class="eyebrow criterion__eyebrow" id="criterion-heading">What counts as good</h2>
 
   <p class="criterion__claim">{claim}</p>
@@ -37,7 +48,9 @@ const { claim, rows = [], figures = [], rejected } = Astro.props;
     <ul class="criterion__figures">
       {figures.map(([figure, caption]) => (
         <li>
-          <span class="figure-num criterion__figure">{figure}</span>
+          <span class="figure-num criterion__figure">
+            {splitFigure(figure)[0]}{splitFigure(figure)[1] && <span class="unit">{splitFigure(figure)[1]}</span>}
+          </span>
           <span class="criterion__figcap">{caption}</span>
         </li>
       ))}
@@ -46,7 +59,7 @@ const { claim, rows = [], figures = [], rejected } = Astro.props;
 
   {rejected && (
     <div class="criterion__rejected">
-      <p class="eyebrow">Instead of &mdash; {rejected}</p>
+      <p class="eyebrow">Instead of: {rejected}</p>
       <div class="criterion__why"><slot /></div>
     </div>
   )}
@@ -105,6 +118,12 @@ const { claim, rows = [], figures = [], rejected } = Astro.props;
     font-size: var(--size-7);
     line-height: 1;
     color: var(--accent-ink);
+  }
+  .unit {
+    font-family: var(--font-text);
+    font-size: 0.42em;
+    letter-spacing: 0;
+    padding-left: 0.18em;
   }
   .criterion__figcap {
     font-size: var(--size-2);
