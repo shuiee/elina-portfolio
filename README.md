@@ -2,15 +2,6 @@
 
 **Live: https://shuiee.github.io/elina-portfolio/**
 
-A static site built with [Astro](https://astro.build) and plain CSS. No Tailwind, no
-CSS-in-JS, no component library. Four case studies, an about page and a CV.
-
-This README is for someone comfortable with code but new to front-end. It covers the
-four things you will actually want to do: run it, edit copy, swap images, change a
-design value — and then how to get it onto GitHub Pages.
-
----
-
 ## Run it
 
 You need [Node.js](https://nodejs.org) 20 or newer. Check with `node -v`.
@@ -255,18 +246,3 @@ the same instinct as [Patchwork](../02-patchwork/)
 
 Relative links work whatever `BASE` is set to. Do not write `/work/02-patchwork/` —
 that would 404 on GitHub Pages. In `.astro` files, use the `href()` helper instead.
-
----
-
-## Things left to do
-
-Search the project for `TODO(elina)` — each one is a decision or asset only you can
-supply. As of this build:
-
-- Confirm what is publishable from Steel Concrete before the site goes live.
-- Reconcile the Mott MacDonald end date against the MDE start (CV page).
-- Committee chair dates.
-- Confirm the seven platform names and cell values in the Patchwork matrix.
-- LinkedIn / GitHub links (footer and about page).
-- A downloadable CV PDF.
-- Export the images.
