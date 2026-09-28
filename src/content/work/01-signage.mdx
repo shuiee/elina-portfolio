@@ -7,9 +7,6 @@ accent: signage
 dates: March – June 2022
 projectType: Academic, group
 role: Co-author, innovator
-takeaway: >-
-  Making legibility measurable, so a sign can be argued from evidence rather
-  than from taste.
 about: Redesigning London bus signage so people can read what they need at a glance. Light measurements, font analysis and a passenger survey, used to test what actually helps.
 thumb: /images/thumb-01-signage.png
 thumbAlt: >-
@@ -31,62 +28,18 @@ tools:
   - UCL PEARL facility
 question: How much does a person take in at once, and what should a design do when it asks more than that?
 sections:
-  - { id: question, label: The question }
-  - { id: good, label: What counts as good }
   - { id: route, label: The route }
   - { id: framing, label: Problem framing }
   - { id: light, label: Light }
   - { id: fonts, label: Fonts }
   - { id: survey, label: Passengers }
   - { id: findings, label: Findings }
-  - { id: reflection, label: What I took from it }
   - { id: slides, label: Reference }
 ---
 
-<Section id="question" label="The question">
+<Section id="route" label="The route">
 
 <p class="lede">{frontmatter.question}</p>
-
-<div class="prose">
-
-What came out of it is six bus sign concepts and four rules for designing one. None of
-them rests on an opinion about what looks clearer. Each is traceable to a measurement.
-
-</div>
-
-<Figure
-  src="/images/signage/sign-concepts.jpg"
-  ratio="1800/405"
-  caption="Six sign concepts, drawn at the angles a passenger actually sees a double-decker from. What changes between them is the order of route number, destination and via stations, whether occupancy appears at all, and whether it describes this bus or the next one."
-/>
-
-</Section>
-
-<CriterionBlock
-  id="good"
-  claim="A sign is good when one look leaves a passenger with enough to board the right bus."
-  rows={[
-    ['The instruments', 'An illuminance and a luminance meter at UCL PEARL, MATLAB regionprops run over every letterform, and a marking scheme applied to what people typed back after watching a scrolling sign.'],
-    ['What they grade', 'Contrast at the sign, how far a letterform holds its geometry under pixelation, and how much of a station name survives a single pass of a scrolling display.'],
-    ['Held constant', 'One test word, Shoreditch 388, settled before the test day as a single word of at least seven characters carrying both straight and curved letters.'],
-  ]}
-  figures={[
-    ['5/9', 'letters correct, the recall threshold'],
-    ['6/9', 'letters in the right position'],
-    ['3 s', 'the scroll interval with the most reliable recall'],
-  ]}
-  rejected="Binary right or wrong"
->
-
-If a passenger remembers "Shoredich" instead of "Shoreditch" they have understood the
-sign and will almost certainly board the right bus. Marking that as a failure would
-have thrown away the truth, so I created fictitious station names, assigned them to
-different scrolling intervals, and graded what participants typed back as incorrect,
-correct enough, or perfect.
-
-</CriterionBlock>
-
-<Section id="route" label="The route">
 
 <Route>
 
@@ -184,13 +137,11 @@ against an LED sign under controlled conditions at UCL's PEARL facility, measuri
 how much light each sign emits from its white letters and black background, and
 how much light falls onto each sign.
 
-</div>
+The test word was settled before the test day: Shoreditch 388, chosen as a single
+word of at least seven characters containing both straight and curved letters, so
+edges and curves were tested under the same conditions.
 
-<Figure
-  src="/images/signage/pearl-rig.jpg"
-  ratio="1800/471"
-  caption="The two set-ups at PEARL: a real double-decker with its printed blind, and an LED sign on a stand with black cloth beneath it to cut reflections."
-/>
+</div>
 
 <ul class="tags">
   <li>Lighting passport to control ambient light and colour temperature</li>
@@ -200,48 +151,22 @@ how much light falls onto each sign.
   <li>Black cloth under the LED screen to reduce reflections</li>
 </ul>
 
-<div class="prose">
-
-Three things came out of the readings. LED signs consistently showed higher luminance
-contrast than printed ones. Pixelation softened curved letters more than straight-edged
-ones. And readability fell away sharply once ambient light passed roughly 500 lux, which
-is an ordinary bright afternoon rather than an edge case.
-
-So LED is not simply better. It improves legibility where contrast is maximised and
-curvature-heavy fonts are handled carefully, and loses that advantage as soon as the
-ambient light gets bright enough.
-
-</div>
-
 </Section>
 
 <Section id="fonts" label="Evaluating fonts with MATLAB">
 
 <div class="prose">
 
-The question this had to answer was narrow: does the LED version make a sharper, clearer
-sign, or do distance and pixelation soften the edges too much compared with print?
+Translating legibility into geometry and pixel data. Using MATLAB's regionprops,
+I calculated area, eccentricity and circularity for every character in Shoreditch
+388, then drew a horizontal line through the text to extract a pixel-intensity
+profile, which shows how brightness moves from a dark background to a bright
+letter edge and back.
 
-Using MATLAB's regionprops, I calculated area, eccentricity and circularity for every
-character in Shoreditch 388, then drew a horizontal line through the text to extract a
-pixel-intensity profile, which shows how brightness moves from a dark background to a
-bright letter edge and back. A crisp edge reads as a square wave. A soft one reads as a
-slope.
-
-</div>
-
-<Figure
-  src="/images/signage/matlab-profiles.jpg"
-  ratio="1800/1268"
-  caption="The sampling line drawn through Shoreditch 388, and the intensity profiles it produced for printed and LED signs at close and far distances. Square-shouldered pulses are sharp letter edges; the rounded ones are edges that have started to dissolve."
-/>
-
-<div class="prose">
-
-The aim was to remove subjectivity. Instead of saying one sign looks clearer, I wanted a
-repeatable workflow a transport operator could run on a new font or a new sign. Johnston
-100 is benchmarked against Optician Sans, the face used in clinical visual-acuity
-testing, so the comparison has a reference point outside transport.
+The aim was to remove subjectivity. Instead of saying one sign looks clearer, I
+wanted a repeatable workflow a transport operator could run on a new font or a new
+sign. Johnston 100 is benchmarked against Optician Sans, the face used in clinical
+visual-acuity testing, so the comparison has a reference point outside transport.
 
 </div>
 
@@ -270,38 +195,34 @@ pixel-intensity profiles confirmed soft edges beyond about two metres.
 
 Having quantified light and font behaviour, the last step was to find out how
 people actually prefer information to be shown, and how much they can realistically
-read from a scrolling LED sign. I sketched the front and side sign concepts at the
+read from a scrolling LED sign. I sketched front and side sign concepts at the
 angles passengers really see a double-decker from, then built a Qualtrics survey
 around four questions: whether current placements are clear, whether people want
 occupancy and via stations, which symbol communicates occupancy best, and what
 scrolling interval allows a station name to be recalled.
 
-</div>
+Letters in English take up more horizontal space than Korean characters do, which
+is a large part of why a Korean bus sign carries more information without losing
+legibility.
 
-<Figure
-  src="/images/signage/occupancy-symbols.jpg"
-  ratio="1600/826"
-  caption="Three ways of saying how full the bus is: filled human figures, filled bus outlines, and faces. All three use the same green, amber and red, so what is being tested is the symbol rather than the colour."
-/>
+</div>
 
 <div class="prose">
 
-Letters in English take up more horizontal space than Korean characters do, which
-is a large part of why a Korean bus sign carries more information without losing
-legibility. So the limit on how much a London sign can say is typographic rather than
-editorial.
-
-The fourth question needed a stimulus rather than a picture to rank. Participants
-watched a station name scroll past at 1.5, 3 or 4.5 seconds and typed back what they
-recalled. The marking scheme at the top of this page is what graded them.
+If a passenger remembers "Shoredich" instead of "Shoreditch" they still comprehend
+the sign and will almost certainly board the right bus, so a binary right or wrong
+judgment would have thrown away the truth. I created fictitious station names,
+assigned them to different scrolling intervals, and graded what participants typed
+back against a marking scheme.
 
 </div>
 
-<Figure
-  src="/images/signage/led-sign.jpg"
-  ratio="1800/763"
-  caption="The scrolling stimulus: a fictitious route, 459 Bertsklan, with occupancy and a via station underneath it."
-/>
+<ul class="tags">
+  <li>Intervals 1.5 s, 3 s, 4.5 s</li>
+  <li>Threshold: 5 of 9 letters correct</li>
+  <li>6 of 9 letters in the right position</li>
+  <li>Graded incorrect, correct enough, perfect</li>
+</ul>
 
 </Section>
 
@@ -335,49 +256,10 @@ each traceable to a specific experiment rather than to taste.
 
 <div class="prose">
 
-What this established: which of the tested faces hold their geometry under pixelation
-and distance, how much a printed and an LED sign differ in luminance contrast and where
-that advantage stops, what passengers say they want on a sign, and which scroll interval
-produced the most reliable recall under test.
-
-What it did not: whether any of the six concepts reduces boarding errors at a real stop.
-The light readings came from a controlled facility, and the recall results from people
-sitting at a browser rather than standing at a kerb in the rain. The rules are supported
-by the measurements, but the signs themselves have not been put in front of a passenger
-who was actually trying to catch a bus.
-
 Looking ahead: testing under varied lighting and angles, assessing additional sign
 types such as liquid-crystal displays, refining the visual-acuity metrics, and
 studying how much information a sign can realistically carry before clarity starts
 to fall away.
-
-</div>
-
-</Section>
-
-<Section id="reflection" label="What I took from it">
-
-<div class="prose">
-
-The marking scheme is the part I would do again first. It looks like a measurement
-decision and it is really a design decision: choosing to grade "Shoredich" as a success
-is choosing to measure whether somebody catches their bus rather than whether they spell
-the stop correctly.
-Getting the instrument wrong would have produced clean numbers about the wrong thing.
-
-Coming from Korea is what made the London signs visible to me at all, but noticing is
-not a finding. The useful move was converting that impression into something a person
-could argue with: English letterforms take more horizontal space than Korean ones, so
-the difference in how much a sign carries is partly a typographic constraint rather than
-a difference in ambition.
-
-I had spent four years in structural engineering, where a code tells you what adequate
-means before you start. Nothing here did. Deciding that 5 of 9 letters in 6 of 9
-positions counted as good enough was the first time I had to write the threshold myself
-and then defend it, and it is the habit I have carried into every design problem since.
-
-What I would change: I measured perception carefully and never closed the loop. The next
-version of this project starts by putting a redesigned sign at a real stop.
 
 </div>
 
