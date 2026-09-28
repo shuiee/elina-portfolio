@@ -33,5 +33,7 @@ const { n, title, when, wide = false } = Astro.props;
   }
   .step__when { display: block; margin-top: var(--space-2); }
   .step__title { font-size: var(--size-5); margin-bottom: var(--space-4); }
-  .step__prose { font-size: var(--size-3); }
+  /* --size-4, the PRIMARY BODY size, so a step reads at the same size as the
+     prose around it. */
+  .step__prose { font-size: var(--size-4); }
 </style>

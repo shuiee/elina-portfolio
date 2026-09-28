@@ -36,7 +36,7 @@ const { options = [], criteria = [], verdict, note = 'Agreed before either schem
   .compare__grid { display: grid; gap: var(--space-6); }
   @container (min-width: 46rem) {
     .compare__grid {
-      grid-template-columns: minmax(0,1fr) 15rem minmax(0,1fr);
+      grid-template-columns: minmax(0,1fr) 17rem minmax(0,1fr);
       gap: var(--space-7);
       align-items: start;
     }
@@ -46,7 +46,9 @@ const { options = [], criteria = [], verdict, note = 'Agreed before either schem
   }
   .compare__col { border-top: var(--border-hair) solid var(--rule); padding-top: var(--space-4); }
   .compare__title { font-size: var(--size-5); margin: var(--space-2) 0 var(--space-4); }
-  .compare__points { padding-left: var(--space-5); font-size: var(--size-3); }
+  /* --size-4 is the PRIMARY BODY size in tokens.css. These are sentences, so
+     they take it; only captions and meta drop to --size-2. */
+  .compare__points { padding-left: var(--space-5); font-size: var(--size-4); }
   .compare__points li + li { margin-top: var(--space-2); }
 
   .compare__criteria {
@@ -57,7 +59,7 @@ const { options = [], criteria = [], verdict, note = 'Agreed before either schem
   .compare__list {
     margin: var(--space-4) 0 0;
     padding-left: var(--space-5);
-    font-size: var(--size-3);
+    font-size: var(--size-4);
     line-height: var(--leading-body);
   }
   .compare__list li + li { margin-top: var(--space-2); }
@@ -68,7 +70,10 @@ const { options = [], criteria = [], verdict, note = 'Agreed before either schem
     margin-top: var(--space-7);
     padding-top: var(--space-5);
     border-top: var(--border-mark) solid var(--ink);
-    font-size: var(--size-5);
+    /* Body, not --size-5: this is a sentence, and at --size-5 it was the same
+       size as the .compare__title headings above it. The rule and the space
+       mark it out instead. */
+    font-size: var(--size-4);
     max-width: 46rem;
     text-wrap: pretty;
   }
