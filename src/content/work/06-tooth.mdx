@@ -1,0 +1,257 @@
+---
+number: "06"
+order: 6
+title: The Tooth Untold
+shortTitle: The Tooth Untold
+accent: tooth
+dates: September – October 2026
+projectType: Academic, group
+role: Data visualisation, 3D and front-end
+takeaway: >-
+  Building the checking that lets an AI-assisted research piece be trusted.
+about: A data visualisation of what teeth record about diet, disease, stress and environment across two thousand years, and of how modern dentistry overwrites that record.
+concepts:
+  - Evidence quality and provenance
+  - Uncertainty made visible
+  - Deep time on a single scale
+  - The body as an archive
+skills:
+  - Data visualisation
+  - Dataset appraisal and reconciliation
+  - Verification of AI-assisted research
+  - Real-time 3D
+  - Front-end build
+tools:
+  - three.js and GLSL
+  - d3
+  - Python
+  - After Effects
+question: What truths does a tooth tell?
+sections:
+  - { id: question, label: The question }
+  - { id: piece, label: The prototype }
+  - { id: sources, label: Six datasets, four kinds of evidence }
+  - { id: checking, label: Checking every number }
+  - { id: limits, label: What the data cannot say }
+  - { id: chosen, label: The record we choose }
+  - { id: process, label: Process and contribution }
+  - { id: reflections, label: Reflections }
+---
+
+{/* Sources for this page, all first-hand: the team's final deck
+    (`data vis ppt FINAL.pdf`, MDE Fall 2026), the project README, and the
+    commit history of the private build repository. Figures are rendered from
+    the deck. Nothing here is drawn from memory. */}
+
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+Enamel is the only tissue in the human body that cannot grow back once it is lost.
+Whatever happens to it stays happened. That makes a tooth a record of two things at
+once: the person it belonged to, and the world they were living in.
+
+Six European datasets, one composite tooth, playing from the start of the common era
+to 1900.
+
+</Section>
+
+<Section id="piece" label="The prototype">
+
+<Figure
+  src="/images/tooth/radial.jpg"
+  ratio="1700/901"
+  caption="The radial timeline. Each of the five records leaves the centre as its own line, a hollow circle marks the year that record begins, and the line darkens over the years it actually covers, so a gap in the evidence shows as a pale stretch."
+/>
+
+<div class="prose">
+
+A jaw engraving inks itself in and swings open. A first molar and a canine turn to face
+the reader, a plane cuts them open, and then every kind of record arrives on them in
+time order: decay, wear, childhood stress lines, lead in the enamel, and disease DNA
+rising from the root into the pulp.
+
+One decision carries that figure. Distance from the centre is how long ago a year is, on
+a square-root scale shared by every line, so seventeen centuries of pathogen data and six
+thousand years of metals fit in one picture without either one vanishing.
+
+Everything after the opening is set like a scientific journal: running heads, numbered
+plates and figures, notes rather than captions. The format is the argument. It asks to be
+read as evidence, so it is laid out as evidence.
+
+[Open the live prototype](https://shuiee.github.io/tooth-untold-prototype/)
+
+</div>
+
+</Section>
+
+<Section id="sources" label="Six datasets, four kinds of evidence">
+
+<Findings
+  items={[
+    ["6", "datasets behind one composite tooth"],
+    ["15,119", "skeletons behind the caries, wear and stress-line layers"],
+    ["90", "sequencing studies pooled for the pathogen layer"],
+    ["1,228", "individuals behind the metals layer"],
+    ["1,585", "living adults examined for the intervention layer"],
+    ["17", "countries in the osteology module"],
+  ]}
+/>
+
+<div class="prose">
+
+Grouping the sources by subject turned out to be the wrong cut. Grouping them by how the
+evidence was made is what decided how much weight each layer could carry.
+
+</div>
+
+<ul class="tags">
+  <li>Primary standardised osteology</li>
+  <li>Aggregated primary molecular data</li>
+  <li>Literature transcription</li>
+  <li>Survey and administrative records</li>
+</ul>
+
+<div class="prose">
+
+Only the first was measured directly and consistently: one codebook, trained observers,
+excavated skeletons. The pathogen layer is ninety sampling decisions pooled through a
+public archive, not one. The metals layer is values read out of published papers, with no
+new excavation and no new assay. The intervention layer is living volunteers examined and
+claim forms counted, which is a different thing again: bone, then body, then bureaucracy.
+
+</div>
+
+</Section>
+
+<Section id="checking" label="Checking every number">
+
+<div class="prose">
+
+We used AI to pull figures out of papers. The useful question was never whether to use
+it, but what would have to be true before anything it produced could go on screen. Four
+rules, applied every time.
+
+- We never made up a number. If it was not in a paper, it is not on screen.
+- We checked the paper, not the spreadsheet. The AI's version was never the final word.
+- We referenced where the numbers came from. Every chart names its paper or dataset.
+- We did not let the AI mark its own work. When it said this is right, we checked that too.
+
+The rules were worth having because each layer had its own way of going quietly wrong.
+
+</div>
+
+<Checks
+  response="So"
+  items={[
+    ["Caries rates read as percentages of a tooth count that itself keeps shifting.", "Counted decayed teeth instead."],
+    ["Rounding hid the change: 3.08 and 3.41 both came back as 3.", "Kept the averages unrounded."],
+    ["Averaging the age groups let the smallest ones pull the result.", "Averaged people, not groups."],
+    ["More recovered genomes looks like more disease, when it is more digging.", "Called them finds, not rates."],
+    ["Lead was the metal that should have risen most. Copper did.", "Showed what the data says."],
+    ["The ten-times and hundred-times bars could be mistaken for estimates.", "Labelled them arithmetic."],
+  ]}
+/>
+
+</Section>
+
+<Section id="limits" label="What the data cannot say">
+
+<div class="prose">
+
+Nobody excavated Europe at random. Every site in the osteology module exists because
+somebody had a reason to dig there: a grant, a motorway, a cathedral restoration.
+Three of its seventeen countries hold 48% of the individuals, Lithuania alone outweighs
+Spain, Portugal, Greece, Hungary and Romania combined, and six European countries are not
+in it at all. The sources also disagree about when an era began and ended, so the
+periods both overlap and leave holes.
+
+The one that mattered most to the story is the one we put on a slide of its own. The
+industrial tail is the thinnest part of every layer: 796 adults across 7 sites and 4
+countries, and 10 human pathogen samples. The narrative peaks exactly where the evidence
+runs out.
+
+So the tooth on screen is an abstraction, not a reconstruction. It is drawn to carry
+trends and relationships, and the page says where it is uncertain rather than smoothing
+it over.
+
+</div>
+
+</Section>
+
+<Section id="chosen" label="The record we choose">
+
+<div class="prose">
+
+Everything above happened to people. Intervention is the first part of the dental record
+that is deliberately chosen: scheduled, paid for, consented to, and usually permanent. A
+filling, a crown, a veneer all overwrite the evidence underneath them.
+
+That inverts the project. Modern teeth may say less about what the world did to a person
+and more about what they chose to change, which makes them a record of access and income
+as much as of diet and disease.
+
+</div>
+
+<Figure
+  src="/images/tooth/interventions.jpg"
+  ratio="1700/901"
+  caption="Left, an archaeological jaw with its wear, staining and tooth loss intact. Right, a modern mouth after veneers and implants. Between them the project's closing question: could we say who was healthier, or had a higher quality of life?"
+/>
+
+<div class="prose">
+
+The figure underneath it is the one that stayed with me. 24.1% of industrial adults
+reached death with no caries at all. A modern adult with no visible decay might have
+three or four fillings by thirty.
+
+</div>
+
+</Section>
+
+<Section id="process" label="Process and contribution">
+
+<div class="prose">
+
+A three-person studio team: Lily, an industrial designer, Ali, in UX and product
+management, and me, coming in from civil engineering. We consulted Dr Peter Ungar, a
+dental anthropologist at the University of Arkansas, on what the record can and cannot
+be asked to show.
+
+My work was the tooth itself and the layer built on it. The teeth are signed distance
+fields ray-marched in a fragment shader, so decay, wear, stress-line grooves and enamel
+lead are carved into the geometry rather than drawn over it, and a JavaScript copy of the
+same distance function places every mark exactly on the surface the shader draws. I built
+the opening sequence, the pathogen section, the responsive behaviour and the automatic
+publishing, and integrated the team's sections into the single piece.
+
+TODO(elina): confirm this split before publishing. I inferred it from the commit history
+of the private repository, which is good evidence of what was built but a poor record of
+what was decided together.
+
+</div>
+
+</Section>
+
+<Section id="reflections" label="Reflections">
+
+<div class="prose">
+
+The part I would carry into any project is the rule that nothing goes on screen unless it
+traces to a row in a paper. It sounds like a research rule. It is really a design rule,
+because it decides what the picture is allowed to say, and I have now written one twice:
+once as a marking scheme for how much of a bus sign a passenger can recall, and once as a
+provenance check on what a model pulled out of a journal article.
+
+Working with AI on research made the gap between fast and finished very wide. Getting a
+number out of a paper took seconds. Establishing that it was the right number took the
+afternoon, and the afternoon is the part that made the piece defensible.
+
+The hardest thing to accept was putting our thinnest evidence at the loudest moment of
+the story. The industrial period is where the argument lands and where the data almost
+runs out, and the honest move was to keep the peak and say so on the page rather than
+quietly choosing a different ending.
+
+</div>
+
+</Section>

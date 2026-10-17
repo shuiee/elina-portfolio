@@ -1,0 +1,59 @@
+---
+/* What could have gone wrong, and what was done about it.
+
+   Six pairs is too many for a bulleted list and too few to deserve a table
+   with a rule under every row. This is the same grammar as Findings: a mark
+   above each cell, two tidy rows, no boxes. The risk leads because that is
+   the part a reader has to understand first; the response is the answer to it.
+
+   items = [[risk, response], ...]
+*/
+const { items = [], label = 'Caught', response = 'Did' } = Astro.props;
+---
+<div class="checks reveal">
+  <ul>
+    {items.map(([risk, did]) => (
+      <li>
+        <p class="checks__risk">{risk}</p>
+        <p class="checks__did"><span class="checks__tag">{response}</span>{did}</p>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .checks { margin: var(--space-6) 0 0; }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-6) var(--space-5);
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 46rem;
+  }
+  @media (min-width: 620px) { ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  li {
+    display: grid;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: var(--border-mark) solid var(--ink);
+  }
+  /* --size-4 is the PRIMARY BODY size; both halves are sentences, so neither
+     drops below it. */
+  .checks__risk { font-size: var(--size-4); line-height: var(--leading-body); margin: 0; }
+  .checks__did {
+    font-size: var(--size-4);
+    line-height: var(--leading-body);
+    color: var(--ink-quiet);
+    margin: 0;
+  }
+  .checks__tag {
+    display: block;
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin-bottom: var(--space-2);
+  }
+</style>

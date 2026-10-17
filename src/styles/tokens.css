@@ -179,6 +179,9 @@
 [data-accent="patchwork"] { --accent: #7B4A32; --accent-ink: #70442E; }
 [data-accent="steel"]     { --accent: #8C0A8C; --accent-ink: #8C0A8C; }
 [data-accent="arena"]     { --accent: #1B4FA0; --accent-ink: #1A4C9B; }
+/* 06. The ochre of the metals line in the piece itself. --accent-ink is
+   7.75:1 on --paper and 9.09:1 on --field, so it can carry type. */
+[data-accent="tooth"]     { --accent: #7A5214; --accent-ink: #5E4410; }
 
 /* --------------------------------------------------------------------------
    Fonts are declared in src/layouts/Base.astro, not here.

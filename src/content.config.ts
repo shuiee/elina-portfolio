@@ -11,7 +11,7 @@ const work = defineCollection({
     number: z.string(),            // '01' — drives the rail and the listing
     title: z.string(),
     shortTitle: z.string(),        // used in nav and the rail where space is tight
-    accent: z.enum(['signage', 'saveeat', 'patchwork', 'steel', 'arena']),
+    accent: z.enum(['signage', 'saveeat', 'patchwork', 'steel', 'arena', 'tooth']),
     dates: z.string(),             // exactly as on the source deck
     projectType: z.string(),
     role: z.string(),
