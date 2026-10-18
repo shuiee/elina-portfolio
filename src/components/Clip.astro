@@ -1,0 +1,150 @@
+---
+/* A short silent loop of something running, for a project whose artefact is
+   an animation. A still cannot show that the records arrive over time, which
+   is the whole point of the piece, so this is the one place on the site where
+   a frame grab is not enough.
+
+   Rules it follows, which are the same ones Prototype.astro follows:
+     - It never autoplays off screen. An IntersectionObserver starts it when it
+       arrives and pauses it when it leaves, so it costs nothing on a page the
+       reader has not scrolled to and never starts halfway through.
+     - It has a real Pause control. WCAG 2.2.2 requires one for anything that
+       moves for more than five seconds, and this runs for twelve.
+     - Under prefers-reduced-motion it does not start at all. The poster frame
+       is a complete, readable picture of the thing, so nothing is lost.
+     - It is silent. There is no audio track in the file, not merely a muted
+       one, so nothing can ever play sound.
+
+   `src` is the base path with no extension: a .webm and a .mp4 must both sit
+   beside each other, and the poster is `<src>-poster.jpg`.
+*/
+import { asset } from '../lib/url.js';
+const { src, ratio = '1360/728', caption, label } = Astro.props;
+---
+<figure class="clip" data-clip>
+  <div class="clip__frame" style={`aspect-ratio:${ratio}`}>
+    <video
+      data-video
+      poster={asset(`${src}-poster.jpg`)}
+      preload="none"
+      muted
+      loop
+      playsinline
+      aria-label={label ?? caption}
+    >
+      <source src={asset(`${src}.webm`)} type="video/webm" />
+      <source src={asset(`${src}.mp4`)} type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="clip__controls">
+    <button type="button" class="clip__play" data-play aria-pressed="false">
+      <span data-playlabel>Pause</span>
+    </button>
+  </div>
+
+  {caption && <figcaption class="clip__cap meta">{caption}</figcaption>}
+</figure>
+
+<style>
+  .clip { margin: var(--space-6) 0 0; }
+  .clip__frame {
+    width: 100%;
+    background: var(--field);
+    border: var(--border-hair) solid var(--rule);
+    overflow: hidden;
+  }
+  .clip__frame video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .clip__controls {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-4);
+  }
+  .clip__play {
+    font: inherit;
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    background: none;
+    border: var(--border-hair) solid var(--rule);
+    padding: 0.3em 0.8em;
+    cursor: inherit;
+  }
+  .clip__play:hover { color: var(--ink); border-color: var(--ink); }
+  .clip__cap { margin-top: var(--space-3); max-width: var(--measure); }
+</style>
+
+<script>
+  document.querySelectorAll('[data-clip]').forEach((clip) => {
+    const video = clip.querySelector('[data-video]');
+    const play  = clip.querySelector('[data-play]');
+    const label = clip.querySelector('[data-playlabel]');
+    if (!video || !play) return;
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    /* `wanted` is what the READER has asked for, which is not the same as
+       whether it happens to be playing: a clip paused because it scrolled out
+       of view must start again on the way back, and one the reader paused
+       by hand must not. */
+    let wanted = !reduce.matches;
+    let loaded = false;
+    let inView = false;
+
+    function setLabel() {
+      play.setAttribute('aria-pressed', wanted ? 'false' : 'true');
+      label.textContent = wanted ? 'Pause' : 'Play';
+    }
+
+    function start() {
+      if (!wanted || !inView || document.hidden) return;
+      if (!loaded) { video.load(); loaded = true; }
+      /* An autoplay rejection is normal, not an error: some browsers refuse
+         until the reader has interacted with the page. The poster stays up
+         and the Play button still works. */
+      video.play().catch(() => {});
+    }
+
+    play.addEventListener('click', () => {
+      wanted = !wanted;
+      setLabel();
+      if (wanted) start(); else video.pause();
+    });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        /* The last entry is the current state. Taking them in order can end on
+           a stale one and leave the clip in the wrong state. */
+        const e = entries[entries.length - 1];
+        inView = e.isIntersecting;
+        if (inView) start(); else video.pause();
+      }, { threshold: 0.25 }).observe(clip);
+    } else {
+      inView = true;
+      start();
+    }
+
+    /* Browsers pause a playing video when the page is hidden, and nothing
+       brings it back on return: the clip never left the viewport, so the
+       observer has no reason to fire again. Without this, switching tabs and
+       coming back leaves a stopped clip and a button that still says Pause. */
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') start();
+      else video.pause();
+    });
+
+    /* Someone can turn reduced motion on while the page is open. */
+    reduce.addEventListener?.('change', (e) => {
+      if (e.matches) { wanted = false; video.pause(); }
+      setLabel();
+    });
+
+    setLabel();
+  });
+</script>
