@@ -14,14 +14,20 @@ const d = entry.data;
       <header class="cs__head">
         <p class="figure-num cs__number">{d.number}</p>
         <h1 class="cs__title">{d.title}</h1>
-        {/* The claim the project makes about the person who made it. Sits
-            between the title and the facts because that is the order a reader
-            wants them in: what is this, what does it show, when and with
-            whom. */}
         {d.takeaway && <p class="cs__takeaway">{d.takeaway}</p>}
-        <p class="meta cs__meta">
-          {d.dates} &middot; {d.projectType} &middot; {d.role}
-        </p>
+
+        {/* The same labelled rows /work/ already uses. One run-on line put
+            role last and had nowhere to name a team at all, which is the
+            thing every portfolio worth reading states up front. */}
+        <dl class="cs__facets">
+          <div class="cs__facet"><dt class="eyebrow">Date</dt><dd>{d.dates}</dd></div>
+          <div class="cs__facet"><dt class="eyebrow">Type</dt><dd>{d.projectType}</dd></div>
+          <div class="cs__facet"><dt class="eyebrow">Role</dt><dd>{d.role}</dd></div>
+          {d.team && <div class="cs__facet"><dt class="eyebrow">Team</dt><dd>{d.team}</dd></div>}
+          {d.tools.length > 0 && (
+            <div class="cs__facet"><dt class="eyebrow">Tools</dt><dd>{d.tools.join(' \u00b7 ')}</dd></div>
+          )}
+        </dl>
       </header>
 
       <slot />
@@ -78,7 +84,19 @@ const d = entry.data;
     text-wrap: pretty;
   }
   @media (min-width: 800px) { .cs__takeaway { font-size: var(--size-5); } }
-  .cs__meta { padding-bottom: var(--space-5); border-bottom: var(--border-mark) solid var(--ink); }
+  .cs__facets {
+    margin: 0;
+    padding-bottom: var(--space-6);
+    border-bottom: var(--border-mark) solid var(--ink);
+    display: grid;
+    gap: var(--space-4);
+  }
+  .cs__facet { display: grid; gap: var(--space-1); }
+  @media (min-width: 700px) {
+    .cs__facet { grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-5); }
+  }
+  .cs__facet dt { padding-top: 0.3em; }
+  .cs__facet dd { margin: 0; font-size: var(--size-3); line-height: var(--leading-body); }
 
   .cs__next { margin-top: var(--space-10); }
   .cs__nextgrid {
