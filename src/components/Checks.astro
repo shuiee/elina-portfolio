@@ -30,7 +30,8 @@ const { items = [], label = 'Caught', response = 'Did' } = Astro.props;
     display: grid;
     gap: var(--space-6) var(--space-5);
     grid-template-columns: minmax(0, 1fr);
-    max-width: 46rem;
+    /* full column, so these line up with the figures above and below */
+    max-width: none;
   }
   @media (min-width: 620px) { ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   li {

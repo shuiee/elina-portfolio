@@ -57,7 +57,17 @@ const d = entry.data;
       align-items: start;
     }
   }
-  .cs__body { max-width: 52rem; min-width: 0; }
+  .cs__body {
+    max-width: 52rem;
+    min-width: 0;
+    /* Text to the same column as the pictures. Prose was capped at 62ch,
+       which rendered 700px, while figures, the deck, the clip and the tag
+       rows all ran the full 832px, so every paragraph stopped short of every
+       image beside it. Overriding the token here rather than in base.css
+       keeps the comfortable measure on /about and /cv, where there are no
+       pictures to line up with. */
+    --measure: 100%;
+  }
   .cs__number { font-size: var(--size-6); color: var(--accent-ink); line-height: 1; }
   .cs__title {
     font-size: var(--size-8);

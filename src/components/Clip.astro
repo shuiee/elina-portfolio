@@ -17,9 +17,14 @@
 
    `src` is the base path with no extension: a .webm and a .mp4 must both sit
    beside each other, and the poster is `<src>-poster.jpg`.
+
+   `link` is the real thing the clip is a recording of. It belongs here rather
+   than further down the page: someone who has just watched twelve seconds of
+   it is the most likely person on the page to want to open it. It stays in
+   the same tab, which is what every other link on this site does.
 */
 import { asset } from '../lib/url.js';
-const { src, ratio = '1360/728', caption, label } = Astro.props;
+const { src, ratio = '1360/728', caption, label, link, linkLabel = 'Open the live prototype' } = Astro.props;
 ---
 <figure class="clip" data-clip>
   <div class="clip__frame" style={`aspect-ratio:${ratio}`}>
@@ -41,6 +46,11 @@ const { src, ratio = '1360/728', caption, label } = Astro.props;
     <button type="button" class="clip__play" data-play aria-pressed="false">
       <span data-playlabel>Pause</span>
     </button>
+    {link && (
+      <a class="clip__link" href={link}>
+        {linkLabel} <span aria-hidden="true">&rarr;</span>
+      </a>
+    )}
   </div>
 
   {caption && <figcaption class="clip__cap meta">{caption}</figcaption>}
@@ -78,6 +88,25 @@ const { src, ratio = '1360/728', caption, label } = Astro.props;
     cursor: inherit;
   }
   .clip__play:hover { color: var(--ink); border-color: var(--ink); }
+  /* No border, so it reads as the way out rather than a third control. */
+  .clip__link {
+    margin-left: auto;
+    /* Padding makes the target 26px, past the 24px minimum, and gives the
+       tint something to sit in. */
+    padding: 6px 10px;
+    margin-block: -6px;
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    /* The accent does the work as a wash, and the type stays --ink. Putting
+       --accent-ink on a tint of its own accent fell to 5.1:1 on steel and
+       under 7:1 on every other project; --ink on the same wash is 12.5:1 at
+       worst. color-mix derives it per project, so each page tints itself. */
+    background: #E3E3E1;
+    background: color-mix(in srgb, var(--accent) 14%, var(--paper));
+    color: var(--ink);
+  }
+  .clip__link:hover { background: color-mix(in srgb, var(--accent) 24%, var(--paper)); }
   .clip__cap { margin-top: var(--space-3); max-width: var(--measure); }
 </style>
 

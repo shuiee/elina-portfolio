@@ -38,7 +38,8 @@ const splitFigure = (f) => {
     /* Fixed 2 then 3 columns rather than auto-fit: six findings should read as
        two tidy rows, not five across with one orphan underneath. */
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 46rem;
+    /* full column, so these line up with the figures above and below */
+    max-width: none;
   }
   li {
     display: grid;
