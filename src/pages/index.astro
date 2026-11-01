@@ -62,18 +62,19 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
   .landing {
     max-width: 1600px;
     padding-top: var(--space-5);
-    padding-bottom: var(--space-7);
+    padding-bottom: var(--space-5);
   }
 
   /* -- the name ----------------------------------------------------------- */
   .landing__name {
-    margin: var(--space-5) 0 var(--space-6);
+    margin: var(--space-3) 0 var(--space-5);
     text-align: center;
     line-height: 0.9;
     letter-spacing: var(--track-head);
-    /* Sized off the viewport so it always fills the line, capped so it cannot
-       run away on a very wide monitor. */
-    font-size: clamp(var(--size-8), 15.6vw, var(--size-11));
+    /* Sized off BOTH axes. 15.6vw alone took no account of how tall the
+       window was, so on a 900px laptop the name rendered at 225px and the
+       page ran 389px past the fold. The vh term is what stops it. */
+    font-size: clamp(var(--size-8), min(11vw, 13vh), var(--size-11));
     display: flex;
     flex-wrap: nowrap;
     align-items: baseline;
@@ -105,7 +106,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
      script and can then be dragged anywhere. The stage is the drag boundary. */
   .stage {
     position: relative;
-    margin: var(--space-6) auto 0;
+    margin: var(--space-5) auto 0;
     width: 100%;
     display: grid;
     justify-items: center;
@@ -176,12 +177,17 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     touch-action: pan-y;
     white-space: nowrap;
   }
-  .stage.is-orbiting .orbit a { cursor: inherit; }
   .stage.is-orbiting .orbit.is-dragging { z-index: 2; }
   .stage.is-orbiting .orbit.is-dragging a { color: var(--ink); }
 
+  /* The landing is one screen, so the footer sits close rather than a
+     --space-10 gap below, which was 128px of nothing for the orbit to pay.
+     The footer is a sibling of <main>, not a child of .landing, so it has to
+     be reached from outside: this is the only page with a .landing in it. */
+  :global(main:has(.landing) + .site-footer) { margin-top: var(--space-6); }
+
   .landing__enter {
-    margin: var(--space-6) 0 0;
+    margin: var(--space-4) 0 0;
     text-align: center;
     font-size: var(--size-5);
   }
@@ -323,15 +329,45 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 
       // The stage has to be tall enough for whatever that produced.
       const reach = Math.max(...placements.map((p) => Math.abs(p.y) + p.hh));
-      const h = Math.round(Math.max(2 * reach + 48, pr.height + 96));
+      let h = Math.round(Math.max(2 * reach + 48, pr.height + 96));
+
+      /* ...but not taller than the room left under it, or the landing runs
+         off the bottom of the window. Measured live rather than assumed: the
+         space from the top of the stage to the fold, less what sits below it
+         (the See my work line and the page's bottom padding). Without this
+         the orbit asked for 493px on every screen and pushed the page 224px
+         past the fold on a 900px laptop.
+
+         The constellation is scaled rather than clipped, so the links keep
+         their arrangement and only get closer in. The floor stops it
+         collapsing into the portrait on a very short window; below that the
+         page is allowed to scroll, which is the honest outcome. */
+      /* Everything that has to share the fold with the stage, measured from
+         the page rather than guessed: the See my work line and its margin,
+         the landing's bottom padding, and the footer with its own margin. */
+      const px = (el, prop) => (el ? parseFloat(getComputedStyle(el)[prop]) || 0 : 0);
+      const enterEl = document.querySelector('.landing__enter');
+      const footEl  = document.querySelector('.site-footer');
+      const landing = stage.closest('.landing');
+      const below =
+        (enterEl ? enterEl.getBoundingClientRect().height : 0) + px(enterEl, 'marginTop') +
+        px(landing, 'paddingBottom') +
+        (footEl ? footEl.getBoundingClientRect().height : 0) + px(footEl, 'marginTop');
+      const room = Math.round(innerHeight - stage.getBoundingClientRect().top - below);
+      /* 0.74 is the floor because 0.62 was measured to make the links
+         overlap each other and the portrait below 1280px wide. A short
+         scroll is better than a broken constellation, so under that the
+         page is allowed to run on. */
+      const k = Math.max(0.74, Math.min(1, room / h));
+      if (k < 1) h = Math.round(h * k);
       stage.style.setProperty('--stage-h', h + 'px');
 
       const cx = stage.clientWidth / 2;
       const cy = h / 2;
       placements.forEach(({ el, x, y }) => {
         if (el.dataset.moved) return;
-        el.style.left = cx + x + 'px';
-        el.style.top = cy + y + 'px';
+        el.style.left = cx + x * k + 'px';
+        el.style.top = cy + y * k + 'px';
       });
     }
 
