@@ -46,12 +46,6 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       </nav>
     </div>
 
-    <p class="landing__enter">
-      <a href={href('/work/')}>
-        See my work <span aria-hidden="true">&rarr;</span>
-      </a>
-    </p>
-
   </div>
 </Base>
 
@@ -74,7 +68,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     /* Sized off BOTH axes. 15.6vw alone took no account of how tall the
        window was, so on a 900px laptop the name rendered at 225px and the
        page ran 389px past the fold. The vh term is what stops it. */
-    font-size: clamp(var(--size-8), min(11vw, 13vh), var(--size-11));
+    font-size: clamp(var(--size-8), min(13vw, 15.5vh), var(--size-11));
     display: flex;
     flex-wrap: nowrap;
     align-items: baseline;
@@ -99,7 +93,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     text-wrap: balance;
     margin-inline: auto;
   }
-  @media (min-width: 700px) { .landing__claim { font-size: var(--size-6); } }
+  @media (min-width: 700px) { .landing__claim { font-size: var(--size-5); } }
 
   /* ---------------------------------------------------------------- stage
      The portrait sits in the middle; the projects are placed around it by
@@ -186,15 +180,6 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
      be reached from outside: this is the only page with a .landing in it. */
   :global(main:has(.landing) + .site-footer) { margin-top: var(--space-6); }
 
-  .landing__enter {
-    margin: var(--space-4) 0 0;
-    text-align: center;
-    font-size: var(--size-5);
-  }
-  .landing__enter a {
-    text-decoration-thickness: var(--border-hair);
-    text-underline-offset: 0.3em;
-  }
   /* A quiet contents list. Set in --ink-quiet so it recedes behind the name and
      the tagline, but that is still 7.72:1 — quiet, never unreadable. */
   /* A quiet contents list, centred, in the same all-caps letterspaced style the
@@ -273,7 +258,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       /* How much clear space to leave between the drawing and every label.
          This is the number to change if the ring wants to sit tighter or
          looser; everything else follows from it. */
-      const CLEARANCE = 104;
+      const CLEARANCE = 88;
 
       /* For each label, find how far along its radial line its centre has to
          sit so that the gap between ITS box and the DRAWING's box is the same
@@ -322,10 +307,20 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
           if (boxGap(mid, dx, dy, hw, hh) < CLEARANCE) lo = mid;
           else hi = mid;
         }
-        const offset = hi;
-
-        return { el, x: offset * dx, y: offset * dy, hh };
+        return { el, dx, dy, offset: hi, hh };
       });
+
+      /* A regular hexagon, so every label is the same distance from the
+         middle and the six sit on one circle. The radius is the largest the
+         labels individually asked for, so the widest one still clears the
+         drawing by CLEARANCE and the narrower ones simply sit further off it.
+
+         This replaces equal box-to-box clearance, which kept every label the
+         same gap from the drawing but, because the labels are different
+         widths, put their centres at six different distances. That is more
+         even to measure and less even to look at. */
+      const radius = Math.max(...placements.map((p) => p.offset));
+      placements.forEach((p) => { p.x = radius * p.dx; p.y = radius * p.dy; });
 
       // The stage has to be tall enough for whatever that produced.
       const reach = Math.max(...placements.map((p) => Math.abs(p.y) + p.hh));
@@ -334,7 +329,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       /* ...but not taller than the room left under it, or the landing runs
          off the bottom of the window. Measured live rather than assumed: the
          space from the top of the stage to the fold, less what sits below it
-         (the See my work line and the page's bottom padding). Without this
+         (the page's bottom padding and the footer). Without this
          the orbit asked for 493px on every screen and pushed the page 224px
          past the fold on a 900px laptop.
 
@@ -343,22 +338,20 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
          collapsing into the portrait on a very short window; below that the
          page is allowed to scroll, which is the honest outcome. */
       /* Everything that has to share the fold with the stage, measured from
-         the page rather than guessed: the See my work line and its margin,
-         the landing's bottom padding, and the footer with its own margin. */
+         the page rather than guessed: the landing's bottom padding and the
+         footer with its own margin. */
       const px = (el, prop) => (el ? parseFloat(getComputedStyle(el)[prop]) || 0 : 0);
-      const enterEl = document.querySelector('.landing__enter');
       const footEl  = document.querySelector('.site-footer');
       const landing = stage.closest('.landing');
       const below =
-        (enterEl ? enterEl.getBoundingClientRect().height : 0) + px(enterEl, 'marginTop') +
         px(landing, 'paddingBottom') +
         (footEl ? footEl.getBoundingClientRect().height : 0) + px(footEl, 'marginTop');
       const room = Math.round(innerHeight - stage.getBoundingClientRect().top - below);
-      /* 0.74 is the floor because 0.62 was measured to make the links
-         overlap each other and the portrait below 1280px wide. A short
-         scroll is better than a broken constellation, so under that the
-         page is allowed to run on. */
-      const k = Math.max(0.74, Math.min(1, room / h));
+      /* The floor is where the hexagon stops shrinking. Measured: at 0.40
+         the page fits every window but three to four labels land on top of
+         the drawing, so the ring is allowed to scale only this far and the
+         page scrolls instead. */
+      const k = Math.max(0.80, Math.min(1, room / h));
       if (k < 1) h = Math.round(h * k);
       stage.style.setProperty('--stage-h', h + 'px');
 
