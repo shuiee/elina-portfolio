@@ -108,7 +108,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
   }
 
   .stage__portrait {
-    width: clamp(116px, 13vw, 168px);
+    width: clamp(132px, 15vw, 196px);
     height: auto;
     user-select: none;
     -webkit-user-drag: none;
@@ -274,13 +274,12 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
       const phw = pr.width / 2;
       const phh = pr.height / 2;
 
-      function boxGap(offset, dx, dy, hw, hh) {
-        const lx = dx * offset;
-        const ly = dy * offset;
+      function gapAt(lx, ly, hw, hh) {
         const gapX = Math.max(lx - hw - phw, -phw - (lx + hw), 0);
         const gapY = Math.max(ly - hh - phh, -phh - (ly + hh), 0);
         return Math.hypot(gapX, gapY);
       }
+      const boxGap = (offset, dx, dy, hw, hh) => gapAt(dx * offset, dy * offset, hw, hh);
 
       /* Explicit angles, not an even sweep. Five labels spread evenly would put
          the two side ones slightly above the middle; placing them at 0 and 180
@@ -307,20 +306,38 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
           if (boxGap(mid, dx, dy, hw, hh) < CLEARANCE) lo = mid;
           else hi = mid;
         }
-        return { el, dx, dy, offset: hi, hh };
+        return { el, dx, dy, offset: hi, hw, hh };
       });
 
-      /* A regular hexagon, so every label is the same distance from the
-         middle and the six sit on one circle. The radius is the largest the
-         labels individually asked for, so the widest one still clears the
-         drawing by CLEARANCE and the narrower ones simply sit further off it.
+      /* A hexagon stretched sideways: one vertical radius and one horizontal
+         radius, so the six sit on an ellipse rather than a circle.
 
-         This replaces equal box-to-box clearance, which kept every label the
-         same gap from the drawing but, because the labels are different
-         widths, put their centres at six different distances. That is more
-         even to measure and less even to look at. */
-      const radius = Math.max(...placements.map((p) => p.offset));
-      placements.forEach((p) => { p.x = radius * p.dx; p.y = radius * p.dy; });
+         The point of the stretch is that the two radii answer different
+         questions. ry is only ever asked to clear the drawing ABOVE and
+         BELOW, which is what 01 and 04 need and nothing else, so it stays
+         small and the whole arrangement stays short. rx is asked to clear it
+         to the SIDE, which is the expensive direction because the labels are
+         wide, and it can grow into the empty space either side of the page
+         without costing any height.
+
+         A single radius had to satisfy both at once, which meant the width of
+         "The Tooth Untold" set how TALL the ring was, and the page could not
+         fit the window because of it. */
+      let ry = 0;
+      placements.forEach((p) => { if (Math.abs(p.dx) < 0.01) ry = Math.max(ry, p.offset); });
+      if (!ry) ry = Math.max(...placements.map((p) => p.offset));
+
+      let lo = 0;
+      let hi = Math.max(...placements.map((p) => p.offset)) * 3 + 1;
+      for (let step = 0; step < 44; step++) {
+        const mid = (lo + hi) / 2;
+        const clears = placements.every((p) =>
+          Math.abs(p.dx) < 0.01 ||
+          gapAt(mid * p.dx, ry * p.dy, p.hw, p.hh) >= CLEARANCE);
+        if (clears) hi = mid; else lo = mid;
+      }
+      const rx = hi;
+      placements.forEach((p) => { p.x = rx * p.dx; p.y = ry * p.dy; });
 
       // The stage has to be tall enough for whatever that produced.
       const reach = Math.max(...placements.map((p) => Math.abs(p.y) + p.hh));
