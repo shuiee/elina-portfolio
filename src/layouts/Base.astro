@@ -109,6 +109,50 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
         belowFold.forEach((el) => io.observe(el));
       }
+
+      /* Clicking an email address copies it instead of throwing the reader
+         into a mail client they may not use. Every mailto on the site is
+         caught here rather than per page, so the behaviour cannot drift
+         between the footer and the About page.
+
+         The href stays a real mailto, which means it still works with no
+         JavaScript, on middle click, and from the context menu. The handler
+         only takes over when the Clipboard API is actually available: on a
+         page served over plain http there is no clipboard, so the link is
+         left alone and does what it always did rather than doing nothing. */
+      const canCopy = !!(navigator.clipboard && window.isSecureContext);
+
+      if (canCopy) {
+        document.addEventListener('click', async (event) => {
+          const link = event.target.closest('a[href^="mailto:"]');
+          if (!link) return;
+          /* Leave the modified clicks alone: a reader who cmd-clicks or
+             middle-clicks is asking for the mail client on purpose. */
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+          const address = link.getAttribute('href').replace(/^mailto:/, '').split('?')[0];
+          event.preventDefault();
+
+          try {
+            await navigator.clipboard.writeText(address);
+          } catch (err) {
+            window.location.href = link.getAttribute('href');
+            return;
+          }
+
+          const label = link.querySelector('[data-copy-label]') || link;
+          if (label.dataset.copyBusy) return;
+          const original = label.textContent;
+          label.dataset.copyBusy = '1';
+          link.setAttribute('aria-live', 'polite');
+          label.textContent = 'Copied';
+          setTimeout(() => {
+            label.textContent = original;
+            delete label.dataset.copyBusy;
+            link.removeAttribute('aria-live');
+          }, 1600);
+        });
+      }
     </script>
   </body>
 </html>

@@ -30,8 +30,15 @@ export default defineConfig({
      to the target, and a bare '/work/...' would send the reader to the domain
      root and a 404. */
   redirects: {
-    '/work/03-patchwork/':      BASE + 'work/04-patchwork/',
-    '/work/04-steel-concrete/': BASE + 'work/05-steel-concrete/',
+    // patchwork: 03 -> 04 -> 05
+    '/work/03-patchwork/':      BASE + 'work/05-patchwork/',
+    '/work/04-patchwork/':      BASE + 'work/05-patchwork/',
+    // steel concrete: 04 -> 05 -> 03
+    '/work/04-steel-concrete/': BASE + 'work/03-steel-concrete/',
+    '/work/05-steel-concrete/': BASE + 'work/03-steel-concrete/',
+    // the tooth: 03 -> 04
+    '/work/03-tooth/':          BASE + 'work/04-tooth/',
+    // the arena: 05 -> 06
     '/work/05-arena/':          BASE + 'work/06-arena/',
   },
   build: { format: 'directory' },

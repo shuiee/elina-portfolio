@@ -47,7 +47,9 @@ const links = [
                 </svg>
               )}
             </span>
-            <span>{l.label}</span>
+            {/* data-copy-label: the mailto handler in Base swaps this text
+                for "Copied" and must not touch the icon beside it. */}
+            <span data-copy-label>{l.label}</span>
           </a>
         </li>
       ))}
