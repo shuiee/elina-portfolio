@@ -29,8 +29,6 @@ sections:
   - { id: question, label: The question }
   - { id: method, label: Methodology }
   - { id: model, label: Building and converting the model }
-  - { id: result, label: Result }
-  - { id: slides, label: Reference }
 ---
 
 {/* Source: pages 13 to 15 of portfolio_v3.pdf, which are this project's own
@@ -81,22 +79,19 @@ it.
 
 </div>
 
-<Figure
-  src="/images/steel/method-static.svg"
-  ratio="auto"
-  w={557}
-  h={1026}
-  alt="The static verification route as a flowchart. It begins with assumed building dimensions, carrying reference building geometry, material properties and loading conditions, then builds a baseline reinforced concrete model in SAP2000 and verifies it with Eurocode 2 hand calculations. A decision asks whether the calculated deflection satisfies Eurocode 2, with a No branch looping back. On passing, it calculates composite stiffness, EI and GA, using AISC N690-24 and SCI P414, applies stiffness modifiers to the SAP2000 model to convert it to steel concrete, and ends with static verification of the SC slab against AISC N690 and SCI P414 for bending, shear and deflection."
-  caption="The static route, in which everything upstream of the orange decision is about establishing a baseline worth trusting, while everything downstream of it is about converting that baseline into steel concrete."
-/>
-
-<Figure
-  src="/images/steel/method-impact.svg"
-  ratio="auto"
-  w={494}
-  h={716}
-  alt="The aircraft impact route as a flowchart. It begins with assumed impact parameters, carrying missile mass, velocity and diameter, then calculates penetration and scabbing depth for both the reinforced concrete and the steel concrete slab against DOE-STD-3014, AISC N690-24 and SCI P414. A decision asks whether the aircraft impact limits are satisfied, with a No branch looping back to the calculation, and the route ends in a performance comparison between the two systems."
-  caption="The impact route, where penetration describes how far the missile gets into the slab and scabbing describes concrete breaking away from the far face, with DOE-STD-3014 providing the standard that puts numbers on both."
+<Pair
+  items={[
+    {
+      src: '/images/steel/method-static.svg', w: 557, h: 1026,
+      caption: 'The static route, which establishes a baseline worth trusting before converting it to steel concrete and checking bending, shear and deflection against the composite codes.',
+      alt: 'The static verification route as a flowchart. It begins with assumed building dimensions, carrying reference building geometry, material properties and loading conditions, then builds a baseline reinforced concrete model in SAP2000 and verifies it with Eurocode 2 hand calculations. A decision asks whether the calculated deflection satisfies Eurocode 2, with a No branch looping back. On passing, it calculates composite stiffness, EI and GA, using AISC N690-24 and SCI P414, applies stiffness modifiers to the SAP2000 model to convert it to steel concrete, and ends with static verification of the SC slab against AISC N690 and SCI P414 for bending, shear and deflection.',
+    },
+    {
+      src: '/images/steel/method-impact.svg', w: 494, h: 716,
+      caption: 'The impact route, which asks what an aircraft strike does to each slab, where penetration is how far the missile gets in and scabbing is concrete breaking away from the far face.',
+      alt: 'The aircraft impact route as a flowchart. It begins with assumed impact parameters, carrying missile mass, velocity and diameter, then calculates penetration and scabbing depth for both the reinforced concrete and the steel concrete slab against DOE-STD-3014, AISC N690-24 and SCI P414. A decision asks whether the aircraft impact limits are satisfied, with a No branch looping back to the calculation, and the route ends in a performance comparison between the two systems.',
+    },
+  ]}
 />
 
 <div class="prose">
@@ -121,6 +116,26 @@ I built the two storey ten by ten metre reinforced concrete building in SAP2000 
 verified its bending and shear by hand against Eurocode 2, so the baseline was known to
 be right before anything was changed.
 
+</div>
+
+<Pair
+  items={[
+    {
+      src: '/images/steel/plans-a.png', w: 1720, h: 856,
+      caption: 'The reference building at level 0, with the first section beside it.',
+      alt: 'A ground floor plan of a square two-bay building with hatched perimeter and cross walls, dimensioned and gridded, beside a long section through the two storeys showing floor levels, openings and the slab edges.',
+    },
+    {
+      src: '/images/steel/plans-b.png', w: 1704, h: 856,
+      caption: 'Level 1 and the second section, which is the slab the whole study is about.',
+      alt: 'A first floor plan of the same building with the slab shown as a continuous shaded field over the two bays, beside a second long section cut on the other axis, showing the same two storeys and their openings.',
+    },
+  ]}
+  note="Plans, sections and elevations of the reference building the slab sits inside, drawn before any modelling began."
+/>
+
+<div class="prose">
+
 Converting it is where the interesting constraint sits, because SteelBrick differs from
 an RC slab in two ways that matter to a model: it is composite steel panels with
 concrete infill, and it is stiffer in one direction than it is in the other.
@@ -129,6 +144,19 @@ AISC N690 clause N9.2.3 settles how that should be represented, because even tho
 system is full of steel its global behaviour is carried by concrete-based material
 inputs, which means the slab stays a concrete slab in the model and the steel arrives
 instead as modified stiffness.
+
+</div>
+
+<Figure
+  src="/images/steel/transform.svg"
+  ratio="auto"
+  w={840}
+  h={360}
+  alt="A diagram answering what distinguishes SteelBrick from a regular reinforced concrete slab. A central circle holds that question, with two branches to the left reading composite steel panels plus concrete infill, and different stiffness in orthogonal directions, and one branch to the right reading requirements and guidance from AISC N690 N9.2.3, which leads down to a note that even though the system contains steel components the global behaviour of the slab should be represented using concrete-based material inputs."
+  caption="The two differences that matter to a model, and the clause that decides how to represent them."
+/>
+
+<div class="prose">
 
 I derived a slab thickness that matched SteelBrick's mass, calculated the effective
 flexural and shear stiffness in each direction, and applied those as directional
@@ -144,35 +172,5 @@ between the RC and the SteelBrick options came from the systems themselves rathe
 from the way I had modelled them.
 
 </div>
-
-</Section>
-
-<Section id="result" label="Result">
-
-<div class="prose">
-
-TODO(elina): the headline result goes here, and it is the one thing the slides do not
-say. Page 14 ends at "static verification complete" and "assessment complete", and page
-15 stops after the sensitivity checks, so nothing on this page claims an outcome.
-
-Two things would finish it, namely whether the SC slab met the static limits for bending,
-shear and deflection, and how its penetration and scabbing depths compared with those of
-the RC slab under the impact case.
-
-</div>
-
-</Section>
-
-<Section id="slides" label="Reference">
-
-<Slides
-  from={13}
-  to={15}
-  alts={[
-    "The Steel Concrete title page. Background on why steel-concrete systems matter in nuclear projects, the three things the study did, and the central question of whether a modular SteelBrick slab can match a conventional reinforced concrete one under nuclear design codes.",
-    "Two verification flowcharts. The static one runs from assumed building dimensions through a SAP2000 baseline and Eurocode 2 hand checks, with a No branch looping back when deflection fails, then composite stiffness to AISC N690-24 and SCI P414. The second assesses aircraft impact, calculating penetration and scabbing depth against DOE-STD-3014.",
-    "Reference building plans, sections and elevations, a diagram of what distinguishes SteelBrick from a regular reinforced concrete slab, and magenta SAP2000 mesh views of the two-storey ten by ten metre model.",
-  ]}
-/>
 
 </Section>

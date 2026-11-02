@@ -172,8 +172,18 @@ hr {
   font-size: var(--size-7);
   line-height: 1.1;
   letter-spacing: 0;
-  max-width: 22ch;
-  text-wrap: balance;
+  /* The same column as the body under it. 22ch wrapped the question to about
+     480px while the paragraphs ran the full 832, so the two read as different
+     columns rather than as one. --measure follows whatever the context sets,
+     which is the full width on a project page and a comfortable measure on
+     /about and /cv. */
+  max-width: var(--measure);
+  /* Not balanced. Balancing evens the line lengths, which pulls the ink well
+     short of the column: the box was already the full 832px while the words
+     only spanned about 470, so the question still read as a narrower column
+     than the paragraphs under it. Filling the measure is what actually lines
+     the two up. */
+  text-wrap: pretty;
   margin-bottom: var(--space-6);
 }
 @media (min-width: 800px) { .lede { font-size: var(--size-8); } }
@@ -189,8 +199,8 @@ hr {
   font-weight: var(--weight-med);
   /* NOT balanced. Balancing evens out the line lengths, which pulls them
      short of the measure and makes this read as a narrower column than the
-     paragraphs under it. The big italic .lede still balances — it is a
-     standalone statement, not the first paragraph of a column. */
+     paragraphs under it. The big italic .lede above is set the same way, and
+     for the same reason. */
   text-wrap: pretty;
 }
 

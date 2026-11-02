@@ -1,0 +1,75 @@
+---
+/* Two drawings side by side, each with its own caption.
+
+   Figure puts one image across the column; this is for the case where the
+   pairing is the point, as with the two halves of a methodology, and reading
+   them against each other matters more than reading either one large.
+
+   Everything here is a drawing rather than a photograph, so the images keep
+   their own proportions and sit straight on the page with no white card
+   behind them. Intrinsic w and h are required for the same reason they are on
+   Figure: without them the row reserves no height and the page jumps as each
+   one loads.
+
+   Below 760px the pair becomes a column, because two flowcharts at 160px wide
+   are not a comparison, they are two unreadable stamps.
+
+   items = [{ src, w, h, caption, alt }, ...]
+*/
+import { asset } from '../lib/url.js';
+const { items = [], note } = Astro.props;
+for (const it of items) {
+  if (!(it.w && it.h)) throw new Error(`Pair needs w and h for ${it.src}`);
+}
+---
+<div class="pair reveal">
+  <ul>
+    {items.map((it) => (
+      <li>
+        <figure>
+          <img
+            src={asset(it.src)}
+            alt={it.alt ?? it.caption}
+            width={it.w}
+            height={it.h}
+            loading="lazy"
+            decoding="async"
+          />
+          {it.caption && <figcaption class="meta">{it.caption}</figcaption>}
+        </figure>
+      </li>
+    ))}
+  </ul>
+  {note && <p class="pair__note meta">{note}</p>}
+</div>
+
+<style>
+  .pair { margin: var(--space-6) 0 0; max-width: none; }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-6);
+    /* Top aligned: the two drawings are different heights and pinning them to
+       a shared baseline would float the shorter one down the page. */
+    align-items: start;
+    max-width: none;
+  }
+  figure { margin: 0; }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* No --field behind it, for the same reason as Figure: a drawing belongs
+       on the page, not on a white plate. */
+    background: none;
+  }
+  figcaption { margin-top: var(--space-4); max-width: var(--measure); }
+  .pair__note { margin-top: var(--space-5); max-width: var(--measure); }
+
+  @media (max-width: 760px) {
+    ul { grid-template-columns: minmax(0, 1fr); gap: var(--space-7); }
+  }
+</style>
