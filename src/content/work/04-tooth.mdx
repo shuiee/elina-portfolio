@@ -28,6 +28,7 @@ question: What truths does a tooth tell?
 sections:
   - { id: question, label: The question }
   - { id: piece, label: The prototype }
+  - { id: studies, label: Ten studies of one record }
   - { id: sources, label: Six datasets, four kinds of evidence }
   - { id: checking, label: Checking every number }
   - { id: limits, label: What the data cannot say }
@@ -86,6 +87,34 @@ laid out as evidence.
 
 </Section>
 
+<Section id="studies" label="Ten studies of one record">
+
+<div class="prose">
+
+Before the radial form, the pathogen record was drawn ten ways. Every one of them holds
+the same thing: which organisms were recovered, from which century, and how many genomes
+stand behind each figure.
+
+</div>
+
+<Pile
+  caption="Ten encodings of the pathogen record, from the project board. The radial form the piece settled on came out of this set, and the reason it won is the same reason the rest were kept: they all had to carry how thin the evidence is in some centuries, not only what was found."
+  items={[
+    ['/images/tooth/studies/01-tooth-charcoal.svg', 'Study: the record drawn radially around the outline of a tooth, each organism a wedge leaving the crown, labelled with its share of the century genomes.', 'Tooth'],
+    ['/images/tooth/studies/02-sequence-logo-charcoal.svg', 'Study: the record as a sequence logo, each century a stack of letters sized by how much of that century each organism accounts for.', 'Sequence logo'],
+    ['/images/tooth/studies/03-barcode-reads-charcoal.svg', 'Study: the record as stacked horizontal bars, one row per century, each row split into coloured segments by organism.', 'Barcode reads'],
+    ['/images/tooth/studies/04-genome-browser-charcoal.svg', 'Study: the record laid out as a genome browser, organisms listed down the side as tracks and centuries running across, with a block wherever that organism was recovered.', 'Genome browser'],
+    ['/images/tooth/studies/05-unit-chart-charcoal.svg', 'Study: the record as a unit chart, one mark per genome, grouped into columns by century so the height of each column is the number recovered.', 'Unit chart'],
+    ['/images/tooth/studies/06-variable-width-charcoal.svg', 'Study: the record as a mosaic, each century a column whose width is set by how many genomes it yielded and whose segments are the organisms.', 'Variable width'],
+    ['/images/tooth/studies/07-leaders-charcoal.svg', 'Study: the record as ranked bars with leader lines running out to named organisms and their shares.', 'Leaders'],
+    ['/images/tooth/studies/08-intervals-charcoal.svg', 'Study: the record as small multiples, one panel per organism, each showing its share century by century with intervals.', 'Intervals'],
+    ['/images/tooth/studies/09-growth-rings-charcoal.svg', 'Study: the record as concentric growth rings, each ring a century and its thickness and fill carrying the share of the dominant organism.', 'Growth rings'],
+    ['/images/tooth/studies/10-matrix-charcoal.svg', 'Study: the record as a dot matrix, organisms down the side and centuries across, each dot sized by the share recovered.', 'Matrix'],
+  ]}
+/>
+
+</Section>
+
 <Section id="sources" label="Six datasets, four kinds of evidence">
 
 <Findings
@@ -113,6 +142,13 @@ evidence was made is what decided how much weight each layer could carry.
   caption="The caries layer, opened in the piece itself. 36% of late medieval adults had no carious tooth and 15% had five or more, with the whole distribution underneath it and the dataset named below that, down to the sample size."
 />
 
+<Clip
+  src="/images/tooth/wear-clip"
+  ratio="1360/728"
+  label="The wear and stress-line layers open together on the same timeline. The upper panel holds a ridgeline of molar wear by age band for the high medieval period; the lower one holds the share of adults carrying a stress line on the lower canine, with a 95 per cent interval whisker."
+  caption="Two layers open at once on the same timeline. Molar wear builds from stage 2.8 at 18 to 24 years old to 5.8 at 60 and over, while 31.4% of high medieval adults carried at least one stress line on the lower canine, 233 of 742."
+/>
+
 <div class="prose">
 
 Only the first was measured directly and consistently: one codebook, trained observers,
@@ -129,11 +165,23 @@ excavated skeletons.
 
 <div class="prose">
 
-The pathogen layer is ninety sampling decisions pooled through a public archive, not one.
 The metals layer is values read out of published papers, with no new excavation or assay.
 
 The intervention layer is living volunteers examined and claim forms counted: bone, then
 body, then bureaucracy.
+
+</div>
+
+<Clip
+  src="/images/tooth/pathogens-clip"
+  ratio="1360/714"
+  label="The pathogen layer. A strand of dots runs century by century, one dot for every two per cent of that century's recovered genomes, with the organism found most in each century named beside it and the Black Death marked on the 1300s."
+  caption="The pathogen layer. Plague made up 69% of the 51 genomes recovered from the 1300s, against 27% in the 1200s. The count beside each century is why the layer reports finds and not rates: the 1300s gave up 51 genomes and the 1400s gave up nine."
+/>
+
+<div class="prose">
+
+The pathogen layer is ninety sampling decisions pooled through a public archive, not one.
 
 </div>
 
@@ -158,26 +206,9 @@ If a number was not in a paper, it is not on screen.
     ['Chart it with its source', 'Every chart names its paper or dataset.'],
   ]}
   loop={{ from: 0, to: 2, label: 'Until the number matches' }}
-  caption="The loop is the whole method. Getting a number took seconds; closing the loop on it took the afternoon."
 />
 
-<div class="prose">
 
-Each layer had its own way of going quietly wrong.
-
-</div>
-
-<Checks
-  response="So"
-  items={[
-    ["Caries rates read as percentages of a tooth count that itself keeps shifting.", "Counted decayed teeth instead."],
-    ["Rounding hid the change: 3.08 and 3.41 both came back as 3.", "Kept the averages unrounded."],
-    ["Averaging the age groups let the smallest ones pull the result.", "Averaged people, not groups."],
-    ["More recovered genomes looks like more disease, when it is more digging.", "Called them finds, not rates."],
-    ["Lead was the metal that should have risen most. Copper did.", "Showed what the data says."],
-    ["The ten-times and hundred-times bars could be mistaken for estimates.", "Labelled them arithmetic."],
-  ]}
-/>
 
 </Section>
 
@@ -224,20 +255,12 @@ as much as of diet and disease.
 
 </div>
 
-<Figure
-  src="/images/tooth/interventions.jpg"
-  ratio="1700/901"
-  caption="Left, an archaeological jaw with its wear, staining and tooth loss intact. Right, a modern mouth after veneers and implants. Between them the project's closing question: could we say who was healthier, or had a higher quality of life?"
+<Clip
+  src="/images/tooth/record-clip"
+  ratio="1360/728"
+  label="The closing sequence. The modern tooth stands beside the one the data projects forward, both dissolve into the point clouds they were built from, and the piece ends on a line about the tooth being a permanent record that intervention lets us edit, then asks its opening question again."
+  caption="How the piece ends. The modern tooth stands beside the one the data projects forward, both come apart into the points they were built from, and the question the piece opened with comes back changed: what truths does a tooth tell now?"
 />
-
-<div class="prose">
-
-The figure underneath it is the one that stayed with me. 24.1% of industrial adults
-reached death with no caries at all.
-
-A modern adult with no visible decay might have three or four fillings by thirty.
-
-</div>
 
 </Section>
 

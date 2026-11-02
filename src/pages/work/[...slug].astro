@@ -17,8 +17,8 @@ import Screens from '../../components/Screens.astro';
 import Route from '../../components/Route.astro';
 import Stop from '../../components/Stop.astro';
 import Prototype from '../../components/Prototype.astro';
-import Checks from '../../components/Checks.astro';
 import Flow from '../../components/Flow.astro';
+import Pile from '../../components/Pile.astro';
 import Clip from '../../components/Clip.astro';
 
 export async function getStaticPaths() {
@@ -42,7 +42,7 @@ export async function getStaticPaths() {
 
 const { entry, projects, prev, next } = Astro.props;
 const { Content } = await render(entry);
-const components = { Section, CriterionBlock, Figure, Findings, Matrix, Method, Step, Compare, Slides, Screens, Route, Stop, Prototype, Checks, Clip, Flow };
+const components = { Section, CriterionBlock, Figure, Findings, Matrix, Method, Step, Compare, Slides, Screens, Route, Stop, Prototype, Clip, Flow, Pile };
 ---
 <CaseStudy entry={entry} projects={projects} prev={prev} next={next}>
   <Content components={components} frontmatter={entry.data} />
