@@ -1,0 +1,146 @@
+---
+/* A workflow, drawn as steps and arrows.
+
+   Marked up as an ordered list, so the sequence survives without the arrows:
+   a screen reader reads step one, step two, step three. The arrows are
+   decoration on top of an order that is already in the markup.
+
+   The loop is a bracket under a span of steps rather than an arc looping
+   back. An arc has to be measured and drawn, breaks when a label wraps, and
+   says the same thing as a bracket does. The bracket is placed with grid
+   columns, so it lands exactly under the steps it covers at any width.
+
+   steps = [[title, note?], ...]
+   loop  = { from, to, label }   zero-based, inclusive, both ends
+*/
+const { steps = [], loop = null, caption } = Astro.props;
+
+/* Columns alternate step, arrow, step, arrow, step. Step i sits on grid line
+   2i+1, so the bracket under steps a..b runs from line 2a+1 to line 2b+2. */
+const cols = steps.map(() => '1fr').join(' auto ');
+const loopStart = loop ? loop.from * 2 + 1 : null;
+const loopEnd = loop ? loop.to * 2 + 2 : null;
+---
+<figure class="flow reveal">
+  <div class="flow__grid" style={`--cols:${cols}`}>
+    <ol class="flow__steps" style={`--cols:${cols}`}>
+      {steps.map(([title, note], i) => (
+        <>
+          <li class="flow__step" style={`grid-column:${i * 2 + 1}`}>
+            <span class="flow__title">{title}</span>
+            {note && <span class="flow__note">{note}</span>}
+          </li>
+          {loop && i === loop.to && (
+            /* Mobile only. The bracket cannot span a stacked column, and a
+               label at the foot of the list would read as though the LAST
+               step repeats, so the loop is stated where it actually closes.
+               Exactly one of the two is ever in the accessibility tree:
+               whichever is not shown is display:none. */
+            <li class="flow__loopnote">
+              <span aria-hidden="true">&uarr;</span> {loop.label}
+            </li>
+          )}
+          {i < steps.length - 1 && (
+            <span class="flow__arrow" aria-hidden="true" style={`grid-column:${i * 2 + 2}`}>&rarr;</span>
+          )}
+        </>
+      ))}
+    </ol>
+    {loop && (
+      <div class="flow__loop" style={`grid-column:${loopStart} / ${loopEnd}`}>
+        <span class="flow__bracket" aria-hidden="true"></span>
+        <span class="flow__looplabel">{loop.label}</span>
+      </div>
+    )}
+  </div>
+  {caption && <figcaption class="flow__cap meta">{caption}</figcaption>}
+</figure>
+
+<style>
+  .flow { margin: var(--space-6) 0 0; max-width: none; }
+  .flow__grid { display: grid; grid-template-columns: var(--cols); }
+
+  .flow__steps {
+    display: grid;
+    grid-template-columns: var(--cols);
+    grid-column: 1 / -1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: start;
+  }
+
+  .flow__step {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: var(--border-mark) solid var(--ink);
+  }
+  .flow__title { font-size: var(--size-3); line-height: var(--leading-body); }
+  .flow__note {
+    font-size: var(--size-1);
+    color: var(--ink-quiet);
+    line-height: var(--leading-body);
+  }
+
+  .flow__arrow {
+    align-self: start;
+    padding: var(--space-4) var(--space-4) 0;
+    color: var(--accent-ink);
+    font-size: var(--size-3);
+    line-height: var(--leading-body);
+  }
+
+  .flow__loop {
+    grid-row: 2;
+    padding-top: var(--space-3);
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2);
+  }
+  .flow__bracket {
+    width: 100%;
+    height: 10px;
+    border: var(--border-hair) solid var(--rule);
+    border-top: 0;
+  }
+  .flow__looplabel {
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    text-align: center;
+  }
+
+  .flow__cap { margin-top: var(--space-5); max-width: var(--measure); }
+
+  /* Desktop: the bracket says it, so the inline note is not needed. */
+  .flow__loopnote { display: none; }
+
+  /* Below 700px the row becomes a column: arrows turn to point down and the
+     bracket turns into a plain label, because a 2px-wide bracket beside a
+     stacked list reads as a rendering fault rather than as a loop. */
+  @media (max-width: 700px) {
+    .flow__grid, .flow__steps { grid-template-columns: 1fr; }
+    .flow__step, .flow__arrow, .flow__loop { grid-column: 1 !important; }
+    .flow__step { margin-top: var(--space-4); }
+    .flow__arrow {
+      display: block;
+      padding: var(--space-3) 0 0;
+      transform: rotate(90deg);
+      transform-origin: left center;
+      margin-left: var(--space-2);
+      height: var(--space-5);
+    }
+    .flow__loop { display: none; }
+    .flow__loopnote {
+      display: block;
+      grid-column: 1 !important;
+      margin-top: var(--space-4);
+      font-size: var(--size-1);
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--accent-ink);
+    }
+  }
+</style>

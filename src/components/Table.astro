@@ -1,0 +1,97 @@
+---
+/* A plain table, for the places where prose was carrying a grid.
+
+   Rules only under the header and between rows, never around cells and never
+   down the sides: a boxed grid reads as a spreadsheet pasted into the page.
+   The first cell of each row is a row header, so a screen reader announces
+   which row a cell belongs to when it reads across.
+
+   columns = ['Evidence kind', 'Scale', ...]
+   widths  = optional CSS grid-ish column widths, e.g. ['26%', '22%', 'auto']
+   rows    = [[cell, cell, ...], ...]   a cell is a string, or [main, sub]
+*/
+const { columns = [], rows = [], widths = [], caption, note } = Astro.props;
+const pair = (c) => (Array.isArray(c) ? c : [c, null]);
+---
+<figure class="dtable reveal">
+  <div class="dtable__scroll">
+    <table aria-label={caption}>
+      <colgroup>
+        {columns.map((_, i) => <col style={widths[i] ? `width:${widths[i]}` : undefined} />)}
+      </colgroup>
+      <thead>
+        <tr>{columns.map((c) => <th scope="col">{c}</th>)}</tr>
+      </thead>
+      <tbody>
+        {rows.map((cells) => (
+          <tr>
+            {cells.map((cell, i) => {
+              const [main, sub] = pair(cell);
+              const Cell = i === 0 ? 'th' : 'td';
+              return (
+                <Cell scope={i === 0 ? 'row' : undefined}>
+                  <span class="dtable__main">{main}</span>
+                  {sub && <span class="dtable__sub">{sub}</span>}
+                </Cell>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {caption && <figcaption class="dtable__cap meta">{caption}</figcaption>}
+  {note && <p class="dtable__note meta">{note}</p>}
+</figure>
+
+<style>
+  .dtable { margin: var(--space-6) 0 0; max-width: none; }
+  /* Narrow screens scroll the table rather than crushing three columns of
+     sentences into 40px each. */
+  .dtable__scroll { overflow-x: auto; }
+  table {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  thead th {
+    font-size: var(--size-1);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-quiet);
+    font-weight: var(--weight-normal);
+    padding-bottom: var(--space-3);
+    border-bottom: var(--border-mark) solid var(--ink);
+    vertical-align: bottom;
+  }
+
+  tbody th,
+  tbody td {
+    padding: var(--space-4) var(--space-5) var(--space-4) 0;
+    border-bottom: var(--border-hair) solid var(--rule);
+    vertical-align: baseline;
+    font-weight: var(--weight-normal);
+    font-size: var(--size-2);
+    line-height: var(--leading-body);
+  }
+  tbody tr:last-child th,
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody th:last-child,
+  tbody td:last-child { padding-right: 0; }
+
+  /* The row header carries the name of the thing, so it gets the weight. */
+  tbody th .dtable__main { font-weight: var(--weight-med); }
+  .dtable__main { display: block; }
+  .dtable__sub {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--size-1);
+    color: var(--ink-quiet);
+    line-height: var(--leading-body);
+  }
+
+  .dtable__cap { margin-top: var(--space-4); max-width: var(--measure); }
+  .dtable__note { margin-top: var(--space-3); max-width: var(--measure); }
+</style>
