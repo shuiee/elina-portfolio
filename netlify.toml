@@ -1,0 +1,20 @@
+# Netlify build settings for this Astro site.
+#
+# The base path is decided in astro.config.mjs from the NETLIFY variable that
+# Netlify sets during its own builds, so this file does not need to pass one.
+# GitHub Pages keeps building from the same commit, unchanged.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Astro writes trailingSlash: 'always', so /work/01-signage is normalised to
+# /work/01-signage/ rather than 404ing.
+[[redirects]]
+  from = "/*"
+  to = "/:splat/"
+  status = 301
+  force = false

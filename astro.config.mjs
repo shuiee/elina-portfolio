@@ -11,8 +11,15 @@ import mdx from '@astrojs/mdx';
                                                     base: '/<repo-name>/'
    --------------------------------------------------------------------------- */
 
-const SITE = 'https://shuiee.github.io';
-const BASE = '/elina-portfolio/';
+/* Netlify serves the site at the root of its own domain, GitHub Pages serves
+   it from /elina-portfolio/. Netlify sets NETLIFY=true in its build, so the
+   same commit produces correct links on both and neither host has to be
+   switched off while the other is set up. SITE only affects absolute URLs in
+   the sitemap and the social tags; override it on Netlify by setting a
+   PUBLIC_SITE environment variable once the custom domain is attached. */
+const ON_NETLIFY = process.env.NETLIFY === 'true';
+const SITE = process.env.PUBLIC_SITE || (ON_NETLIFY ? 'https://elinalee.netlify.app' : 'https://shuiee.github.io');
+const BASE = ON_NETLIFY ? '/' : '/elina-portfolio/';
 
 export default defineConfig({
   site: SITE,
