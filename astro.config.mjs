@@ -18,7 +18,7 @@ import mdx from '@astrojs/mdx';
    the sitemap and the social tags; override it on Netlify by setting a
    PUBLIC_SITE environment variable once the custom domain is attached. */
 const ON_NETLIFY = process.env.NETLIFY === 'true';
-const SITE = process.env.PUBLIC_SITE || (ON_NETLIFY ? 'https://elinalee.netlify.app' : 'https://shuiee.github.io');
+const SITE = process.env.PUBLIC_SITE || (ON_NETLIFY ? 'https://celebrated-pegasus-955a8a.netlify.app' : 'https://shuiee.github.io');
 const BASE = ON_NETLIFY ? '/' : '/elina-portfolio/';
 
 export default defineConfig({
