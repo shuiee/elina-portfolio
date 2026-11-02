@@ -44,15 +44,16 @@ sections:
 
 <p class="lede">{frontmatter.question}</p>
 
-TooGoodToGo works on a straightforward trade. A shop has food it cannot sell, and you
-get it cheaply on the understanding that you do not get to choose what it is. The
-surprise is the point, and the discount is what makes the surprise acceptable.
+TooGoodToGo works on a straightforward trade: a shop has food it cannot sell, you get
+it cheaply, and in return you do not get to choose what it is.
 
-Korean dining has moved towards health-conscious eating, where people often choose a meal
-on what is in it rather than on what it costs. That puts pressure on the part of the
-model that usually does the work: if the buyer cares about ingredients, a mystery bag is
-not a bargain, it is a risk. The project is an attempt to keep the surplus-food model
-while removing that risk.
+The discount is what makes the surprise acceptable.
+
+Korean dining has moved towards health-conscious eating, where people choose a meal on
+what is in it rather than on what it costs.
+
+If the buyer cares about ingredients, a mystery bag is not a bargain, it is a risk.
+This project keeps the surplus-food model and removes that risk.
 
 <Prototype
   viewport={1580}
@@ -72,18 +73,17 @@ while removing that risk.
 
 <div class="prose">
 
-The buyer side runs from a home feed and a map of nearby bags, into a store, into a
-pickup pass. Filters and dietary tags carry the onboarding answers forward, so the
-preference collected at the start does work on every subsequent screen rather than
-sitting in a profile.
+The buyer side runs from a home feed and map of nearby bags, into a store, into a
+pickup pass. Dietary tags carry the onboarding answers forward, so the preference does
+work on every screen rather than sitting in a profile.
 
 </div>
 
 <Screens
   cap={2}
   items={[
-    ["/images/saveeat/home.jpg", "Home. Bags near you, sorted and filtered, with the dietary tags from onboarding applied.", "750/2614"],
-    ["/images/saveeat/store-detail.jpg", "Store detail. Stock, what is in the bag, dietary tags, and reviews, which is the information a health-led buyer needs before committing.", "750/2302"],
+    ["/images/saveeat/home.jpg", "Home. Bags near you, with the dietary tags from onboarding applied.", "750/2614"],
+    ["/images/saveeat/store-detail.jpg", "Store detail. Stock, contents, dietary tags and reviews: what a health-led buyer needs before committing.", "750/2302"],
   ]}
 />
 
@@ -94,22 +94,21 @@ sitting in a profile.
 <div class="prose">
 
 The flow asks two things before it shows any food: what kind of user you are, and what
-you eat. The second one is the decision the whole product rests on.
+you eat. The second is the decision the whole product rests on.
 
-Putting a question in front of the value is the expensive place to put it. Every screen
-before the first bag is a screen somebody can leave on, and most marketplaces earn the
-right to ask by showing you something first. This one cannot. If the first thing a
-health-led buyer sees is a wall of unlabelled mystery bags, the model has already failed
-for them, and no amount of filtering afterwards undoes that first impression. Asking
-early is what turns an unbounded surprise into a bounded one.
+Every screen before the first bag is a screen somebody can leave on, and most
+marketplaces earn the right to ask by showing you something first. This one cannot.
+
+If a health-led buyer's first sight is a wall of unlabelled mystery bags, the model has
+already failed for them, and no amount of filtering afterwards undoes it.
 
 </div>
 
 <Screens
   items={[
-    ["/images/saveeat/onboarding-1-brand.jpg", "Entry. Kakao, Apple, Google or email, so the first screen asks for nothing but a way in.", "750/1560"],
-    ["/images/saveeat/onboarding-2-user-type.jpg", "Buyer or merchant, chosen before anything else, because the two sides of the marketplace see different products.", "750/1632"],
-    ["/images/saveeat/onboarding-3-diet.jpg", "Dietary preference. This is the screen that answers the framing question: it is how a mystery bag stops being a risk.", "750/1632"],
+    ["/images/saveeat/onboarding-1-brand.jpg", "Entry. Kakao, Apple, Google or email. The first screen asks for nothing but a way in.", "750/1560"],
+    ["/images/saveeat/onboarding-2-user-type.jpg", "Buyer or merchant, chosen first, because the two sides see different products.", "750/1632"],
+    ["/images/saveeat/onboarding-3-diet.jpg", "Dietary preference. The screen that answers the framing question: how a mystery bag stops being a risk.", "750/1632"],
   ]}
 />
 
@@ -119,11 +118,10 @@ early is what turns an unbounded surprise into a bounded one.
 
 <div class="prose">
 
-The map view, where you see what is available near you, was drawn twice and the two
-versions put side by side. The question underneath them is how the screen should split
-between the map and the list of bags, and that decision is not obvious: the map is what
-tells you a pickup is walkable, and the list is what tells you whether the food is worth
-walking for.
+The map view was drawn twice and the two versions put side by side.
+
+The question underneath is how the screen splits between map and list: the map tells you
+a pickup is walkable, the list tells you whether the food is worth the walk.
 
 </div>
 
@@ -147,14 +145,14 @@ walking for.
     'Is the food worth walking for?',
     'How much attention does the screen itself take?',
   ]}
-  verdict="We went with B, and the argument that settled it was not really about the screen. It is the layout KakaoMap uses, and KakaoMap is how most people in this market already look for something near them. Choosing it means the sheet is a gesture they have used before, so none of their attention goes on working out how the map behaves. A surplus-food app is already asking people to accept some uncertainty about the food. The interface is not the place to add more."
+  verdict="We went with B because it is the layout KakaoMap uses, and KakaoMap is how this market already looks for something nearby, so none of a buyer's attention goes on working out how the map behaves. The app already asks people to accept uncertainty about the food; the interface is not the place to add more."
 />
 
 <Screens
   cap={2}
   items={[
-    ["/images/saveeat/ab-variant-a.jpg", "A. A fixed split. The map stops partway down and the list sits below it, so three bags read in full without any interaction.", "650/1806"],
-    ["/images/saveeat/ab-variant-b.jpg", "B, the one we went with. A draggable sheet over a taller map. More of the area is visible, and an extra pin appears with it, but the list is cut to two and a half cards.", "650/1804"],
+    ["/images/saveeat/ab-variant-a.jpg", "A. A fixed split: map above, list below.", "650/1806"],
+    ["/images/saveeat/ab-variant-b.jpg", "B, the one we went with. A draggable sheet over a taller map.", "650/1804"],
   ]}
 />
 
@@ -164,28 +162,25 @@ walking for.
 
 <div class="prose">
 
-Our team worked in weekly cycles and followed this process: **research**, then
-**feature**, then **screen**.
+Weekly cycles: **research**, then **feature**, then **screen**.
 
 </div>
 
 <Method>
 
 <Step n="01" title="Research">
-Ground rules, background and target user. This is where the health-led framing was
-settled, which is why the product cannot simply copy the mystery-bag mechanic.
+Ground rules, background and target user. Where the health-led framing was settled.
 </Step>
 
 <Step n="02" title="Feature">
-Key features, where AI would and would not be applied, and a functional specification.
-Writing the spec before the screens meant the later screen work was about how to present
-decisions that had already been argued, rather than making them by drawing.
+Key features, where AI would and would not be applied, and a functional
+specification.
 </Step>
 
 <Step n="03" title="Screen">
-Wireframes, then screens. Each member built MVP screens with AI assistance and brought
-them into a shared Figma file. Mine, the merchant pages and the impact UI, were taken as
-the basis for completing the whole flow.
+Wireframes, then screens, each member building MVP screens with AI assistance into a
+shared Figma file. Mine, the merchant pages and the impact UI, became the basis for the
+whole flow.
 </Step>
 
 </Method>
@@ -196,17 +191,17 @@ the basis for completing the whole flow.
 
 <div class="prose">
 
-There are no usage numbers to report, because nothing has been put in front of a user
-yet. What the project is worth is the specificity of the proposal. Surplus-food
-marketplaces are well established where a discount is the draw; whether the model
-survives in a market that chooses a meal on what is in it has not really been answered,
-and this is an answer rather than an argument about one. The mechanism is small and
-testable: move the dietary question in front of the food, carry it through every
-subsequent screen, and a mystery bag becomes a bounded one.
+No usage numbers, because nothing has been put in front of a user yet. What the
+project is worth is the specificity of the proposal.
 
-Where the project is: a full buyer flow and a merchant side designed, a working
-prototype, a design system being retrofitted rather than planned. Nothing yet shipped
-to users.
+Surplus-food marketplaces are well established where a discount is the draw. Whether the
+model survives in a market that chooses a meal on what is in it has not been answered.
+
+The mechanism is small and testable: move the dietary question in front of the food,
+carry it through every screen, and a mystery bag becomes a bounded one.
+
+A full buyer flow and a merchant side designed, a working prototype, a design system
+being retrofitted rather than planned. Nothing shipped to users.
 
 </div>
 
@@ -216,20 +211,25 @@ to users.
 
 <div class="prose">
 
-I had assumed the thinking happened while drawing. It did not. The cycle that worked was
-research, then feature, then screen, and writing the functional specification first meant
-the screen work was about presenting decisions that had already been argued rather than
-making them with a mouse. The screens got faster and the arguments got shorter.
+I had assumed the thinking happened while drawing. It did not.
+
+Writing the functional specification first meant the screen work was about presenting
+decisions that had already been argued rather than making them with a mouse. The screens
+got faster and the arguments got shorter.
 
 Choosing B was the decision I am most sure of and the one that felt least like designing.
-The instinct is to invent the interaction. The better answer was to borrow one the market
-already knows, and spend the attention we saved on the part of the product that is
-genuinely unfamiliar, which is being asked what you eat before you are shown any food.
+The instinct is to invent the interaction.
+
+The better answer was to borrow one the market already knows, and spend the attention we
+saved on the genuinely unfamiliar part, being asked what you eat before you are shown any
+food.
 
 The honest regret is the design system. Colours, spacing and components were settled
-screen by screen and reconciled afterwards, which is slower than it sounds and leaves
-decisions that nobody can explain later. On the next one the system comes after the first
-flow is understood and before the rest of it is drawn, not at the end.
+screen by screen and reconciled afterwards, which leaves decisions nobody can explain
+later.
+
+Next time the system comes after the first flow is understood and before the rest is
+drawn, not at the end.
 
 </div>
 

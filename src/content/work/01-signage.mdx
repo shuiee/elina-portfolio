@@ -45,29 +45,24 @@ sections:
 
 <Stop label="Stop 01" title="Background">
 
-In London, over six million people rely on buses every day, yet I often saw
-passengers hesitating or boarding the wrong one because the signs were hard to
-read. Coming from Korea, where bus signage is more information-rich and easier
-to scan, this contrast stood out even more. It made me question why a city as
-connected as London still struggles with such a fundamental part of wayfinding,
-and how clearer visual systems could genuinely improve the passenger experience.
+Over six million people rely on London buses every day, yet I kept seeing
+passengers hesitate or board the wrong one because the signs were hard to read.
+Coming from Korea, where bus signage is more information-rich and easier to
+scan, the contrast was hard to ignore.
 
 </Stop>
 
 <Stop label="Stop 02" title="Vision">
 
-My objective was to explore how information is perceived in the transport
-environment, and how better design choices, for example LED against printed signs
-or using different orientations, can make bus signs clearer, friendlier, more
-informative, and ultimately improve traveller experience.
+To find out how much a passenger takes in at a bus stop, and whether design
+choices like LED against print, or a change of orientation, measurably improve
+it.
 
 </Stop>
 
 <Stop label="Stop 03" title="Problem framing" href="#framing">
 
-A literature review into why passengers struggle with bus signs. Human vision
-depends heavily on quick fixations and pre-attentive cues, and current signage
-does not support that.
+A literature review into why passengers struggle with bus signs.
 
 </Stop>
 
@@ -107,8 +102,7 @@ them.
 
 <div class="prose">
 
-I conducted a literature review to understand why passengers struggle with bus
-signs. Four failures came up repeatedly.
+Four failures came up repeatedly in the literature.
 
 </div>
 
@@ -121,8 +115,8 @@ signs. Four failures came up repeatedly.
 
 <div class="prose">
 
-Human vision depends heavily on quick fixations and pre-attentive cues, which
-current signage does not support.
+Human vision depends on quick fixations and pre-attentive cues. Current signage
+supports neither.
 
 </div>
 
@@ -132,14 +126,13 @@ current signage does not support.
 
 <div class="prose">
 
-Turning readability into something measurable. I compared a real printed sign
-against an LED sign under controlled conditions at UCL's PEARL facility, measuring
-how much light each sign emits from its white letters and black background, and
-how much light falls onto each sign.
+I compared a printed sign against an LED sign at UCL's PEARL facility, measuring
+the light each emits from its white letters and black background, and the light
+falling onto it.
 
-The test word was settled before the test day: Shoreditch 388, chosen as a single
-word of at least seven characters containing both straight and curved letters, so
-edges and curves were tested under the same conditions.
+The test word was fixed before the test day: Shoreditch 388, seven characters
+with both straight and curved letters, so edges and curves met the same
+conditions.
 
 </div>
 
@@ -157,16 +150,15 @@ edges and curves were tested under the same conditions.
 
 <div class="prose">
 
-Translating legibility into geometry and pixel data. Using MATLAB's regionprops,
-I calculated area, eccentricity and circularity for every character in Shoreditch
-388, then drew a horizontal line through the text to extract a pixel-intensity
-profile, which shows how brightness moves from a dark background to a bright
-letter edge and back.
+Using MATLAB's regionprops, I calculated area, eccentricity and circularity for
+every character in Shoreditch 388, then drew a horizontal line through the text
+to extract a pixel-intensity profile: how brightness moves from dark background
+to bright letter edge and back.
 
-The aim was to remove subjectivity. Instead of saying one sign looks clearer, I
-wanted a repeatable workflow a transport operator could run on a new font or a new
-sign. Johnston 100 is benchmarked against Optician Sans, the face used in clinical
-visual-acuity testing, so the comparison has a reference point outside transport.
+The aim was a repeatable workflow a transport operator could run on a new font,
+not a judgment that one sign looks clearer. Optician Sans, the face used in
+clinical visual-acuity testing, is the benchmark, so the comparison has a
+reference point outside transport.
 
 </div>
 
@@ -193,27 +185,23 @@ pixel-intensity profiles confirmed soft edges beyond about two metres.
 
 <div class="prose">
 
-Having quantified light and font behaviour, the last step was to find out how
-people actually prefer information to be shown, and how much they can realistically
-read from a scrolling LED sign. I sketched front and side sign concepts at the
-angles passengers really see a double-decker from, then built a Qualtrics survey
-around four questions: whether current placements are clear, whether people want
-occupancy and via stations, which symbol communicates occupancy best, and what
-scrolling interval allows a station name to be recalled.
+I sketched front and side sign concepts at the angles passengers really see a
+double-decker from, then built a Qualtrics survey around four questions: whether
+current placements are clear, whether people want occupancy and via stations,
+which symbol reads as occupancy, and what scrolling interval allows a station
+name to be recalled.
 
-Letters in English take up more horizontal space than Korean characters do, which
-is a large part of why a Korean bus sign carries more information without losing
-legibility.
+English letters take more horizontal space than Korean characters, which is much
+of why a Korean bus sign carries more without losing legibility.
 
 </div>
 
 <div class="prose">
 
-If a passenger remembers "Shoredich" instead of "Shoreditch" they still comprehend
-the sign and will almost certainly board the right bus, so a binary right or wrong
-judgment would have thrown away the truth. I created fictitious station names,
-assigned them to different scrolling intervals, and graded what participants typed
-back against a marking scheme.
+A passenger who remembers "Shoredich" instead of "Shoreditch" still boards the
+right bus, so grading right or wrong would have thrown the truth away. I assigned
+fictitious station names to different scrolling intervals and graded what
+participants typed back against a marking scheme.
 
 </div>
 
@@ -241,9 +229,9 @@ back against a marking scheme.
 
 <div class="prose">
 
-Passengers valued simple, high-contrast cues confirming both destination and
-occupancy at a glance, above decorative clarity. Four design rules came out of it,
-each traceable to a specific experiment rather than to taste.
+Passengers valued simple, high-contrast cues confirming destination and occupancy
+at a glance, above decorative clarity. Four design rules came out of it, each
+traceable to an experiment rather than to taste.
 
 </div>
 
@@ -256,10 +244,9 @@ each traceable to a specific experiment rather than to taste.
 
 <div class="prose">
 
-Looking ahead: testing under varied lighting and angles, assessing additional sign
-types such as liquid-crystal displays, refining the visual-acuity metrics, and
-studying how much information a sign can realistically carry before clarity starts
-to fall away.
+Next: varied lighting and angles, other sign types such as liquid-crystal
+displays, finer visual-acuity metrics, and how much a sign can carry before
+clarity falls away.
 
 </div>
 
