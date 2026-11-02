@@ -43,6 +43,9 @@ if (natural && !(w && h)) {
 <style>
   .fig { margin: var(--space-6) 0 0; }
   .fig img { width: 100%; object-fit: cover; background: var(--field); }
+  /* A drawing sits on the page, not on a white card: the exhibit ground is
+     for photographs, which need an edge, and a flowchart does not. */
+  .fig img[data-fit="natural"] { background: none; }
   /* Whole drawing, scaled down, never cropped. */
   .fig img[data-fit="natural"] { height: auto; object-fit: contain; }
   .fig__placeholder {
