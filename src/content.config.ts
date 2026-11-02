@@ -24,6 +24,10 @@ const work = defineCollection({
     // what the project says about the person who made it. Optional, because a
     // project with nothing distinctive to claim is better off saying nothing.
     takeaway: z.string().optional(),
+    // Who else was on it. All three reference portfolios name collaborators
+    // explicitly; this site only ever said "group". Omit it rather than
+    // guess: a project with no named team simply does not show the row.
+    team: z.string().optional(),
     // Optional preview shown on /work/. 16:9. Omit and the entry shows a
     // marked placeholder instead.
     thumb: z.string().optional(),
