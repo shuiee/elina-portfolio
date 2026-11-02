@@ -99,19 +99,19 @@ the other asks what happens when something hits it.
 </div>
 
 <Figure
-  src="/images/steel/method-static.png"
+  src="/images/steel/method-static.svg"
   ratio="auto"
-  w={1100}
-  h={2026}
+  w={557}
+  h={1026}
   alt="The static verification route as a flowchart. It begins with assumed building dimensions, carrying reference building geometry, material properties and loading conditions, then builds a baseline reinforced concrete model in SAP2000 and verifies it with Eurocode 2 hand calculations. A decision asks whether the calculated deflection satisfies Eurocode 2, with a No branch looping back. On passing, it calculates composite stiffness, EI and GA, using AISC N690-24 and SCI P414, applies stiffness modifiers to the SAP2000 model to convert it to steel concrete, and ends with static verification of the SC slab against AISC N690 and SCI P414 for bending, shear and deflection."
   caption="The static route. Everything upstream of the orange decision is about trusting the baseline; everything downstream is about converting it."
 />
 
 <Figure
-  src="/images/steel/method-impact.png"
+  src="/images/steel/method-impact.svg"
   ratio="auto"
-  w={1100}
-  h={1594}
+  w={494}
+  h={716}
   alt="The aircraft impact route as a flowchart. It begins with assumed impact parameters, carrying missile mass, velocity and diameter, then calculates penetration and scabbing depth for both the reinforced concrete and the steel concrete slab against DOE-STD-3014, AISC N690-24 and SCI P414. A decision asks whether the aircraft impact limits are satisfied, with a No branch looping back to the calculation, and the route ends in a performance comparison between the two systems."
   caption="The impact route. Penetration is how far the missile gets in, scabbing is concrete breaking off the far face, and DOE-STD-3014 is the standard that puts numbers on both."
 />
