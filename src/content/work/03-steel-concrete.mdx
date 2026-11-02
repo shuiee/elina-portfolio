@@ -6,12 +6,12 @@ shortTitle: Steel Concrete
 accent: steel
 dates: January – October 2025
 projectType: Professional, individual
-role: Civil and structural engineer
-about: Testing whether a modular steel–concrete slab can stand in for a conventional reinforced concrete one in nuclear buildings, under the codes that govern them.
+role: Civil and structural engineer, originating all calculations and models
+about: Testing whether a modular steel-concrete slab can stand in for a conventional reinforced concrete one in nuclear buildings, under the codes that govern them.
 thumb: /images/thumb-04-steel.jpg
 thumbAlt: >-
   SAP2000 output showing the slab mesh, with stressed regions picked out in magenta.
-question: Can a modular steel–concrete slab match a reinforced concrete slab's performance under nuclear design codes?
+question: Can a modular steel-concrete slab match a reinforced concrete slab's performance under nuclear design codes?
 concepts:
   - Modular construction in regulated sectors
   - Structural equivalence
@@ -26,8 +26,159 @@ tools:
   - SAP2000
   - Mathcad
 sections:
-  - { id: slides, label: Slides }
+  - { id: question, label: The question }
+  - { id: scope, label: One slab, three tests }
+  - { id: method, label: Methodology }
+  - { id: model, label: Building and converting the model }
+  - { id: result, label: Result }
+  - { id: slides, label: Reference }
 ---
+
+{/* Source: pages 13 to 15 of portfolio_v3.pdf, which are this project's own
+    slides, plus the methodology chart on page 14 cropped into its two tracks.
+    Code and system claims checked against AISC N690-24 Appendix N9, SCI P414
+    (Aggelopoulos and Burgan, 2019) and DOE-STD-3014. Nothing is drawn from
+    memory, and the result is left open because the deck does not state it. */}
+
+<Section id="question" label="The question">
+
+<p class="lede">{frontmatter.question}</p>
+
+Reinforced concrete is what nuclear buildings are normally made of. Steel bars are tied
+into a cage, concrete is poured around them, and the two work together.
+
+A reactor building has to do more than stand up. It has to shield what is inside it and
+survive being struck from outside, and the codes written for that push its walls and
+slabs thick.
+
+Thick sections need dense reinforcement. Tying that cage and inspecting it becomes the
+slow step on a site where every step is inspected and every pour has to cure.
+
+Steel concrete turns the panel inside out. Two steel plates form the faces, the concrete
+goes between them, and the plates do the work of the formwork and the reinforcement at
+once.
+
+That is what makes it modular, because a panel built that way can be fabricated off site
+and lifted into place. It is not hypothetical either: SC is already used in third
+generation plants, including the containment internal structures and shield building of
+the AP1000.
+
+The catch is regulatory. A system that different needs its own code route, and this
+project walks one slab down that route to see whether it arrives.
+
+</Section>
+
+<Section id="scope" label="One slab, three tests">
+
+<div class="prose">
+
+Calling a system modular proves nothing on its own. The claim worth testing is that an SC
+slab behaves like the RC slab it replaces, under the codes that govern nuclear
+construction.
+
+So the scope came down to a single ten by ten metre slab inside a two storey reference
+building, and three things done to it.
+
+</div>
+
+<ul class="tags">
+  <li>Modelled and verified RC and SC slabs under static loading to Eurocode 2, AISC N690-24 and SCI P414</li>
+  <li>Calibrated stiffness and mass in Mathcad so the digital RC model would behave like a SteelBrick system</li>
+  <li>Evaluated both systems under an aircraft impact scenario, testing local failure limits</li>
+</ul>
+
+</Section>
+
+<Section id="method" label="Methodology">
+
+<div class="prose">
+
+Two tracks, run separately. One asks whether the slab stands up under everyday loading,
+the other asks what happens when something hits it.
+
+</div>
+
+<Figure
+  src="/images/steel/method-static.png"
+  ratio="auto"
+  w={1100}
+  h={2026}
+  alt="The static verification route as a flowchart. It begins with assumed building dimensions, carrying reference building geometry, material properties and loading conditions, then builds a baseline reinforced concrete model in SAP2000 and verifies it with Eurocode 2 hand calculations. A decision asks whether the calculated deflection satisfies Eurocode 2, with a No branch looping back. On passing, it calculates composite stiffness, EI and GA, using AISC N690-24 and SCI P414, applies stiffness modifiers to the SAP2000 model to convert it to steel concrete, and ends with static verification of the SC slab against AISC N690 and SCI P414 for bending, shear and deflection."
+  caption="The static route. Everything upstream of the orange decision is about trusting the baseline; everything downstream is about converting it."
+/>
+
+<Figure
+  src="/images/steel/method-impact.png"
+  ratio="auto"
+  w={1100}
+  h={1594}
+  alt="The aircraft impact route as a flowchart. It begins with assumed impact parameters, carrying missile mass, velocity and diameter, then calculates penetration and scabbing depth for both the reinforced concrete and the steel concrete slab against DOE-STD-3014, AISC N690-24 and SCI P414. A decision asks whether the aircraft impact limits are satisfied, with a No branch looping back to the calculation, and the route ends in a performance comparison between the two systems."
+  caption="The impact route. Penetration is how far the missile gets in, scabbing is concrete breaking off the far face, and DOE-STD-3014 is the standard that puts numbers on both."
+/>
+
+<div class="prose">
+
+Both tracks loop. A failed deflection check sends the static route back to the
+calculations rather than forward, and a failed impact limit does the same, which is the
+part of the diagram that reflects how the work actually went.
+
+</div>
+
+</Section>
+
+<Section id="model" label="Building and converting the model">
+
+<div class="prose">
+
+The model only had to be as detailed as the question required: a slab that behaves like
+SteelBrick in mass and stiffness, without every plate and tie drawn in.
+
+I built the two storey ten by ten metre reinforced concrete building in SAP2000 and
+verified its bending and shear by hand against Eurocode 2, so the baseline was known to
+be right before anything was changed.
+
+Converting it is where the interesting constraint sits. SteelBrick differs from an RC
+slab in two ways that matter to a model: it is composite steel panels with concrete
+infill, and it is stiffer in one direction than the other.
+
+AISC N690 clause N9.2.3 settles how to represent that. Even though the system is full of
+steel, its global behaviour is carried by concrete-based material inputs, so the slab
+stays a concrete slab in the model and the steel arrives as modified stiffness.
+
+I derived a slab thickness that matched SteelBrick's mass, calculated the effective
+flexural and shear stiffness in each direction, and applied those as directional
+modifiers in SAP2000.
+
+Then I compared deflection and stiffness trends against the reference SteelBrick
+behaviour until they matched within a reasonable range, and applied the result to the
+building model.
+
+The last step is the one I would defend hardest. I moved every stiffness modifier by
+about ten per cent either way, to confirm that any difference between the RC and
+SteelBrick options came from the systems themselves rather than from how I had modelled
+them.
+
+</div>
+
+</Section>
+
+<Section id="result" label="Result">
+
+<div class="prose">
+
+TODO(elina): the headline result goes here, and it is the one thing the slides do not
+say. Page 14 ends at "static verification complete" and "assessment complete", and page
+15 stops after the sensitivity checks, so nothing on this page claims an outcome.
+
+Two things would finish it. Whether the SC slab met the static limits for bending, shear
+and deflection, and how its penetration and scabbing depths compared with the RC slab
+under the impact case.
+
+</div>
+
+</Section>
+
+<Section id="slides" label="Reference">
 
 <Slides
   from={13}
@@ -38,3 +189,5 @@ sections:
     "Reference building plans, sections and elevations, a diagram of what distinguishes SteelBrick from a regular reinforced concrete slab, and magenta SAP2000 mesh views of the two-storey ten by ten metre model.",
   ]}
 />
+
+</Section>

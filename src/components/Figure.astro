@@ -7,11 +7,30 @@
    The placeholder text is the description of what belongs there — keep it as
    the alt text when you add the file. */
 import { asset } from '../lib/url.js';
-const { src, ratio = '16/9', caption, credit } = Astro.props;
+/* ratio="auto" lets the image keep its own proportions. The default crops to
+   the ratio you give it, which is right for a photograph and wrong for a
+   drawing: a flowchart loses its last step rather than being scaled down. */
+const { src, ratio = '16/9', caption, alt, credit, w, h } = Astro.props;
+const natural = ratio === 'auto';
+/* A natural-ratio image sets no aspect-ratio, so without intrinsic width and
+   height the browser reserves no room and the page jumps by the full height
+   of the drawing when it loads. Pass w and h for those. */
+if (natural && !(w && h)) {
+  throw new Error('Figure ratio="auto" needs w and h, or it will shift the layout on load.');
+}
 ---
 <figure class="fig reveal">
   {src ? (
-    <img src={asset(src)} alt={caption} style={`aspect-ratio:${ratio}`} loading="lazy" decoding="async" />
+    <img
+      src={asset(src)}
+      alt={alt ?? caption}
+      data-fit={natural ? 'natural' : undefined}
+      style={natural ? undefined : `aspect-ratio:${ratio}`}
+      width={natural ? w : undefined}
+      height={natural ? h : undefined}
+      loading="lazy"
+      decoding="async"
+    />
   ) : (
     <div class="fig__placeholder" style={`aspect-ratio:${ratio}`} role="img" aria-label={`Image placeholder: ${caption}`}>
       <span class="eyebrow">Image &mdash; {ratio.replace('/', ':')}</span>
@@ -24,6 +43,8 @@ const { src, ratio = '16/9', caption, credit } = Astro.props;
 <style>
   .fig { margin: var(--space-6) 0 0; }
   .fig img { width: 100%; object-fit: cover; background: var(--field); }
+  /* Whole drawing, scaled down, never cropped. */
+  .fig img[data-fit="natural"] { height: auto; object-fit: contain; }
   .fig__placeholder {
     width: 100%;
     background: var(--field);
