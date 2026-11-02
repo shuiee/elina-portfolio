@@ -106,37 +106,34 @@ evidence was made is what decided how much weight each layer could carry.
 
 </div>
 
-<Table
-  columns={['How the evidence was made', 'Scale', 'What that costs']}
-  widths={['26%', '21%', 'auto']}
-  rows={[
-    [
-      ['Primary standardised osteology', 'Caries, wear, stress lines'],
-      ['15,119 individuals', '103 sites, 17 countries. 10,759 adults 18-69 analysed.'],
-      'One codebook, trained observers, excavated skeletons. The only layer measured directly and consistently.',
-    ],
-    [
-      ['Aggregated primary molecular', 'Pathogens'],
-      ['90 sequencing studies', 'Pooled through a public archive.'],
-      'Ninety sampling decisions pooled through an archive, not one, each made by a different team for a different reason.',
-    ],
-    [
-      ['Literature transcription', 'Metals'],
-      ['1,228 individuals', 'Read out of published papers.'],
-      'No new excavation and no new assay. The layer inherits every decision the original papers made.',
-    ],
-    [
-      ['Survey and administrative', 'Interventions'],
-      ['1,585 living adults', 'Examined, plus claim forms counted.'],
-      'Not excavated at all. A different kind of record from everything above it.',
-    ],
-  ]}
-  caption="The four kinds of evidence behind the six datasets, in the order they can bear weight."
+<Clip
+  src="/images/tooth/caries-clip"
+  ratio="1360/714"
+  label="The caries layer selected on the radial timeline. The marker runs along the caries line to the late medieval era, and a panel opens giving the share of adults with no carious tooth, the share with five or more, a five-band distribution of carious teeth across the period, and the dataset and sample size it comes from."
+  caption="The caries layer, opened in the piece itself. 36% of late medieval adults had no carious tooth and 15% had five or more, with the whole distribution underneath it and the dataset named below that, down to the sample size."
 />
 
 <div class="prose">
 
-Bone, then body, then bureaucracy.
+Only the first was measured directly and consistently: one codebook, trained observers,
+excavated skeletons.
+
+</div>
+
+<Clip
+  src="/images/tooth/metals-clip"
+  ratio="1360/728"
+  label="The metals layer. A radar chart opens holding eight elements at once, each arm a metal given in parts per million and as a multiple of its level in ancient teeth, and then a slope chart puts the Neolithic range for lead beside the twentieth century one."
+  caption="The metals layer. Lead in twentieth century childhood enamel averaged 6.55 ppm, ten times the archaeological level, though copper rose further still at fourteen times. The radar holds every element at once, then the slope chart carries the Neolithic range across to the modern one."
+/>
+
+<div class="prose">
+
+The pathogen layer is ninety sampling decisions pooled through a public archive, not one.
+The metals layer is values read out of published papers, with no new excavation or assay.
+
+The intervention layer is living volunteers examined and claim forms counted: bone, then
+body, then bureaucracy.
 
 </div>
 
@@ -191,40 +188,18 @@ Each layer had its own way of going quietly wrong.
 Nobody excavated Europe at random. Every site in the osteology module exists because
 somebody had a reason to dig there: a grant, a motorway, a cathedral restoration.
 
-</div>
+Three of its seventeen countries hold 48% of the individuals, Lithuania alone outweighs
+Spain, Portugal, Greece, Hungary and Romania combined, and six European countries are not
+in it at all.
 
-<Bars
-  label="Country"
-  unit="Adults 18-69"
-  share
-  mark={['Germany', 'Lithuania', 'UK']}
-  items={[
-    ['Germany', 1900], ['Lithuania', 1818], ['UK', 1487], ['Poland', 882],
-    ['France', 851], ['Switzerland', 652], ['Netherlands', 520], ['Latvia', 451],
-    ['Portugal', 439], ['Austria', 389], ['Hungary', 371], ['Romania', 347],
-    ['Sweden', 242], ['Ukraine', 139], ['Greece', 121], ['Spain', 93], ['Cyprus', 57],
-  ]}
-  caption="Three of the seventeen countries hold just under half the people. Lithuania on its own outweighs Spain, Portugal, Greece, Hungary and Romania put together."
-  note="Six European countries are not in it at all. The sources also disagree about when an era began and ended, so the periods overlap and leave holes."
-/>
+The sources also disagree about when an era began and ended, so the periods overlap and
+leave holes.
 
-<Bars
-  label="Period"
-  unit="Adults 18-69"
-  mark={['Industrial']}
-  items={[
-    ['Pre-medieval', 930, '10 sites, 7 countries'],
-    ['Early medieval', 3317, '26 sites, 11 countries'],
-    ['High medieval', 1286, '13 sites, 8 countries'],
-    ['Late medieval', 1524, '17 sites, 6 countries'],
-    ['Early modern', 2906, '29 sites, 11 countries'],
-    ['Industrial', 796, '7 sites, 4 countries'],
-  ]}
-  caption="The narrative peaks exactly where the evidence runs out."
-  note="The industrial tail is the thinnest part of every layer, and it carries 10 human pathogen samples against the hundreds behind the medieval rows."
-/>
+The one that mattered most got a slide of its own. The industrial tail is the thinnest
+part of every layer: 796 adults across 7 sites and 4 countries, and 10 human pathogen
+samples.
 
-<div class="prose">
+The narrative peaks exactly where the evidence runs out.
 
 So the tooth on screen is an abstraction, not a reconstruction. It is drawn to carry
 trends and relationships, and the page says where it is uncertain rather than smoothing
