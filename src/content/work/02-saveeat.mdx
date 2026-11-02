@@ -44,23 +44,24 @@ sections:
 
 <Lede text={frontmatter.question} />
 
-TooGoodToGo works on a straightforward trade: a shop has food it cannot sell, you get
-it cheaply, and in return you do not get to choose what it is.
+TooGoodToGo works on a straightforward trade, in which a shop has food it cannot sell
+and you get it cheaply, but in return you do not get to choose what it is.
 
-The discount is what makes the surprise acceptable.
+The discount, in that arrangement, is what makes the surprise acceptable.
 
 Korean dining has moved towards health-conscious eating, where people choose a meal on
 what is in it rather than on what it costs.
 
-If the buyer cares about ingredients, a mystery bag is not a bargain, it is a risk.
-This project keeps the surplus-food model and removes that risk.
+Once the buyer starts caring about ingredients, however, a mystery bag stops being a
+bargain and becomes a risk, so this project set out to keep the surplus-food model while
+taking that risk back out of it.
 
 <Prototype
   viewport={1580}
-  caption="The buyer flow, from the Figma prototype."
+  caption="The buyer flow as it runs in the Figma prototype."
   items={[
-    ["/images/saveeat/onboarding-1-brand.jpg", "Entry screen. Kakao, Apple, Google or email.", 1560],
-    ["/images/saveeat/onboarding-2-user-type.jpg", "Choosing between buyer and merchant.", 1632],
+    ["/images/saveeat/onboarding-1-brand.jpg", "The entry screen, offering Kakao, Apple, Google or email.", 1560],
+    ["/images/saveeat/onboarding-2-user-type.jpg", "Choosing between buyer and merchant before anything else is shown.", 1632],
     ["/images/saveeat/onboarding-3-diet.jpg", "Choosing dietary preferences before any food is shown.", 1632],
     ["/images/saveeat/home.jpg", "Home feed of surplus bags nearby, filtered by the dietary tags.", 2614],
     ["/images/saveeat/store-detail.jpg", "A store page: stock, what is in the bag, dietary tags and reviews.", 2302],
@@ -73,17 +74,18 @@ This project keeps the surplus-food model and removes that risk.
 
 <div class="prose">
 
-The buyer side runs from a home feed and map of nearby bags, into a store, into a
-pickup pass. Dietary tags carry the onboarding answers forward, so the preference does
-work on every screen rather than sitting in a profile.
+The buyer side runs from a home feed and a map of nearby bags into a store, and from
+there into a pickup pass, with dietary tags carrying the onboarding answers forward so
+that the preference does real work on every screen rather than sitting unused in a
+profile.
 
 </div>
 
 <Screens
   cap={2}
   items={[
-    ["/images/saveeat/home.jpg", "Home. Bags near you, with the dietary tags from onboarding applied.", "750/2614"],
-    ["/images/saveeat/store-detail.jpg", "Store detail. Stock, contents, dietary tags and reviews: what a health-led buyer needs before committing.", "750/2302"],
+    ["/images/saveeat/home.jpg", "The home feed shows bags near you, with the dietary tags from onboarding already applied to them.", "750/2614"],
+    ["/images/saveeat/store-detail.jpg", "The store detail page carries stock, contents, dietary tags and reviews, which together are what a health-led buyer needs before committing.", "750/2302"],
   ]}
 />
 
@@ -93,11 +95,12 @@ work on every screen rather than sitting in a profile.
 
 <div class="prose">
 
-The flow asks two things before it shows any food: what kind of user you are, and what
-you eat. The second is the decision the whole product rests on.
+The flow asks two things before it shows any food, namely what kind of user you are and
+what you eat, and the second of those is the decision the whole product rests on.
 
 Every screen before the first bag is a screen somebody can leave on, and most
-marketplaces earn the right to ask by showing you something first. This one cannot.
+marketplaces earn the right to ask by showing you something first, which is exactly what
+this one cannot do.
 
 If a health-led buyer's first sight is a wall of unlabelled mystery bags, the model has
 already failed for them, and no amount of filtering afterwards undoes it.
@@ -106,9 +109,9 @@ already failed for them, and no amount of filtering afterwards undoes it.
 
 <Screens
   items={[
-    ["/images/saveeat/onboarding-1-brand.jpg", "Entry. Kakao, Apple, Google or email. The first screen asks for nothing but a way in.", "750/1560"],
+    ["/images/saveeat/onboarding-1-brand.jpg", "The entry screen offers Kakao, Apple, Google or email, asking for nothing except a way in.", "750/1560"],
     ["/images/saveeat/onboarding-2-user-type.jpg", "Buyer or merchant, chosen first, because the two sides see different products.", "750/1632"],
-    ["/images/saveeat/onboarding-3-diet.jpg", "Dietary preference. The screen that answers the framing question: how a mystery bag stops being a risk.", "750/1632"],
+    ["/images/saveeat/onboarding-3-diet.jpg", "The dietary preference screen is the one that answers the framing question, because it is how a mystery bag stops being a risk.", "750/1632"],
   ]}
 />
 
@@ -118,7 +121,8 @@ already failed for them, and no amount of filtering afterwards undoes it.
 
 <div class="prose">
 
-The map view was drawn twice and the two versions put side by side.
+The map view was drawn twice so that the two versions could be put side by side and
+compared properly.
 
 The question underneath is how the screen splits between map and list: the map tells you
 a pickup is walkable, the list tells you whether the food is worth the walk.
@@ -127,7 +131,7 @@ a pickup is walkable, the list tells you whether the food is worth the walk.
 
 <Compare
   criteriaLabel="What the screen has to answer"
-  note="Held constant: the same chips, the same cards, the same bottom navigation. The variable is the split."
+  note="Held constant across both options were the same chips, the same cards and the same bottom navigation, so that the only variable was the split itself."
   options={[
     { label: 'A', title: 'Fixed split', points: [
       'The map stops partway down and the list sits below it.',
@@ -151,8 +155,8 @@ a pickup is walkable, the list tells you whether the food is worth the walk.
 <Screens
   cap={2}
   items={[
-    ["/images/saveeat/ab-variant-a.jpg", "A. A fixed split: map above, list below.", "650/1806"],
-    ["/images/saveeat/ab-variant-b.jpg", "B, the one we went with. A draggable sheet over a taller map.", "650/1804"],
+    ["/images/saveeat/ab-variant-a.jpg", "Option A used a fixed split, with the map above and the list sitting below it.", "650/1806"],
+    ["/images/saveeat/ab-variant-b.jpg", "Option B, which is the one we went with, puts a draggable sheet over a taller map.", "650/1804"],
   ]}
 />
 
@@ -162,14 +166,15 @@ a pickup is walkable, the list tells you whether the food is worth the walk.
 
 <div class="prose">
 
-Weekly cycles: **research**, then **feature**, then **screen**.
+The team worked in weekly cycles that ran in the same order each time, moving from **research** to **feature** and then to **screen**.
 
 </div>
 
 <Method>
 
 <Step n="01" title="Research">
-Ground rules, background and target user. Where the health-led framing was settled.
+Ground rules, background and target user, which is where the health-led framing was
+settled.
 </Step>
 
 <Step n="02" title="Feature">
@@ -178,9 +183,9 @@ specification.
 </Step>
 
 <Step n="03" title="Screen">
-Wireframes, then screens, each member building MVP screens with AI assistance into a
-shared Figma file. Mine, the merchant pages and the impact UI, became the basis for the
-whole flow.
+Wireframes and then screens, with each member building MVP screens with AI assistance
+into a shared Figma file, after which mine, the merchant pages and the impact UI, became
+the basis for the whole flow.
 </Step>
 
 </Method>
@@ -191,17 +196,19 @@ whole flow.
 
 <div class="prose">
 
-No usage numbers, because nothing has been put in front of a user yet. What the
-project is worth is the specificity of the proposal.
+There are no usage numbers yet, because nothing has been put in front of a user, so what
+the project is worth at this stage is the specificity of its proposal.
 
-Surplus-food marketplaces are well established where a discount is the draw. Whether the
-model survives in a market that chooses a meal on what is in it has not been answered.
+Surplus-food marketplaces are well established in places where a discount is the draw,
+but whether the model survives in a market that chooses a meal on what is in it has not
+really been answered.
 
 The mechanism is small and testable: move the dietary question in front of the food,
 carry it through every screen, and a mystery bag becomes a bounded one.
 
-A full buyer flow and a merchant side designed, a working prototype, a design system
-being retrofitted rather than planned. Nothing shipped to users.
+As it stands there is a full buyer flow and a merchant side designed, a working
+prototype, and a design system being retrofitted rather than planned, with nothing yet
+shipped to users.
 
 </div>
 
@@ -211,22 +218,22 @@ being retrofitted rather than planned. Nothing shipped to users.
 
 <div class="prose">
 
-I had assumed the thinking happened while drawing. It did not.
+I had assumed the thinking would happen while drawing, and it did not.
 
 Writing the functional specification first meant the screen work was about presenting
 decisions that had already been argued rather than making them with a mouse. The screens
 got faster and the arguments got shorter.
 
-Choosing B was the decision I am most sure of and the one that felt least like designing.
-The instinct is to invent the interaction.
+Choosing B was the decision I am most sure of and also the one that felt least like
+designing, because the instinct in that moment is to invent the interaction.
 
 The better answer was to borrow one the market already knows, and spend the attention we
 saved on the genuinely unfamiliar part, being asked what you eat before you are shown any
 food.
 
-The honest regret is the design system. Colours, spacing and components were settled
-screen by screen and reconciled afterwards, which leaves decisions nobody can explain
-later.
+The honest regret is the design system, since colours, spacing and components were
+settled screen by screen and reconciled afterwards, which leaves behind decisions that
+nobody can explain later.
 
 Next time the system comes after the first flow is understood and before the rest is
 drawn, not at the end.
