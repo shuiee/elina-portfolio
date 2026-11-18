@@ -6,3 +6,6 @@ dist/
 .env
 .vercel
 .netlify
+
+# Local scratch: parked assets and components, never deployed
+.parked/
