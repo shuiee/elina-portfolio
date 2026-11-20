@@ -1,68 +1,66 @@
 ---
-/* The contents page. Since the landing page no longer lists projects, this is
-   where a reader meets all four for the first time — so each entry carries the
-   instrument, not just a title. */
+/* The contents page, as a wall of identical tiles.
+ *
+ * The image leads. A reader should be able to tell what a project LOOKS like
+ * before they read a word about it, then get the name, then one short
+ * description. Everything else — concepts, skills, tools, the framing question
+ * — now lives on the project page, where there is room to mean something. On
+ * this page they were five stacked metadata rows per entry, which is what was
+ * pushing the images off the screen in the first place.
+ *
+ * Every tile is the same size: two equal columns, one ratio, three rows. The
+ * uniformity is the design. There is no arrangement to configure here, and
+ * that is deliberate — a project is added by dropping an .mdx file in, and the
+ * wall stays regular on its own.
+ *
+ * What varies is inside the frame, not the frame. Most of these projects are
+ * diagrams, slides and screenshots rather than photographs, so the default
+ * treatment mounts the artwork on a muted ground mixed from the project's own
+ * accent (thumbFit: mount). A photograph good enough to carry a whole tile
+ * gets thumbFit: bleed in its frontmatter and fills the frame instead.
+ */
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { href } from '../../lib/url.js';
+import { href, asset } from '../../lib/url.js';
+
 const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Work" description="Five investigations in problem framing.">
+<Base title="Work" description="Six projects in problem framing.">
   <div class="page wk">
     <header class="wk__head">
       <p class="corner"><span class="figure-num">02</span> Work</p>
       <h1 class="script wk__title">Work</h1>
     </header>
 
-    <ol class="wk__list">
+    <ol class="wk__wall">
       {work.map((p) => (
-        <li class="wk__item reveal" data-accent={p.data.accent}>
-          <div class="wk__id">
-            <a class="wk__link" href={href(`/work/${p.id}/`)}>
-              <span class="figure-num wk__num">{p.data.number}</span>
-              <span class="wk__name">{p.data.title}</span>
-            </a>
+        <li class="wk__tile reveal" data-accent={p.data.accent}>
+          <div class={`wk__frame wk__frame--${p.data.thumbFit}`}>
+            {p.data.thumb ? (
+              <img
+                class="wk__img"
+                src={asset(p.data.thumb)}
+                alt={p.data.thumbAlt ?? ''}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <p class="wk__missing">TODO(elina): no image for this project yet</p>
+            )}
           </div>
 
-          <div class="wk__case">
-            <p class="wk__about">{p.data.about}</p>
-            <p class="wk__q">{p.data.question}</p>
+          {/* The link wraps the title only, and a stretched pseudo-element
+              carries the click across the whole tile. That way a screen reader
+              announces "01 Seeing Information in Transport Systems" rather than
+              the title plus the entire image description, and the image keeps
+              its own alt text where it belongs. */}
+          <h2 class="wk__name">
+            <span class="figure-num wk__num">{p.data.number}</span>
+            <a class="wk__link" href={href(`/work/${p.id}/`)}>{p.data.title}</a>
+          </h2>
 
-            {/* Type and role read as labelled facts like the rest, rather than as
-                a caption under the title. Dates stay on the project page. */}
-            <dl class="wk__facets">
-              <div class="wk__facet">
-                <dt class="eyebrow">Type</dt>
-                <dd>{p.data.projectType}</dd>
-              </div>
-              <div class="wk__facet">
-                <dt class="eyebrow">Role</dt>
-                <dd>{p.data.role}</dd>
-              </div>
-              {p.data.concepts.length > 0 && (
-                <div class="wk__facet">
-                  <dt class="eyebrow">Concepts</dt>
-                  <dd>{p.data.concepts.join(' · ')}</dd>
-                </div>
-              )}
-              {p.data.skills.length > 0 && (
-                <div class="wk__facet">
-                  <dt class="eyebrow">Skills</dt>
-                  <dd>{p.data.skills.join(' · ')}</dd>
-                </div>
-              )}
-              {p.data.tools.length > 0 && (
-                <div class="wk__facet">
-                  <dt class="eyebrow">Tools</dt>
-                  <dd>{p.data.tools.join(' · ')}</dd>
-                </div>
-              )}
-            </dl>
-
-            <a class="wk__more" href={href(`/work/${p.id}/`)}>
-              Read the full project <span aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
+          <p class="wk__about">{p.data.about}</p>
+          <p class="wk__meta">{p.data.projectType} · {p.data.dates}</p>
         </li>
       ))}
     </ol>
@@ -71,7 +69,7 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 
 <style>
   .wk { padding-top: var(--space-7); }
-  .wk__head { padding-bottom: var(--space-7); }
+  .wk__head { padding-bottom: var(--space-8); }
   .wk__title {
     font-size: clamp(var(--size-8), 9vw, var(--size-10));
     line-height: 0.95;
@@ -79,68 +77,135 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     letter-spacing: -0.01em;
   }
 
-  .wk__list { list-style: none; padding: 0; margin: 0; }
-  .wk__item {
-    padding-block: var(--space-8);
-    border-top: var(--border-hair) solid var(--rule);
+  /* ------------------------------------------------------------- the wall */
+  .wk__wall {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: grid;
-    gap: var(--space-5);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-5);
+    row-gap: var(--space-7);
   }
-  @media (min-width: 950px) {
-    .wk__item {
-      grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
-      gap: var(--space-8);
-      align-items: start;
-    }
-  }
-  .wk__link { display: flex; gap: var(--space-4); align-items: baseline; text-decoration: none; }
-  .wk__link:hover .wk__name { text-decoration: underline; }
-  .wk__num { font-size: var(--size-6); color: var(--accent-ink); flex: none; }
-  .wk__name {
-    font-size: var(--size-6);
-    font-weight: var(--weight-bold);
-    line-height: var(--leading-head);
-    letter-spacing: var(--track-head);
+  @media (max-width: 599px) {
+    .wk__wall { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-6); }
   }
 
-  .wk__case { min-width: 0; }
+  .wk__tile { position: relative; min-width: 0; }
+
+  /* ------------------------------------------------------------ the frame
+     Identical for every project: same ratio, same width, same hairline. The
+     ground is the project accent mixed down into the page, so the six tiles
+     are quietly six different colours without any of them shouting. */
+  .wk__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--shape-tile);
+    border: var(--border-hair) solid var(--rule);
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--accent) var(--mount-tint), var(--paper));
+  }
+
+  /* Mounted: the artwork sits on the ground at about three-quarters width,
+     whatever shape it really is, so a panorama and a phone screen can share a
+     wall without either being cropped.
+
+     It is positioned out of flow on purpose. If it stayed in flow, a tall
+     image would stretch its own frame and the wall would stop being uniform —
+     which is the whole point of the wall. Out of flow, the frame's height
+     comes from the ratio alone and the artwork can only ever fit inside it. */
+  .wk__frame--mount .wk__img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    max-width: var(--mount-scale);
+    max-height: var(--mount-scale-h);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-mount);
+    transform: translate(-50%, -50%);
+  }
+  .wk__tile:hover .wk__frame--mount .wk__img {
+    transform: translate(-50%, -50%) scale(1.015);
+  }
+
+  /* Bleed: a photograph good enough to fill the frame on its own. */
+  .wk__frame--bleed { background: var(--field); }
+  .wk__frame--bleed .wk__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .wk__tile:hover .wk__frame--bleed .wk__img { transform: scale(1.015); }
+
+  .wk__img {
+    display: block;
+    transition: transform var(--motion-base) var(--motion-ease);
+  }
+
+  .wk__missing {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    margin: 0;
+    padding: var(--space-5);
+    text-align: center;
+    font-size: var(--size-2);
+    color: var(--ink-quiet);
+  }
+
+  /* ---------------------------------------------------------- the caption
+     Small on purpose. The image is the thing being looked at; the name and the
+     two lines under it are for the reader who has already stopped. Title and
+     description are the same size and separate on weight and colour, which is
+     what keeps the block quiet enough to sit under a picture. */
+  .wk__name {
+    margin: var(--space-3) 0 0;
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    font-size: var(--size-3);
+    font-weight: var(--weight-med);
+    line-height: var(--leading-head);
+    letter-spacing: 0;
+  }
+
+  .wk__num {
+    flex: none;
+    font-size: var(--size-2);
+    font-weight: var(--weight-normal);
+    color: var(--accent-ink);
+  }
+
+  .wk__link { color: inherit; text-decoration: none; }
+  /* Stretched target: the whole tile is clickable, the accessible name is
+     still just the project title. */
+  .wk__link::after { content: ''; position: absolute; inset: 0; }
+  .wk__tile:hover .wk__link {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
 
   .wk__about {
-    font-size: var(--size-4);
+    margin: var(--space-2) 0 0;
+    max-width: 44ch;
+    font-size: var(--size-3);
     line-height: var(--leading-body);
     text-wrap: pretty;
   }
 
-  /* The question, back in the written half.
-     It is set one step up the scale from the description on purpose:
-     Instrument Serif has a much smaller x-height than Inter, so 21px of serif
-     reads the same size as 18px of sans. Matching the token would have made it
-     look smaller than the line above it, not equal to it. */
-  .wk__q {
-    margin-top: var(--space-5);
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--size-5);
-    line-height: var(--leading-body);
-    color: var(--ink);
+  .wk__meta {
+    margin: var(--space-2) 0 0;
+    font-size: var(--size-2);
+    color: var(--ink-quiet);
   }
 
-  /* What the project explores, what it took, and what it was made with.
-     Labelled rows rather than tag pills: these are sentences worth reading, not
-     keywords to be scanned and forgotten. */
-  .wk__facets {
-    margin: var(--space-6) 0 0;
-    padding-top: var(--space-5);
-    border-top: var(--border-hair) solid var(--rule);
-    display: grid;
-    gap: var(--space-4);
+  @media (prefers-reduced-motion: reduce) {
+    .wk__img { transition: none; }
+    .wk__tile:hover .wk__frame--mount .wk__img { transform: translate(-50%, -50%); }
+    .wk__tile:hover .wk__frame--bleed .wk__img { transform: none; }
   }
-  .wk__facet { display: grid; gap: var(--space-1); }
-  @media (min-width: 700px) {
-    .wk__facet { grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-5); }
-  }
-  .wk__facet dt { padding-top: 0.3em; }
-  .wk__facet dd { margin: 0; font-size: var(--size-3); line-height: var(--leading-body); }
-
-  .wk__more { display: inline-block; margin-top: var(--space-6); font-weight: var(--weight-med); }
 </style>

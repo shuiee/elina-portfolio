@@ -126,6 +126,43 @@
   --rail-width:   180px;   /* sticky case-study orientation rail */
   --rail-gap:      64px;
 
+  /* --------------------------------------------------------------- tiles
+     The work gallery is a wall of identical tiles. One ratio, one width, three
+     rows of two — the uniformity IS the design, so there is a single token
+     here rather than a set of shapes to choose between.
+
+     16:10 is the compromise that lets every asset sit in the same frame
+     without being cropped: the four 16:9 thumbnails very nearly fill it, the
+     radial timeline letterboxes slightly, and the one phone screen stands in
+     the middle of the sheet. Images are contained, never cropped, so the frame
+     can be uniform while the artwork inside it is whatever shape it really is.
+     */
+  --shape-tile: 8 / 5;
+
+  /* Most of these projects are diagrams, slides and screenshots rather than
+     photographs, so the default treatment mounts the artwork on a muted ground
+     instead of letting it fill the frame. The ground is mixed from the
+     project's own accent, so each tile is quietly a different colour and none
+     of them is a colour that was invented for the purpose. Most of the
+     artwork sits on white, so the tint is what separates the plate from its
+     mount — too little and the plate dissolves into the card. 16% is muted
+     enough to stay background and strong enough to do that job.
+
+     Two scales, because one number cannot serve both: a landscape plate is
+     limited by the width it may take, a portrait one by the height. Without
+     the second number the one phone screen on the wall comes out a third the
+     size of everything else. */
+  --mount-tint:    16%;
+  --mount-scale:   76%;   /* landscape artwork: share of the tile's width */
+  --mount-scale-h: 86%;   /* portrait artwork: share of the tile's height */
+
+  /* The one piece of depth on this site. It exists so a mounted plate reads as
+     an object resting on a card rather than as a bordered picture. Tinted to
+     the ink, never pure black. Delete these two lines to go back to flat. */
+  --shadow-mount:
+    0 1px 2px rgba(17, 17, 17, 0.06),
+    0 8px 24px rgba(17, 17, 17, 0.07);
+
   /* ------------------------------------------------------------ borders */
   --border-hair:  1px;
   --border-mark:  2px;   /* the criterion block's top rule */

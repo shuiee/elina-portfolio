@@ -32,6 +32,13 @@ const work = defineCollection({
     // marked placeholder instead.
     thumb: z.string().optional(),
     thumbAlt: z.string().optional(),
+    // How the thumbnail sits in its tile on /work/.
+    //   'mount' (default) — the artwork is inset on a muted ground mixed from
+    //      this project's accent. Right for diagrams, slides and screenshots,
+    //      which is most of them.
+    //   'bleed' — the image fills the tile edge to edge. Only for a photograph
+    //      good enough to carry a whole tile on its own.
+    thumbFit: z.enum(['mount', 'bleed']).default('mount'),
     // The three labelled groups shown under each entry on /work/.
     // Only list what the project actually used — leave a group out rather than
     // padding it.

@@ -19,7 +19,9 @@ const { items = [], cap = 3 } = Astro.props;
         decoding="async"
         style={`aspect-ratio:${ratio ?? '750/1600'}`}
       />
-      <p class="screens__caption meta">{caption}</p>
+      {/* The visible caption was removed on 2026-11-20. The string stays in the
+          items array because it is also this screen's alt text (see alt above),
+          and dropping it would leave the screenshots undescribed. */}
     </li>
   ))}
 </ol>
@@ -42,5 +44,4 @@ const { items = [], cap = 3 } = Astro.props;
     background: var(--field);
     border: var(--border-hair) solid var(--rule);
   }
-  .screens__caption { margin-top: var(--space-3); }
 </style>
