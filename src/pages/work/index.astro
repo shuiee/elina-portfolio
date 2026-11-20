@@ -122,8 +122,11 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     height: auto;
     max-width: var(--mount-scale);
     max-height: var(--mount-scale-h);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-mount);
+    /* A filter, not a box-shadow — half of these are cut-outs, and the shadow
+       has to fall off the structure rather than off the image's rectangle.
+       No border-radius either: it would round the invisible box, not the
+       artwork, and the rectangular thumbnails carry their own edges. */
+    filter: var(--shadow-mount);
     transform: translate(-50%, -50%);
   }
   .wk__tile:hover .wk__frame--mount .wk__img {
