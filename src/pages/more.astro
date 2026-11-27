@@ -1,208 +1,33 @@
 ---
+/* The "More" page. Elina asked on 2026-11-27 for the CV to come off it while
+   she decides what this page is actually for, so it is deliberately a title
+   and nothing else. Nothing has been invented to fill it.
+
+   The CV that used to be here — education, design projects, professional
+   experience and the skills table, with all its data — is in git. To bring any
+   of it back:  git show 1159216:src/pages/more.astro
+
+   /cv/ still redirects here (see astro.config.mjs), so no old link is broken. */
 import Base from '../layouts/Base.astro';
-
-/* Everything on this page is data — edit the arrays, the layout follows.
-   Source: Elina_PD.pdf (CV draft). Spelling anglicised to match the rest of
-   the site; content otherwise unchanged. */
-
-
-
-const education = [
-  {
-    when: 'Aug 2026 – June 2028',
-    org: 'Harvard University',
-    role: 'Master in Design Engineering (MDE)',
-    points: [
-      'STU 1231 Collaborative Design Engineering Studio I: physical prototyping, sensor integration, digital interface design, and interactive data storytelling.',
-      'PRO 7231 Integrative Frameworks for Technology, Organizations and Society: human-centred frameworks for interdisciplinary problem reframing.',
-      'ENG-SCI 276 Microelectromechanical Systems: building and testing physical sensor devices, and reverse-engineering commercial sensors.',
-      'MIT MAS.834 Tangible Interfaces (cross-registration): physical-digital interaction design through hands-on prototyping.',
-    ],
-    note: 'Fall 2026 coursework',
-  },
-  {
-    when: 'Sep 2019 – June 2022',
-    org: 'University College London',
-    role: 'BEng Civil, Environmental and Geomatic Engineering',
-    points: ['Upper Second Class Honours.'],
-  },
-];
-
-const projects = [
-  {
-    when: 'Personal',
-    org: 'SaveEat',
-    role: 'Product direction, UX designer',
-    points: [
-      'Originated and led product direction for an AI-assisted food waste app on the TooGoodToGo model, tailored to Korea’s health-conscious dining trend.',
-      'Directed feature scope, target-user definition and UI/UX decisions, working with a small team to reach a functional MVP.',
-    ],
-  },
-  {
-    when: 'Personal',
-    org: 'Patchwork',
-    role: 'Product and UX lead',
-    points: [
-      'Designed and tested a digital product concept through qualitative interviews, affinity mapping, competitor analysis and early prototyping.',
-      'Led a small cross-disciplinary team through the full product design cycle, working across the software-engineering and UX boundary with AI-assisted tools.',
-    ],
-  },
-  {
-    when: 'Academic',
-    org: 'Seeing Information in Transport Systems',
-    role: 'Co-author',
-    points: [
-      'Ran digital and physical experiments on visual accessibility in transport systems (luminance testing, MATLAB analysis, user surveys) to inform layout and signage design principles.',
-    ],
-  },
-];
-
-const experience = [
-  {
-    when: 'Nov 2025 – May 2026',
-    org: 'Mott MacDonald',
-    where: 'London',
-    role: 'Civil Engineer',
-    points: [
-      'Led proposal development and early scoping: framing ambiguous client needs, defining structured requirements, and developing costed options and risk-informed decision pathways.',
-      'Ran structural simulations and technical assessments in SAP2000 alongside conventional design calculations, evaluating innovative construction methods against multiple international codes.',
-    ],
-  },
-  {
-    when: 'Oct 2024 – Nov 2025',
-    org: 'Mott MacDonald',
-    where: 'London',
-    role: 'Graduate Civil Engineer',
-    points: [
-      'Supported a new-build nuclear design portfolio, synthesising engineering, environmental and safety evidence to guide stakeholders through a Generic Design Assessment.',
-      'Improved workflows across engineering, safety and project management by clarifying requirements, aligning deliverables and reducing coordination friction.',
-    ],
-  },
-  {
-    when: 'Sep 2022 – Jul 2024',
-    org: 'Mott MacDonald',
-    where: 'Seoul',
-    role: 'Graduate Renewable Energy Engineer',
-    points: [
-      'Reviewed feasibility-stage designs for 1 GW offshore wind and 20–110 MW solar projects, translating technical and regulatory constraints into stakeholder-facing recommendations.',
-      'Coordinated with OEMs and EPCs to assess technical compliance and manage interfaces on large-scale renewable projects.',
-      'Chaired the Asia–Australasia Early Career Professionals committee, leading 25 representatives across regions for a network of roughly 300 members.',
-    ],
-  },
-  {
-    when: 'Aug – Sep 2020',
-    org: 'Seoul National University',
-    where: 'Seoul',
-    role: 'Innovation and Development Intern',
-    points: [
-      'Early research experience in modular systems design with an interdisciplinary mechanical engineering lab.',
-    ],
-  },
-];
-
-const skills = [
-  ['Physical prototyping and fabrication', 'Fusion 360 · Rhino (working knowledge) · 3D printing'],
-  ['AI-assisted product development', 'Prompt-based prototyping and app development (Claude) · Figma · HTML and web structure'],
-  ['Design and research', 'UX research · qualitative interviews · affinity mapping · early-stage prototyping'],
-  ['Technical and simulation', 'Python · MATLAB · GIS · AutoCAD · SAP2000 · Revit'],
-  ['Languages', 'Native English and Korean speaker'],
-];
-
-const groups = [
-  { title: 'Education', items: education },
-  { title: 'Design projects', items: projects },
-  { title: 'Professional experience', items: experience },
-];
 ---
-<Base title="More" description="Curriculum vitae, and whatever else does not fit on the work pages.">
-  <div class="page cv">
-    <header class="cv__head">
-      <h1 class="script cv__title">More</h1>
-      <p class="cv__summary">
-        Engineer and Harvard Master in Design Engineering student, moving from
-        <strong>technical, client-facing engineering</strong> into
-        <strong>hands-on, human-centred product design</strong>. Over three years of translating
-        ambiguous technical and regulatory requirements into clear, decision-ready outcomes;
-        increasingly focused on human&ndash;computer interaction and physical prototyping,
-        building digital and physical concepts from user research through to working MVPs.
-      </p>
+<Base title="More" description="More from Elina J. Lee.">
+  <div class="page more">
+    <header class="more__head">
+      <h1 class="script more__title">More</h1>
     </header>
-
-    {groups.map((g) => (
-      <section class="cv__group reveal">
-        <h2 class="eyebrow">{g.title}</h2>
-        {g.items.map((item) => (
-          <article class="cv__entry">
-            <p class="cv__when meta">{item.when}</p>
-            <div class="cv__detail">
-              <h3 class="cv__org">{item.org}</h3>
-              <p class="cv__role">{item.role}{item.where && <span class="cv__where"> · {item.where}</span>}</p>
-              {item.note && <p class="eyebrow cv__note">{item.note}</p>}
-              {item.points.length > 0 && (
-                <ul class="cv__points">{item.points.map((p) => <li>{p}</li>)}</ul>
-              )}
-            </div>
-          </article>
-        ))}
-      </section>
-    ))}
-
-    <section class="cv__group reveal">
-      <h2 class="eyebrow">Skills</h2>
-      <dl class="cv__skills">
-        {skills.map(([label, value]) => (
-          <div class="cv__skillrow">
-            <dt>{label}</dt>
-            <dd>{value}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
   </div>
 </Base>
 
 <style>
-  .cv { padding-top: var(--space-7); max-width: 60rem; }
-  .cv__title {
-    /* The same clamp as About and Work. It was smaller only because
-       "Curriculum vitae" is sixteen characters and would have wrapped; "More"
-       is four, so the three page titles can finally be one size. */
+  /* Same padding and same container as About and Work, so the three page
+     titles land on the same left edge at the same height and the column they
+     open is the same width. The page used to cap itself at 60rem, which made
+     "more" sit in a narrower column than "about" and "work". */
+  .more { padding-top: var(--space-7); }
+  .more__title {
     font-size: clamp(var(--size-8), 9vw, var(--size-10));
     line-height: 0.95;
     letter-spacing: -0.01em;
     margin-top: var(--space-4);
   }
-  /* The two phrases that name the move she is making — from what, to what.
-     Emphasis only, no colour: the accents belong to the projects. */
-  .cv__summary strong { font-weight: var(--weight-bold); }
-  .cv__summary {
-    margin-top: var(--space-5);
-    max-width: var(--measure);
-    font-size: var(--size-5);
-    line-height: var(--leading-body);
-  }
-
-  .cv__group { margin-top: var(--space-8); }
-  .cv__group > h2 { padding-bottom: var(--space-3); border-bottom: var(--border-mark) solid var(--ink); }
-  .cv__entry { display: grid; gap: var(--space-2); padding-block: var(--space-6); }
-  .cv__entry + .cv__entry { border-top: var(--border-hair) solid var(--rule); }
-  @media (min-width: 800px) {
-    .cv__entry { grid-template-columns: 11rem minmax(0, 1fr); gap: var(--space-6); }
-  }
-  .cv__when { padding-top: 0.25em; }
-  .cv__org { font-size: var(--size-5); }
-  .cv__role { margin-top: var(--space-1); font-size: var(--size-3); }
-  .cv__where { color: var(--ink-quiet); }
-  .cv__note { margin-top: var(--space-4); }
-  .cv__points { margin-top: var(--space-4); padding-left: var(--space-5); font-size: var(--size-3); }
-  .cv__points li + li { margin-top: var(--space-3); }
-
-  .cv__skills { margin: 0; }
-  .cv__skillrow { display: grid; gap: var(--space-2); padding-block: var(--space-5); }
-  .cv__skillrow + .cv__skillrow { border-top: var(--border-hair) solid var(--rule); }
-  @media (min-width: 800px) {
-    .cv__skillrow { grid-template-columns: 11rem minmax(0, 1fr); gap: var(--space-6); }
-  }
-  .cv__skillrow dt { font-weight: var(--weight-bold); font-size: var(--size-3); }
-  .cv__skillrow dd { margin: 0; font-size: var(--size-3); }
 </style>

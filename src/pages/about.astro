@@ -104,7 +104,9 @@ import Arrow from '../components/Arrow.astro';
 </Base>
 
 <style>
-  .about { padding-top: var(--space-8); }
+  /* space-7, matching Work and More, so all three page titles sit at the
+     same height under the nav. This was space-8 and landed 16px lower. */
+  .about { padding-top: var(--space-7); }
   .about__title {
     font-size: clamp(var(--size-8), 9vw, var(--size-10));
     line-height: 0.95;
