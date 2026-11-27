@@ -61,10 +61,27 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
 
   /* -- the name ----------------------------------------------------------- */
   .landing__name {
-    margin: var(--space-3) 0 var(--space-5);
+    /* The bottom gap is em-based, not a space token, and that is the whole
+       trick. This name is sized by a clamp that runs from 44px to 232px, and
+       the tail of the j is 0.42em deep, so the gap has to scale with it: with
+       a fixed --space-5 the glyphs cleared the claim by 7px at a 86px name and
+       overlapped it by 7px at a 140px one. At 0.4em the clearance is 25px at
+       140px, 17px at 49px. max() keeps the design's own spacing as the floor.
+
+       Those numbers are real glyph ink, from canvas actualBoundingBoxDescent.
+       Do not measure this with getBoundingClientRect or a Range rect: those
+       return the line box, which reports collisions that are not happening. */
+    margin: var(--space-3) 0 max(var(--space-5), 0.4em);
     text-align: center;
-    line-height: 0.9;
-    letter-spacing: var(--track-head);
+    font-family: var(--font-hand);
+    text-transform: lowercase;
+    /* 0.9 was a tight line for a grotesque with short extenders. A hand has
+       long ones, so the box has to be deep enough to hold them before the
+       margin below is asked to do anything. */
+    line-height: 1.35;
+    /* Not --track-head. Negative tracking on a joined hand drags the letters
+       into each other, which on a signature reads as a mistake. */
+    letter-spacing: 0;
     /* Sized off BOTH axes. 15.6vw alone took no account of how tall the
        window was, so on a 900px laptop the name rendered at 225px and the
        page ran 389px past the fold. The vh term is what stops it. */
@@ -76,11 +93,16 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     gap: 0.04em;
   }
 
-  /* The name is set in one face. The written half lives on the page titles and
-     on the question that opens each case study, not on her own name. */
+  /* The name is written, like the page titles. It used to be set in the body
+     face on the principle that the hand belonged on the titles and the
+     question but not on her own name; she reversed that on 2026-11-26, and a
+     signature is the one thing on a site that has the best claim to it. */
   .landing__full {
-    font-weight: var(--weight-bold);
-    letter-spacing: -0.035em;
+    /* 400, not --weight-bold: Beth Ellen has a single weight and asking for
+       700 would make the browser smear a synthetic one at 232px, where it
+       would be impossible to miss. */
+    font-weight: 400;
+    letter-spacing: 0;
   }
 
   /* -- the claim, flanked by two notes ------------------------------------ */
