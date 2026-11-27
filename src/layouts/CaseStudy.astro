@@ -16,16 +16,45 @@ const d = entry.data;
         <h1 class="cs__title">{d.title}</h1>
         {d.takeaway && <p class="cs__takeaway">{d.takeaway}</p>}
 
-        {/* The same labelled rows /work/ already uses. One run-on line put
-            role last and had nowhere to name a team at all, which is the
-            thing every portfolio worth reading states up front. */}
+        {/* Four columns, each a heading over a stacked list: Role, Timeline,
+            Skills, Tools. Read across and you have the whole shape of the job
+            before a word of prose, which is what a hiring manager scans for.
+
+            Still a <dl>, because that is what this is — four terms and their
+            descriptions. The columns are a grid over the same markup, so on a
+            narrow screen it collapses back to stacked rows and keeps meaning.
+
+            The team credit sits under Role rather than in a column of its own:
+            who you worked with is part of what your role was, and giving it a
+            fifth column would leave five of six projects with a blank. */}
         <dl class="cs__facets">
-          <div class="cs__facet"><dt class="eyebrow">Date</dt><dd>{d.dates}</dd></div>
-          <div class="cs__facet"><dt class="eyebrow">Type</dt><dd>{d.projectType}</dd></div>
-          <div class="cs__facet"><dt class="eyebrow">Role</dt><dd>{d.role}</dd></div>
-          {d.team && <div class="cs__facet"><dt class="eyebrow">Team</dt><dd>{d.team}</dd></div>}
+          <div class="cs__facet">
+            <dt class="eyebrow">Role</dt>
+            <dd>
+              <ul class="cs__facetlist">
+                <li>{d.role}</li>
+                {d.team && <li class="cs__with">with {d.team}</li>}
+              </ul>
+            </dd>
+          </div>
+
+          <div class="cs__facet">
+            <dt class="eyebrow">Timeline</dt>
+            <dd><ul class="cs__facetlist"><li>{d.dates}</li></ul></dd>
+          </div>
+
+          {d.skills.length > 0 && (
+            <div class="cs__facet">
+              <dt class="eyebrow">Skills</dt>
+              <dd><ul class="cs__facetlist">{d.skills.map((s) => <li>{s}</li>)}</ul></dd>
+            </div>
+          )}
+
           {d.tools.length > 0 && (
-            <div class="cs__facet"><dt class="eyebrow">Tools</dt><dd>{d.tools.join(' \u00b7 ')}</dd></div>
+            <div class="cs__facet">
+              <dt class="eyebrow">Tools</dt>
+              <dd><ul class="cs__facetlist">{d.tools.map((t) => <li>{t}</li>)}</ul></dd>
+            </div>
           )}
         </dl>
       </header>
@@ -98,14 +127,34 @@ const d = entry.data;
     padding-bottom: var(--space-6);
     border-bottom: var(--border-mark) solid var(--ink);
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
-  .cs__facet { display: grid; gap: var(--space-1); }
-  @media (min-width: 700px) {
-    .cs__facet { grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-5); }
+  /* Four columns side by side once there is room for them. minmax(0,1fr)
+     rather than 1fr so a long skill — "Verification to Eurocode 2, AISC
+     N690-24, SCI P414 and DOE-STD-3014" is the worst of them — wraps inside
+     its column instead of forcing the column wider than its share. */
+  @media (min-width: 760px) {
+    .cs__facets {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-5);
+      align-items: start;
+    }
   }
-  .cs__facet dt { padding-top: 0.3em; }
-  .cs__facet dd { margin: 0; font-size: var(--size-3); line-height: var(--leading-body); }
+  .cs__facet { display: grid; gap: var(--space-3); min-width: 0; }
+  .cs__facet dd { margin: 0; }
+
+  .cs__facetlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+    font-size: var(--size-3);
+    line-height: var(--leading-head);
+    text-wrap: pretty;
+  }
+  /* The collaborators, set quiet so the role itself still reads first. */
+  .cs__with { color: var(--ink-quiet); }
 
   .cs__next { margin-top: var(--space-10); }
   .cs__nextgrid {
