@@ -127,7 +127,9 @@ const d = entry.data;
     padding-bottom: var(--space-6);
     border-bottom: var(--border-mark) solid var(--ink);
     display: grid;
-    gap: var(--space-5);
+    /* Stacked, the four groups need to sit twice as far apart as the 24px
+       inside each one, or a label reads as belonging to the group above it. */
+    gap: var(--space-7);
   }
   /* Four columns side by side once there is room for them. minmax(0,1fr)
      rather than 1fr so a long skill — "Verification to Eurocode 2, AISC
@@ -140,7 +142,10 @@ const d = entry.data;
       align-items: start;
     }
   }
-  .cs__facet { display: grid; gap: var(--space-3); min-width: 0; }
+  /* space-5 (24px) between the label and its values, three times the 8px
+     that separates the values from each other, so each column reads as one
+     group sitting under a heading rather than a four-line list. */
+  .cs__facet { display: grid; gap: var(--space-5); min-width: 0; }
   .cs__facet dd { margin: 0; }
 
   .cs__facetlist {
