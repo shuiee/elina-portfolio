@@ -63,7 +63,7 @@ const ar = `${width} / ${viewport}`;
   .proto { margin: var(--space-7) 0 0; }
   .proto__stage {
     background: var(--field);
-    border: var(--border-hair) solid var(--rule);
+    border: var(--border-hair) solid var(--edge);
     padding: var(--space-7) var(--space-5) var(--space-5);
     display: grid;
     justify-items: center;
@@ -80,17 +80,17 @@ const ar = `${width} / ${viewport}`;
     aspect-ratio: var(--proto-ar, 750 / 1580);
     max-width: 100%;
     border: 2px solid var(--ink);
-    border-radius: 26px;
+    border-radius: 26px;  /* literal-ok: drawing a phone, not styling a box */
     background: var(--paper);
     overflow: hidden;
   }
   .proto__notch {
     position: absolute;
-    top: 7px; left: 50%;
+    top: 7px; left: 50%;  /* literal-ok: drawing a phone's notch */
     transform: translateX(-50%);
     width: 34%; height: 7px;
     background: var(--ink);
-    border-radius: 99px;
+    border-radius: 99px;  /* literal-ok: pill, deliberately larger than any real radius */
     z-index: 2;
   }
 
@@ -136,7 +136,7 @@ const ar = `${width} / ${viewport}`;
     text-transform: uppercase;
     color: var(--ink-quiet);
     background: none;
-    border: var(--border-hair) solid var(--rule);
+    border: var(--border-hair) solid var(--edge);
     padding: 0.3em 0.8em;
     cursor: inherit;
   }
@@ -152,7 +152,7 @@ const ar = `${width} / ${viewport}`;
   .proto__dots button {
     background: none;
     border: 0;
-    padding: 6px 2px;
+    padding: 6px 2px;  /* literal-ok: spacing between slide dots, tuned to the dot not the grid */
     cursor: inherit;
     display: block;
   }

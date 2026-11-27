@@ -40,10 +40,31 @@
                              screenshots and scans whose own ground is white, so
                              they sit seamlessly in their frame.
                              --ink on it = 18.9:1, --ink-quiet = 9.04:1. */
-  --rule:       #C9C7C2;  /* hairlines, table gridlines, unfilled progress track.
-                             Non-text only. The FILLED part of any progress
+  --rule:       #C9C7C2;  /* DECORATIVE lines only: table gridlines, row
+                             separators, the nav underline, the unfilled part of
+                             a progress track. Nothing depends on seeing these.
+                             1.64:1 on --paper. The FILLED part of any progress
                              indicator is --ink, so orientation never depends on
                              telling two greys apart. */
+  --edge:       #B3B1AC;  /* LOAD-BEARING boundaries: the border is the only
+                             thing separating a surface from the page.
+                             2.09:1 on --paper.
+
+                             This exists because of a change to --paper. On the
+                             old grey ground a white panel separated by its own
+                             luminance and the border was trim. On a near-white
+                             ground --field and --paper differ by 1.03:1, so the
+                             border is now the whole boundary, and --rule at
+                             1.64:1 was too faint to carry that.
+
+                             Recorded honestly: WCAG 1.4.11 asks 3:1 for a
+                             boundary that identifies a component, which would
+                             be #94928D. This is a deliberate design choice to
+                             sit below that, taken with the trade-off known. If
+                             full compliance is wanted later, the better move is
+                             a faint surface fill on panels rather than a darker
+                             line, so the panel is identifiable by area as well
+                             as by edge. One value to change either way. */
 
   /* -------------------------------------------------------------- accents
      One per project, sampled from that project's own material in
@@ -72,34 +93,29 @@
      rather than taste — a width analysis of the Type3 glyphs in the source
      deck ranked it top on every page tested, reproducing the original line
      widths to within 1-3%. Figtree does not inherit that result, and the claim
-     must not be repeated about it. Inter stays declared as the fallback, so
-     the glyphs Figtree lacks (the Matrix marks, any Korean) are unchanged.
+     must not be repeated about it.
+
+     Inter was removed on 2026-11-27. It had been kept as a safety net, but an
+     audit found its only remaining job was drawing two glyphs: Figtree's
+     subsets carry the vertical arrows but not U+2190 and U+2192, so every
+     typed arrow fell through and fetched 352KB. The arrows are now drawn
+     (see Arrow.astro) and nothing on any built page falls through to a
+     fallback. The Korean on Patchwork never resolved to Inter either way —
+     Inter has no Hangul, so that was always the system font.
 
      Optician Sans is the face used in clinical visual-acuity testing — the
      benchmark Johnston 100 was measured against in case study 01. The numbers
      on this site are set in the instrument used to judge letterforms.
      Scoped to digits and 2-3 word labels; it never carries running text. */
 
-  --font-text:   "Figtree", "InterVariable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-figure: "Optician Sans", "Figtree", "InterVariable", system-ui, sans-serif;
-
-  /* The written half. Instrument Serif Italic — a high-contrast italic with
-     swashed capitals, set against Inter's flat geometry. Display only: the
-     name in the hero, the leading word of a page title, pull statements.
-     It never sets anything that has to be read at speed or at size 15.
-
-     Note for the record: this face contradicts finding 2 from case study 01
-     (fonts with stable geometry hold up better under degradation). That was a
-     deliberate call — see DESIGN-NOTES.md. The footer no longer claims the
-     site follows that particular finding. */
-  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-text:   "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-figure: "Optician Sans", "Figtree", system-ui, sans-serif;
 
   /* The hand. Beth Ellen (SIL OFL) — the page titles only, lowercase, so the
      name of the page looks written onto the ruled sheet rather than set on it.
-     Scoped to .script deliberately: --font-display still carries .lede, which
-     is a whole question at 34px, and a question is not something to make
-     anyone read in handwriting. */
-  --font-hand:   "Beth Ellen", "Instrument Serif", cursive;
+     Scoped to .script deliberately: a one-word title in a hand is a flourish,
+     a sentence in a hand is a reading tax. Nothing else takes it. */
+  --font-hand:   "Beth Ellen", cursive;
 
   /* 1.20 modular scale, rounded to whole px. Nothing below --size-1 is used
      for text anywhere on the site. */
@@ -115,17 +131,15 @@
   --size-10: 92px;  /* the hero name — display only */
   --size-11: 232px; /* the hero name at full desktop width */
 
-  --leading-tight: 1.15;
   --leading-head:  1.22;
   --leading-body:  1.55;
-  --leading-loose: 1.65;
 
   --weight-normal: 400;
   --weight-med:    500;
   --weight-bold:   700;
 
   --track-label:  0.14em;   /* eyebrow labels and the small-caps side notes */
-  --track-head:  -0.02em;   /* large headings — Inter needs tightening at size */
+  --track-head:  -0.02em;   /* large headings — Figtree needs tightening at size */
 
   /* ------------------------------------------------------- ruled paper
      Faint ruling across the whole page, the way the reference portfolio rules
@@ -158,10 +172,9 @@
      --rule-step, so blocks can only ever start on a line. That is a bigger
      change than a colour, and it is not what this is. */
   --rule-step:  28px;
-  --rule-paper: rgba(60, 50, 38, 0.07);
+  --ink-wash:   rgba(60, 50, 38, 0.07);
 
   --measure:      62ch;     /* max line length for body prose */
-  --measure-lede: 34ch;     /* max line length for the home thesis */
 
   /* -------------------------------------------------------------- spacing
      4px base. Named by role, not by size, so changing rhythm is one edit. */
@@ -244,6 +257,11 @@
   --motion-ease:  cubic-bezier(0.2, 0, 0.2, 1);
 
   /* -------------------------------------------------------------- focus */
+  --hit-min:      44px;   /* minimum touch target on a coarse pointer. Hover
+                             does not exist there, so a control that is hard to
+                             hit gives no feedback at all before it fires. */
+  --press:        translateY(1px);  /* the one pressed-state transform */
+
   --focus-width:  3px;
   --focus-offset: 2px;
 }

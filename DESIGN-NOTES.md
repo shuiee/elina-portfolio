@@ -70,6 +70,11 @@ the criterion thresholds. Optician Sans is the face used in clinical visual-acui
 testing: the benchmark Johnston 100 was measured against in case study 01. The numbers
 on this site are set in the instrument used to judge letterforms.
 
+**Instrument Serif Italic — the written half.** *(Superseded 2026-11-26: the
+written half is now Beth Ellen on the page titles and the landing name, and the
+question moved to Figtree. Instrument Serif was removed from the repo. The note
+below is kept as the record of why it was there.)*
+
 **Instrument Serif Italic — the written half.** A high-contrast italic with swashed
 capitals, set against Inter's flat geometry. It sets the name in the landing hero, the
 page titles (*Work*, *About*, *Curriculum vitae*), and the question that opens each

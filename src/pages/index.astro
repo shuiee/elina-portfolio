@@ -163,8 +163,8 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
      35px, past the 24px minimum target size, and the matching negative margin
      means the layout and the orbit placement are unchanged. */
   .orbit a {
-    padding: 7px 6px;
-    margin: -7px -6px;
+    padding: 7px 6px;   /* literal-ok: derived from the 21px anchor inside a 27.9px row, not a spacing decision */
+    margin: -7px -6px;  /* literal-ok: cancels the padding so layout and orbit placement are unchanged */
   }
   .orbit a:hover { color: var(--ink); }
   .orbit a:hover .orbit__title { text-decoration: underline; }

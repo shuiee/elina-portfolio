@@ -1,0 +1,48 @@
+---
+/* A directional mark beside a label.
+ *
+ * Drawn rather than typed, and the reason is measurable. Figtree ships as two
+ * Google subsets, and those carry the vertical arrows (U+2191, U+2193) but not
+ * the horizontal pair (U+2190, U+2192). So every typed arrow on the site fell
+ * through the font stack to InterVariable and pulled 352KB down the wire to
+ * render one glyph — on the slide nav, the back link, and "Full CV".
+ *
+ * Replacing only the horizontals would have left the page mixing a drawn arrow
+ * with a typed one at a different weight, so all four directions come from
+ * here now. One arrow, one source, and no font depends on it.
+ *
+ * Always decorative: the adjacent text, or the button's aria-label, carries
+ * the meaning. If you ever use one with no text beside it, give the parent an
+ * accessible name.
+ */
+const { dir = 'right' } = Astro.props;
+const ROTATION = { right: 0, down: 90, left: 180, up: 270 };
+const deg = ROTATION[dir] ?? 0;
+---
+<svg
+  class="arrow"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  style={`--arrow-rotate:${deg}deg`}
+>
+  <path d="M4 12h15M12.5 5.5 19 12l-6.5 6.5" />
+</svg>
+
+<style>
+  /* Sized in em so it tracks whatever text it sits beside — these appear at
+     --size-1 in a nav button and at body size in a link, and a fixed px would
+     be wrong in one of those. */
+  .arrow {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.12em;
+    rotate: var(--arrow-rotate);
+  }
+</style>

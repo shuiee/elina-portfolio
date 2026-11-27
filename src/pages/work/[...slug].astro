@@ -5,10 +5,8 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
 /* Components available inside every .mdx case study WITHOUT an import line.
    If you add a component here, you can use it in any case study file. */
 import Section from '../../components/Section.astro';
-import CriterionBlock from '../../components/CriterionBlock.astro';
 import Figure from '../../components/Figure.astro';
 import Findings from '../../components/Findings.astro';
-import Matrix from '../../components/Matrix.astro';
 import Method from '../../components/Method.astro';
 import Step from '../../components/Step.astro';
 import Compare from '../../components/Compare.astro';
@@ -18,7 +16,6 @@ import Route from '../../components/Route.astro';
 import Stop from '../../components/Stop.astro';
 import Prototype from '../../components/Prototype.astro';
 import Flow from '../../components/Flow.astro';
-import Pile from '../../components/Pile.astro';
 import Clip from '../../components/Clip.astro';
 import Lede from '../../components/Lede.astro';
 import Pair from '../../components/Pair.astro';
@@ -44,7 +41,7 @@ export async function getStaticPaths() {
 
 const { entry, projects, prev, next } = Astro.props;
 const { Content } = await render(entry);
-const components = { Section, CriterionBlock, Figure, Findings, Matrix, Method, Step, Compare, Slides, Screens, Route, Stop, Prototype, Clip, Flow, Pile, Lede, Pair };
+const components = { Section, Figure, Findings, Method, Step, Compare, Slides, Screens, Route, Stop, Prototype, Clip, Flow, Lede, Pair };
 ---
 <CaseStudy entry={entry} projects={projects} prev={prev} next={next}>
   <Content components={components} frontmatter={entry.data} />

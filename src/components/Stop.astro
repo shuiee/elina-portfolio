@@ -4,6 +4,7 @@
    supplies the motion on this page, and a stop that starts at opacity 0 would
    be unreadable in the still frame a reader lands on. */
 const { label, title, href } = Astro.props;
+import Arrow from './Arrow.astro';
 ---
 <li class="stop" data-stop>
   <div class="stop__head">
@@ -15,7 +16,7 @@ const { label, title, href } = Astro.props;
   <div class="stop__body"><slot /></div>
   {href && (
     <p class="stop__more">
-      <a href={href}>Read in detail <span aria-hidden="true">&darr;</span></a>
+      <a href={href}>Read in detail <Arrow dir="down" /></a>
     </p>
   )}
 </li>
@@ -27,7 +28,7 @@ const { label, title, href } = Astro.props;
        under the writing, which is backwards. The hairline carries the card;
        the fill is not needed now that the page ground is near-white. */
     background: transparent;
-    border: var(--border-hair) solid var(--rule);
+    border: var(--border-hair) solid var(--edge);
     padding: var(--space-5) var(--space-6);
     transition: border-color var(--motion-base) var(--motion-ease),
                 box-shadow var(--motion-base) var(--motion-ease);

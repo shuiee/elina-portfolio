@@ -1,7 +1,7 @@
 ---
 /* wide: put the number above the content instead of beside it, so the step's
    body gets the full column. Use it when a step contains a full-width exhibit
-   (a Compare or a Matrix) that would otherwise be squeezed by the marker. */
+   (a Compare, say) that would otherwise be squeezed by the marker. */
 const { n, title, when, wide = false } = Astro.props;
 ---
 <li class="step reveal" data-wide={wide ? "true" : undefined}>

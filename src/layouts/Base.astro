@@ -90,24 +90,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
         src: url("${asset('/fonts/Figtree-Italic-latin-ext.woff2')}") format("woff2");
         unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
       }
-      /* Inter stays declared as the fallback behind Figtree. It is what the
-         Matrix glyphs (✓ ✕ △) and any Korean in a label resolve to, so
-         dropping it would change characters Figtree does not carry. It is only
-         fetched when one of those is actually on the page. */
-      @font-face {
-        font-family: "InterVariable";
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url("${asset('/fonts/InterVariable.woff2')}") format("woff2");
-      }
-      @font-face {
-        font-family: "Instrument Serif";
-        font-style: italic;
-        font-weight: 400;
-        font-display: swap;
-        src: url("${asset('/fonts/InstrumentSerif-Italic.woff2')}") format("woff2");
-      }
       @font-face {
         font-family: "Optician Sans";
         font-style: normal;
@@ -118,14 +100,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     `}></style>
 
     <!-- Three faces render above the fold on every page: Figtree for body,
-         Instrument Serif for the h1, Optician Sans for the 01/02/03 numbers.
-         All three are small — 20KB, 27KB, 13KB — so preloading them costs
-         little and stops the heading and the nav numbers reflowing.
-         InterVariable is NOT preloaded: it is a 352KB fallback that most pages
-         never touch, and preloading it would download it on every visit. -->
+         Beth Ellen for the page title, Optician Sans for the 01/02/03 numbers.
+         All three are small — 20KB, 40KB, 13KB — so preloading them costs
+         little and stops the title and the nav numbers reflowing.
+         These are the only three faces the site loads. There is no fallback
+         webfont behind them: nothing in the content falls outside Figtree's
+         subsets, so anything that ever does should be caught in review rather
+         than quietly papered over by a 352KB download. -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/Figtree-latin.woff2')} />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/BethEllen-latin.woff2')} />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/InstrumentSerif-Italic.woff2')} />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/Optician-Sans.woff2')} />
   </head>
 

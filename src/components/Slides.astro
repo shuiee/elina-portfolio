@@ -12,6 +12,7 @@
    shipping with the fallback is a bug: on a site whose headline project is
    about visual accessibility, "Portfolio page 4" is the worst possible alt. */
 import { asset } from '../lib/url.js';
+import Arrow from './Arrow.astro';
 const { from, to, note, alts = [] } = Astro.props;
 const pages = Array.from({ length: to - from + 1 }, (_, i) => from + i);
 ---
@@ -33,7 +34,7 @@ const pages = Array.from({ length: to - from + 1 }, (_, i) => from + i);
 
   <div class="deck__controls" hidden>
     <button type="button" class="deck__nav" data-step="-1" aria-label="Previous slide">
-      <span aria-hidden="true">&larr;</span>
+      <Arrow dir="left" />
     </button>
     <p class="deck__count" aria-live="polite">
       <span class="figure-num" data-current>01</span>
@@ -41,7 +42,7 @@ const pages = Array.from({ length: to - from + 1 }, (_, i) => from + i);
       <span class="figure-num">{String(pages.length).padStart(2, '0')}</span>
     </p>
     <button type="button" class="deck__nav" data-step="1" aria-label="Next slide">
-      <span aria-hidden="true">&rarr;</span>
+      <Arrow dir="right" />
     </button>
   </div>
 

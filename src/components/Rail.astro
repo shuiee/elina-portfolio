@@ -9,11 +9,12 @@
    any ambient condition. Finding 4: decision-critical information stays visible.
 */
 import { href } from '../lib/url.js';
+import Arrow from './Arrow.astro';
 const { number, projects = [] } = Astro.props;
 ---
 <nav class="rail" aria-label="Where you are">
   <a class="rail__back" href={href('/work/')}>
-    <span aria-hidden="true">&larr;</span> All work
+    <Arrow dir="left" /> All work
   </a>
 
   <ol class="rail__projects" aria-label="All projects">

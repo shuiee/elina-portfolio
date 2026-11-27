@@ -20,6 +20,7 @@ const { steps = [], loop = null, caption } = Astro.props;
 const cols = steps.map(() => '1fr').join(' auto ');
 const loopStart = loop ? loop.from * 2 + 1 : null;
 const loopEnd = loop ? loop.to * 2 + 2 : null;
+import Arrow from './Arrow.astro';
 ---
 <figure class="flow reveal">
   <div class="flow__grid" style={`--cols:${cols}`}>
@@ -37,11 +38,11 @@ const loopEnd = loop ? loop.to * 2 + 2 : null;
                Exactly one of the two is ever in the accessibility tree:
                whichever is not shown is display:none. */
             <li class="flow__loopnote">
-              <span aria-hidden="true">&uarr;</span> {loop.label}
+              <Arrow dir="up" /> {loop.label}
             </li>
           )}
           {i < steps.length - 1 && (
-            <span class="flow__arrow" aria-hidden="true" style={`grid-column:${i * 2 + 2}`}>&rarr;</span>
+            <span class="flow__arrow" aria-hidden="true" style={`grid-column:${i * 2 + 2}`}><Arrow dir="right" /></span>
           )}
         </>
       ))}

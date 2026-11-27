@@ -47,7 +47,7 @@ src/
     base.css             element styles; reads tokens only
   lib/url.js             internal-link helper (see "Deploy" below)
 public/
-  fonts/                 Inter, Optician Sans, Instrument Serif — all SIL OFL
+  fonts/                 Figtree, Beth Ellen, Optician Sans — all SIL OFL
   images/                put your exported images here
 ```
 
@@ -101,10 +101,8 @@ object at the bottom of `src/pages/work/[...slug].astro`.)
 | Component | What it is | Use it |
 |---|---|---|
 | `<Section>` | one of the five fixed parts | always, five per case study |
-| `<CriterionBlock>` | **the signature panel** — "what counts as good" | exactly once per case study |
 | `<Method>` + `<Step>` | the numbered process run | once per case study |
 | `<Findings>` | large percentage figures | where you have numbers |
-| `<Matrix>` | a comparison table | Patchwork |
 | `<Compare>` | two options judged against named criteria | Patchwork, Arena |
 | `<Figure>` | an image, or a marked placeholder | anywhere |
 
@@ -112,7 +110,7 @@ Copy an existing usage from one of the four files rather than writing one from s
 they are all commented.
 
 **`<Step wide>`** puts the step number above the content instead of beside it, which
-gives the step full width. Use it when a step holds a `<Compare>` or a `<Matrix>`.
+gives the step full width. Use it when a step holds a `<Compare>`.
 
 ---
 
@@ -161,12 +159,15 @@ Change the value, save, and the whole site follows.
 
 | Token | Face | Used for |
 |---|---|---|
-| `--font-text` | Inter | everything that has to be read |
+| `--font-text` | Figtree | everything that has to be read, including the question opening a project |
 | `--font-figure` | Optician Sans | digits only — 01–04, percentages, thresholds |
-| `--font-display` | Instrument Serif Italic | the written half: the hero name, page titles, the question opening each case study |
+| `--font-hand` | Beth Ellen | the written half: the landing name and the page titles, lowercase |
 
-To set something in the written half, add `class="script"`. Keep it to display sizes —
-it is not built for paragraphs.
+To set something in the written half, add `class="script"`. Page titles only — a
+sentence in a hand is a reading tax, not a flourish.
+
+Instrument Serif was removed on 2026-11-26 when the question moved to Figtree and
+nothing else used it.
 
 ### The ✧ cursor
 

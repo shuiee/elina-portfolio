@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { href } from '../lib/url.js';
+import Arrow from '../components/Arrow.astro';
 ---
 <Base title="About" description="Engineer moving from civil and structural engineering in energy into product design and design strategy.">
   <div class="page about">
@@ -96,7 +97,7 @@ import { href } from '../lib/url.js';
             */}
           </dl>
         </div>
-        <p><a href={href('/cv/')}>Full CV &rarr;</a></p>
+        <p><a href={href('/cv/')}>Full CV <Arrow dir="right" /></a></p>
       </aside>
     </div>
   </div>

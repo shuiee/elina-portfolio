@@ -24,6 +24,7 @@
    the same tab, which is what every other link on this site does.
 */
 import { asset } from '../lib/url.js';
+import Arrow from './Arrow.astro';
 const { src, ratio = '1360/728', caption, label, link, linkLabel = 'Open the live prototype' } = Astro.props;
 ---
 <figure class="clip" data-clip>
@@ -48,7 +49,7 @@ const { src, ratio = '1360/728', caption, label, link, linkLabel = 'Open the liv
     </button>
     {link && (
       <a class="clip__link" href={link}>
-        {linkLabel} <span aria-hidden="true">&rarr;</span>
+        {linkLabel} <Arrow dir="right" />
       </a>
     )}
   </div>
@@ -61,7 +62,7 @@ const { src, ratio = '1360/728', caption, label, link, linkLabel = 'Open the liv
   .clip__frame {
     width: 100%;
     background: var(--field);
-    border: var(--border-hair) solid var(--rule);
+    border: var(--border-hair) solid var(--edge);
     overflow: hidden;
   }
   .clip__frame video {
@@ -83,7 +84,7 @@ const { src, ratio = '1360/728', caption, label, link, linkLabel = 'Open the liv
     text-transform: uppercase;
     color: var(--ink-quiet);
     background: none;
-    border: var(--border-hair) solid var(--rule);
+    border: var(--border-hair) solid var(--edge);
     padding: 0.3em 0.8em;
     cursor: inherit;
   }
@@ -93,8 +94,8 @@ const { src, ratio = '1360/728', caption, label, link, linkLabel = 'Open the liv
     margin-left: auto;
     /* Padding makes the target 26px, past the 24px minimum, and gives the
        tint something to sit in. */
-    padding: 6px 10px;
-    margin-block: -6px;
+    padding: 6px 10px;   /* literal-ok: sized to clear the 24px minimum target, cancelled by the margin below */
+    margin-block: -6px;  /* literal-ok: cancels the padding so the row height is unchanged */
     font-size: var(--size-1);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
@@ -102,7 +103,11 @@ const { src, ratio = '1360/728', caption, label, link, linkLabel = 'Open the liv
        --accent-ink on a tint of its own accent fell to 5.1:1 on steel and
        under 7:1 on every other project; --ink on the same wash is 12.5:1 at
        worst. color-mix derives it per project, so each page tints itself. */
-    background: #E3E3E1;
+    /* The literal is the fallback for a browser without color-mix; the second
+       declaration wins everywhere else. It is a neutral stand-in for the six
+       accent washes, recomputed when --paper moved to #FCFCFA. If --paper
+       changes again this number is stale and must move with it. */
+    background: #E7E1E2;
     background: color-mix(in srgb, var(--accent) 14%, var(--paper));
     color: var(--ink);
   }

@@ -52,9 +52,11 @@ const { options = [], criteria = [], verdict, note = 'Agreed before either schem
   .compare__points li + li { margin-top: var(--space-2); }
 
   .compare__criteria {
+    /* Same inner spacing as a Stop card. These two sit on the same page
+       (SaveEat) and were the only place two panels disagreed on screen. */
+    padding: var(--space-5) var(--space-6);
     background: var(--field);
     border-top: var(--border-mark) solid var(--accent);
-    padding: var(--space-5);
   }
   .compare__list {
     margin: var(--space-4) 0 0;

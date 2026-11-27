@@ -19,7 +19,7 @@ html {
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0 calc(var(--rule-step) - 1px),
-    var(--rule-paper) calc(var(--rule-step) - 1px) var(--rule-step)
+    var(--ink-wash) calc(var(--rule-step) - 1px) var(--rule-step)
   );
 }
 
@@ -57,6 +57,33 @@ a:hover { text-decoration-thickness: var(--border-mark); }
 :focus-visible {
   outline: var(--focus-width) solid var(--ink);
   outline-offset: var(--focus-offset);
+}
+
+/* Pressed state. The site had 23 hover rules and no active state at all, which
+   means that on a phone every control was inert until the page changed under
+   you: hover does not exist on touch. A 1px push is the whole feedback, and it
+   is a transform, so it costs no layout and reverses the instant you lift.
+   Deliberately not on prose links or the project tiles: shifting a word inside
+   a sentence, or one line of a card, reads as a glitch rather than a press. */
+button:active,
+summary:active,
+[role="button"]:active {
+  transform: var(--press);
+}
+
+/* A control has to be big enough to hit before any of the above matters. */
+@media (pointer: coarse) {
+  button,
+  summary,
+  [role="button"] {
+    min-height: var(--hit-min);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:active,
+  summary:active,
+  [role="button"]:active { transform: none; }
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -137,11 +164,14 @@ hr {
    lines keep a fixed relationship to the lines of type instead of sliding
    against them down a long page. Same leading as --leading-body to within a
    tenth of a pixel; see --rule-step. */
-.prose > p,
+.prose > p:not(.lede),
 .prose li,
-.section__body > p {
+.section__body > p:not(.lede) {
   line-height: var(--rule-step);
 }
+/* .lede is excluded on purpose. It is display size (34-44px) and pinning it to
+   the 28px ruling step gave it a line-height ratio of 0.82, so its lines
+   collided. Running text sits on the ruling; a display line sets its own. */
 
 /* Paper does not print. */
 @media print {
@@ -155,8 +185,9 @@ hr {
   font-weight: var(--weight-med);
   /* Not --field: on the near-white page a white chip is invisible. This is the
      one tint on the chassis, and it is darker than the page rather than
-     lighter, which is the only direction left. */
-  background: rgba(60, 50, 38, 0.07);
+     lighter, which is the only direction left. Same wash as the page ruling,
+     which is why they share a token. */
+  background: var(--ink-wash);
   padding: 0 var(--space-1);
   border-radius: var(--radius);
 }
@@ -198,12 +229,16 @@ hr {
    most quotable line on the page and it is display scale, so it can carry the
    italic without asking anyone to read a paragraph in it. */
 .lede {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: var(--weight-normal);
+  /* The question is set in the body face, not the display serif. It is the
+     most quotable line on a project page and it is read, not admired, so it
+     belongs in the voice the rest of the page speaks in. */
+  font-family: var(--font-text);
+  font-style: normal;
+  font-weight: var(--weight-med);
   font-size: var(--size-7);
-  line-height: 1.1;
-  letter-spacing: 0;
+  line-height: 1.15;
+  /* Figtree needs tightening at display size; the serif did not. */
+  letter-spacing: var(--track-head);
   /* The same column as the body under it. 22ch wrapped the question to about
      480px while the paragraphs ran the full 832, so the two read as different
      columns rather than as one. --measure follows whatever the context sets,
@@ -304,7 +339,7 @@ a, button, summary, [role="button"], label {
   color: var(--ink-quiet);
 }
 .tags li {
-  border: var(--border-hair) solid var(--rule);
+  border: var(--border-hair) solid var(--edge);
   padding: 0.15em 0.6em;
   background: var(--field);
 }
