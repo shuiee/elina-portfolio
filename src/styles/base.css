@@ -341,8 +341,9 @@ a, button, summary, [role="button"], label {
 .tags li {
   border: var(--border-hair) solid var(--edge);
   padding: 0.15em 0.6em;
-  background: var(--field);
+  background: var(--panel-fill);
 }
-/* Inside a Stop the card is already --field, so the chips take the page ground
-   instead, keeping the two surfaces distinguishable. */
+/* Inside a Stop the card already carries --panel-fill, so a chip with the same
+   tint would vanish into it. The chip drops to the bare page ground instead,
+   which makes it read as lighter than the card rather than the same. */
 .stop .tags li { background: var(--paper); }

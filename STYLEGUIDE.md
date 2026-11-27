@@ -38,23 +38,35 @@ Always say why. The next person has to be able to judge whether it still holds.
 | `--field` | `#FFFFFF` | true white behind screenshots and scans |
 | `--ink` | `#111111` | body and headings — 18.4:1 on paper |
 | `--ink-quiet` | `#454950` | dates, roles, meta — 8.8:1. **The only grey allowed to touch type.** There is no third tier; if something needs to be quieter, cut it. |
-| `--edge` | `#B3B1AC` | **load-bearing** boundaries: the border is the only thing separating a surface from the page |
+| `--edge` | `#B3B1AC` | the border of a **static** panel: a Stop card, a stage, a badge (2.09:1) |
+| `--edge-strong` | `#94928D` | the border of anything a reader can **operate**: a button, a card that is a link (3.03:1) |
+| `--panel-fill` | `rgba(60,50,38,.03)` | the faint tint on a content panel — translucent, so the page ruling runs through it |
 | `--rule` | `#C9C7C2` | **decorative** lines: table gridlines, row separators, the nav underline |
 | `--ink-wash` | `rgba(60,50,38,.07)` | the page ruling and the inline-code chip |
 | `--accent` / `--accent-ink` | per project | set by `[data-accent]`; never on the chassis |
 
-**The `--edge` / `--rule` split is the one piece of this that is easy to get
-wrong.** On a near-white page `--field` and `--paper` differ by 1.03:1, so a
-panel does not separate from the page by luminance at all — its border is the
-entire boundary. That border is load-bearing and takes `--edge`. A line that
-merely divides two bits of content is decorative and takes `--rule`. Ask which
-one you have before picking.
+**Three border roles, and picking the wrong one is the easiest mistake here.**
+On a near-white page `--field` and `--paper` differ by 1.03:1, so a panel does
+not separate from the page by luminance at all. Ask what the border is doing:
 
-Recorded honestly: WCAG 1.4.11 asks 3:1 for a boundary that identifies a
-component, which would be `#94928D`. `--edge` sits at 2.09:1 by deliberate
-design choice. If full compliance is wanted later, the better move is a faint
-fill on panels rather than a darker line, so a panel is identifiable by area as
-well as by edge.
+- Does it identify something the reader can **operate** — a button, a card that
+  is a link? Then WCAG 1.4.11 applies and the border carries 3:1 itself:
+  `--edge-strong`.
+- Does it bound a **static** panel that its own heading already identifies?
+  `--edge`, plus `--panel-fill` so the panel is findable by area as well as by
+  edge. 1.4.11 does not govern this, but two cues beat one.
+- Does it merely **divide** two bits of content, with nothing depending on
+  seeing it? `--rule`.
+
+**A faint fill cannot substitute for a compliant border.** This is worth
+stating because it is counter-intuitive and I got it wrong once: ink over
+`--paper` only reaches 3:1 somewhere past 50% opacity, which is a mid-grey
+panel, not a faint one. A fill is a second cue. Where a border identifies a
+control, the border does the contrast.
+
+**`--panel-fill` is translucent on purpose.** An opaque panel background stops
+the page ruling at its edge, which puts lines everywhere except under the
+writing — backwards. Never swap it for a solid colour.
 
 **Every text colour clears 7:1 on both grounds.** That is the site's own bar and
 it is stricter than WCAG AA's 4.5:1. Keep it. If you change a colour, recompute
@@ -91,12 +103,12 @@ grid. The checker fails anything off it.
 ## Components
 
 ### Panel — a bordered container holding content
-`padding: var(--space-5) var(--space-6)` · hairline `--edge` · transparent fill ·
-`--radius`. Transparent matters: the page ruling runs *through* a panel, so the
-lines do not stop at every box.
+`padding: var(--space-5) var(--space-6)` · hairline `--edge` · `--panel-fill` ·
+`--radius`. The fill is translucent, so the page ruling runs *through* a panel
+rather than stopping at every box.
 
 ### Control — buttons and button-like links
-`padding: 0.3em 0.8em` · `--size-1` · `--track-label` · uppercase · hairline `--edge`.
+`padding: 0.3em 0.8em` · `--size-1` · `--track-label` · uppercase · hairline `--edge-strong` (it is a control, so 3:1).
 
 | State | Treatment |
 |---|---|
@@ -110,10 +122,10 @@ lines do not stop at every box.
 `:active` a control gives no feedback at all before the page changes.
 
 ### Tag / badge
-`padding: 0.15em 0.6em` · hairline `--edge` · non-interactive, so no states.
+`padding: 0.15em 0.6em` · hairline `--edge` · `--panel-fill` · non-interactive, so no states.
 
 ### Project card (`/work/`)
-Uniform `--shape-tile` frame, hairline `--edge`. Artwork either `mount`
+Uniform `--shape-tile` frame, hairline `--edge-strong` — the whole tile is a link. Artwork either `mount`
 (contained on an accent-tinted ground) or `bleed` (fills the frame). A mounted
 cut-out must be a real cut-out — no white rectangle on a coloured ground.
 

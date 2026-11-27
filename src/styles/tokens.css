@@ -46,25 +46,37 @@
                              1.64:1 on --paper. The FILLED part of any progress
                              indicator is --ink, so orientation never depends on
                              telling two greys apart. */
-  --edge:       #B3B1AC;  /* LOAD-BEARING boundaries: the border is the only
-                             thing separating a surface from the page.
-                             2.09:1 on --paper.
+  --edge:       #B3B1AC;  /* The boundary of a STATIC panel: a Stop card, a
+                             prototype stage, a badge. 2.09:1 on --paper, under
+                             the 3:1 of WCAG 1.4.11 — deliberately, because that
+                             criterion governs the visual information needed to
+                             identify an INTERACTIVE component, not a container
+                             of prose that its own heading already identifies.
+                             These panels also take --panel-fill, so they are
+                             findable by area rather than by edge alone.
 
-                             This exists because of a change to --paper. On the
-                             old grey ground a white panel separated by its own
-                             luminance and the border was trim. On a near-white
-                             ground --field and --paper differ by 1.03:1, so the
-                             border is now the whole boundary, and --rule at
-                             1.64:1 was too faint to carry that.
+                             All of this exists because --paper went near-white.
+                             On the old grey ground a white panel separated by
+                             its own luminance and the border was trim; now
+                             --field and --paper differ by 1.03:1. */
+  --edge-strong: #94928D; /* The boundary of anything a reader can operate: a
+                             button, a card that is a link. 3.03:1 on --paper,
+                             which is 1.4.11 met properly.
 
-                             Recorded honestly: WCAG 1.4.11 asks 3:1 for a
-                             boundary that identifies a component, which would
-                             be #94928D. This is a deliberate design choice to
-                             sit below that, taken with the trade-off known. If
-                             full compliance is wanted later, the better move is
-                             a faint surface fill on panels rather than a darker
-                             line, so the panel is identifiable by area as well
-                             as by edge. One value to change either way. */
+                             Recorded because it is counter-intuitive, and
+                             because I got it wrong once: a faint fill CANNOT
+                             stand in for this. Ink over --paper only reaches
+                             3:1 somewhere past 50% opacity, which is a mid-grey
+                             panel, not a faint one. A fill is a second cue; it
+                             is never a compliant boundary. Where a border
+                             identifies a control, the border carries the
+                             contrast itself. */
+  --panel-fill: rgba(60, 50, 38, 0.03);
+                          /* The faint tint on a content panel. Translucent and
+                             not a solid colour on purpose: the page ruling has
+                             to run through a panel rather than stop at every
+                             box, or the lines appear everywhere except under
+                             the writing, which is backwards. */
 
   /* -------------------------------------------------------------- accents
      One per project, sampled from that project's own material in

@@ -100,7 +100,9 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
     position: relative;
     overflow: hidden;
     aspect-ratio: var(--shape-tile);
-    border: var(--border-hair) solid var(--edge);
+    /* The tile is a link, so its frame identifies a control: 1.4.11 applies
+       and the border carries the 3:1 itself. */
+    border: var(--border-hair) solid var(--edge-strong);
     border-radius: var(--radius);
     background: color-mix(in oklab, var(--accent) var(--mount-tint), var(--paper));
   }

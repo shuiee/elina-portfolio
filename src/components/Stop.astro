@@ -23,11 +23,12 @@ import Arrow from './Arrow.astro';
 
 <style>
   .stop {
-    /* Deliberately NOT --field. A Stop holds running text, and the page's
-       ruling has to run through it or the lines would appear everywhere except
-       under the writing, which is backwards. The hairline carries the card;
-       the fill is not needed now that the page ground is near-white. */
-    background: transparent;
+    /* Deliberately NOT --field, which is opaque white. A Stop holds running
+       text and the page's ruling has to run THROUGH it, or the lines appear
+       everywhere except under the writing, which is backwards. --panel-fill is
+       translucent, so the card reads as a tinted surface and the ruling still
+       shows through it. */
+    background: var(--panel-fill);
     border: var(--border-hair) solid var(--edge);
     padding: var(--space-5) var(--space-6);
     transition: border-color var(--motion-base) var(--motion-ease),
