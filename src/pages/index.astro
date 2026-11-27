@@ -62,30 +62,46 @@ const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.
   /* -- the name ----------------------------------------------------------- */
   .landing__name {
     /* The bottom gap is em-based, not a space token, and that is the whole
-       trick. This name is sized by a clamp that runs from 44px to 232px, and
-       the tail of the j is 0.42em deep, so the gap has to scale with it: with
-       a fixed --space-5 the glyphs cleared the claim by 7px at a 86px name and
-       overlapped it by 7px at a 140px one. At 0.4em the clearance is 25px at
-       140px, 17px at 49px. max() keeps the design's own spacing as the floor.
+       trick. This name is sized by a clamp, and the tail of the j is 0.42em
+       deep, so the gap has to scale with it: with a fixed --space-5 the glyphs
+       cleared the claim by 7px at a 86px name and overlapped it by 7px at a
+       140px one. max() keeps the design's own spacing as the floor.
+
+       0.6em paired with a 0.9 line-height below, rather than 0.4em paired with
+       1.35. The two combinations clear the claim by about the same margin, but
+       this one makes the whole block 0.25em shorter per unit of font size,
+       which is what lets the landing page fit a 900px window without
+       scrolling. Leading above the line was buying nothing on a single line.
 
        Those numbers are real glyph ink, from canvas actualBoundingBoxDescent.
        Do not measure this with getBoundingClientRect or a Range rect: those
        return the line box, which reports collisions that are not happening. */
-    margin: var(--space-3) 0 max(var(--space-5), 0.4em);
+    margin: var(--space-3) 0 max(var(--space-5), 0.6em);
     text-align: center;
     font-family: var(--font-hand);
     text-transform: lowercase;
-    /* 0.9 was a tight line for a grotesque with short extenders. A hand has
-       long ones, so the box has to be deep enough to hold them before the
-       margin below is asked to do anything. */
-    line-height: 1.35;
+    /* The hand's long extenders are handled by the margin below, not by
+       leading. On a single line, leading above the cap-line is dead space. */
+    line-height: 0.9;
     /* Not --track-head. Negative tracking on a joined hand drags the letters
        into each other, which on a signature reads as a mistake. */
     letter-spacing: 0;
     /* Sized off BOTH axes. 15.6vw alone took no account of how tall the
        window was, so on a 900px laptop the name rendered at 225px and the
        page ran 389px past the fold. The vh term is what stops it. */
-    font-size: clamp(var(--size-8), min(13vw, 15.5vh), var(--size-11));
+    /* 11vh, down from 15.5. The landing page is meant to be one screen, and
+       measured at 1440x900 it ran 79px past the fold. The vh term is what
+       governs on a desktop window, so that is the one that had to come down.
+       At 11vh with the tighter block above, the page fits 900px and taller
+       with the ring at its natural size.
+
+       Recorded so nobody "fixes" this by shrinking the name further: at
+       1280x800 it still scrolls, and the name is not why. The stage is pinned
+       at its 0.80 floor there (see the placement script below), so freeing
+       space above only moves the overflow 1:1 — a 56px name still left 16px
+       over. Lowering that floor is the only lever that changes it, and the
+       floor exists to stop the labels landing on the drawing. */
+    font-size: clamp(var(--size-8), min(13vw, 11vh), var(--size-11));
     display: flex;
     flex-wrap: nowrap;
     align-items: baseline;
