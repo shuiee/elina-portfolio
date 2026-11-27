@@ -46,6 +46,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
          read a CSS variable, and this site may be served from a sub-path.
          The FILES are in public/fonts/. The family stacks are --font-* tokens. -->
     <style is:inline set:html={`
+      @font-face {
+        font-family: "Beth Ellen";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("${asset('/fonts/BethEllen-latin.woff2')}") format("woff2");
+      }
       /* Figtree — the body face. One variable file per style covers 300-900,
          split into the two subsets Google ships: nearly all of this site is
          the latin one, and latin-ext is only fetched if a page actually uses a
@@ -117,6 +124,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
          InterVariable is NOT preloaded: it is a 352KB fallback that most pages
          never touch, and preloading it would download it on every visit. -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/Figtree-latin.woff2')} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/BethEllen-latin.woff2')} />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/InstrumentSerif-Italic.woff2')} />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={asset('/fonts/Optician-Sans.woff2')} />
   </head>

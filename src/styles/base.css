@@ -242,10 +242,13 @@ hr {
 
 /* The written half. Display only — never a paragraph, never below --size-6. */
 .script {
-  font-family: var(--font-display);
-  font-style: italic;
+  font-family: var(--font-hand);
+  /* Not italic: Beth Ellen is already a slanted hand, and asking for italic
+     on a face that has none makes the browser shear it a second time. */
+  font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
+  text-transform: lowercase;
 }
 
 /* Small-caps side notes, borrowed from the reference layout: short, centred,

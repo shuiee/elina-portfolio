@@ -94,6 +94,13 @@
      site follows that particular finding. */
   --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
 
+  /* The hand. Beth Ellen (SIL OFL) — the page titles only, lowercase, so the
+     name of the page looks written onto the ruled sheet rather than set on it.
+     Scoped to .script deliberately: --font-display still carries .lede, which
+     is a whole question at 34px, and a question is not something to make
+     anyone read in handwriting. */
+  --font-hand:   "Beth Ellen", "Instrument Serif", cursive;
+
   /* 1.20 modular scale, rounded to whole px. Nothing below --size-1 is used
      for text anywhere on the site. */
   --size-1:  13px;  /* eyebrow labels, letterspaced. Not for sentences. */
