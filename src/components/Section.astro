@@ -1,14 +1,32 @@
 ---
-/* One of the five fixed case-study sections. The order never changes:
-   question -> criteria -> method -> what it showed -> what it means. */
+/* A labelled block of a project page: method, findings, reflections and so on.
+
+   Called WITHOUT a label it renders the same body column with no heading and
+   no rule — that is how a project opens, with the framing question and the
+   paragraphs under it running straight on from the header rather than sitting
+   beneath a "The question" sign telling you what you are about to read. A
+   block with no label is not a landmark either, so it is a plain div: a
+   <section> with no accessible name is noise in a screen reader's outline. */
 const { id, label } = Astro.props;
 ---
-<section id={id} class="section reveal" aria-labelledby={`${id}-h`}>
-  <h2 class="eyebrow section__label" id={`${id}-h`}>{label}</h2>
-  <div class="section__body"><slot /></div>
-</section>
+{label ? (
+  <section id={id} class="section reveal" aria-labelledby={`${id}-h`}>
+    <h2 class="eyebrow section__label" id={`${id}-h`}>{label}</h2>
+    <div class="section__body"><slot /></div>
+  </section>
+) : (
+  <div id={id} class="section section--open reveal">
+    <div class="section__body"><slot /></div>
+  </div>
+)}
 <style>
   .section { margin-top: var(--space-9); scroll-margin-top: var(--space-6); }
   .section__label { padding-bottom: var(--space-4); border-bottom: var(--border-hair) solid var(--rule); }
   .section__body { margin-top: var(--space-6); }
+
+  /* The opening block carries no heading, so it needs neither the 96px that
+     separates one labelled section from the next nor the 32px that sits under
+     a label. It picks up where the header's rule left off. */
+  .section--open { margin-top: var(--space-7); }
+  .section--open > .section__body { margin-top: 0; }
 </style>
