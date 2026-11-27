@@ -14,23 +14,31 @@
      The chassis. Five values. Neutral by instruction — the colour lives
      inside the case studies, never on the frame. */
 
-  --paper:      #EDEDEB;  /* page ground. A soft warm grey rather than white —
-                             the ground note taken from the reference. Paper,
-                             not screen. */
-  --ink:        #111111;  /* body + headings. 16.1:1 on --paper, 18.9:1 on
-                             --field. Near-black rather than pure black now that
-                             the ground is grey: on #EDEDEB pure black rings
-                             slightly hard, and 16:1 is far past any threshold
-                             that matters. */
+  --paper:      #FCFCFA;  /* page ground. A warm off-white: red and green equal,
+                             blue two levels down, so it reads as paper rather
+                             than as screen white without ever looking grey.
+                             One tone up from the #FAFAF8 taken off the
+                             reference portfolio — the warm relationship is what
+                             matters here, not the exact level. */
+  --ink:        #111111;  /* body + headings. 18.4:1 on --paper, 18.9:1 on
+                             --field. Near-black rather than pure black: the
+                             warm ground wants a warmable black, and 18:1 is far
+                             past any threshold that matters. */
   --ink-quiet:  #454950;  /* the ONLY grey allowed to touch type: dates, roles,
                              captions, table headers.
-                             7.72:1 on --paper, 9.04:1 on --field.
+                             8.80:1 on --paper, 9.04:1 on --field.
                              There is no third text tier. If something needs to
                              be quieter than this, cut it instead. */
-  --field:      #FFFFFF;  /* exhibit ground — now WHITE, sitting on the grey
-                             page like a sheet laid on a desk. This inverts the
-                             old relationship: exhibits are lighter than the
-                             page, not darker, which lifts them without a border.
+  --field:      #FFFFFF;  /* exhibit ground. On the old grey page this was a
+                             white sheet that lifted off the ground on its own.
+                             The page is now near-white, so --field no longer
+                             separates by luminance (1.05:1) and the EDGE does
+                             the work instead: every exhibit component carries a
+                             --rule hairline, and that hairline is now load-
+                             bearing, not decoration. Do not remove one.
+                             What --field still buys is a true white behind
+                             screenshots and scans whose own ground is white, so
+                             they sit seamlessly in their frame.
                              --ink on it = 18.9:1, --ink-quiet = 9.04:1. */
   --rule:       #C9C7C2;  /* hairlines, table gridlines, unfilled progress track.
                              Non-text only. The FILLED part of any progress
@@ -52,20 +60,28 @@
   --accent-ink: var(--ink);
 
   /* --------------------------------------------------------------- type
-     Two families. Inter for everything; Optician Sans for digits and short
+     Two families. Figtree for everything; Optician Sans for digits and short
      markers only.
 
-     Inter is not a taste call: a width analysis of the Type3 glyphs in the
-     source deck ranks the Inter family top on every page tested, reproducing
-     the original line widths to within 1-3%.
+     Figtree (Erik Kennedy, SIL OFL) replaced Inter as the body face on
+     2026-11-26, by instruction. It is a geometric humanist sans with a tall
+     x-height and open apertures, warmer and rounder than Inter, which suits a
+     ruled warm-white page better than Inter's neutrality did.
+
+     What that cost, recorded honestly: Inter was originally chosen on evidence
+     rather than taste — a width analysis of the Type3 glyphs in the source
+     deck ranked it top on every page tested, reproducing the original line
+     widths to within 1-3%. Figtree does not inherit that result, and the claim
+     must not be repeated about it. Inter stays declared as the fallback, so
+     the glyphs Figtree lacks (the Matrix marks, any Korean) are unchanged.
 
      Optician Sans is the face used in clinical visual-acuity testing — the
      benchmark Johnston 100 was measured against in case study 01. The numbers
      on this site are set in the instrument used to judge letterforms.
      Scoped to digits and 2-3 word labels; it never carries running text. */
 
-  --font-text:   "InterVariable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-figure: "Optician Sans", "InterVariable", system-ui, sans-serif;
+  --font-text:   "Figtree", "InterVariable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-figure: "Optician Sans", "Figtree", "InterVariable", system-ui, sans-serif;
 
   /* The written half. Instrument Serif Italic — a high-contrast italic with
      swashed capitals, set against Inter's flat geometry. Display only: the
@@ -103,6 +119,39 @@
 
   --track-label:  0.14em;   /* eyebrow labels and the small-caps side notes */
   --track-head:  -0.02em;   /* large headings — Inter needs tightening at size */
+
+  /* ------------------------------------------------------- ruled paper
+     Faint ruling across the whole page, the way the reference portfolio rules
+     its ground with a grid. Lines rather than a grid, and tuned down until it
+     is a surface you feel rather than a pattern you read.
+
+     The step is an exact pixel value, not a ratio, because a repeating
+     gradient tiles on pixels: 18px body on --leading-body is 27.9px, which
+     does not tile and would make the rules creep through the text over a long
+     page. 28px is the same leading to within a tenth of a pixel and it tiles
+     exactly, so body set on --rule-step sits in a stable relationship to the
+     ruling instead of sliding against it.
+
+     The colour is warm, taken from the reference's own line, and far fainter
+     than --rule: that one is a hairline you are meant to see, this one is
+     paper you are not.
+
+     It has to be this faint for a specific reason. A ruling that covers the
+     whole page cannot align to the type, because paragraphs begin wherever the
+     layout puts them: measured across a project page, the rule lands at a
+     different height inside the line box in almost every block, and in most of
+     them it crosses the letters rather than passing under them. The reference
+     has the same property and gets away with it because its lines are half a
+     device pixel over a page that is mostly pictures. So the rule is tuned
+     until a line crossing a word costs nothing: about 13 levels off --paper,
+     no more. Anything stronger and the misses start to show.
+
+     The alternative, if the ruling should ever sit properly under the writing,
+     is a real baseline grid: every vertical value on the site a multiple of
+     --rule-step, so blocks can only ever start on a line. That is a bigger
+     change than a colour, and it is not what this is. */
+  --rule-step:  28px;
+  --rule-paper: rgba(60, 50, 38, 0.07);
 
   --measure:      62ch;     /* max line length for body prose */
   --measure-lede: 34ch;     /* max line length for the home thesis */

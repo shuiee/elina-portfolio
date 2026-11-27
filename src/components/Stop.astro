@@ -22,7 +22,11 @@ const { label, title, href } = Astro.props;
 
 <style>
   .stop {
-    background: var(--field);
+    /* Deliberately NOT --field. A Stop holds running text, and the page's
+       ruling has to run through it or the lines would appear everywhere except
+       under the writing, which is backwards. The hairline carries the card;
+       the fill is not needed now that the page ground is near-white. */
+    background: transparent;
     border: var(--border-hair) solid var(--rule);
     padding: var(--space-5) var(--space-6);
     transition: border-color var(--motion-base) var(--motion-ease),

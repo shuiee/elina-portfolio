@@ -9,18 +9,32 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+
+  /* The ruled ground. It lives on the root rather than on <body> so it covers
+     the full canvas even when a page is shorter than the viewport, and so the
+     tiling origin is the top of the document rather than the top of a box
+     whose margins could shift it. The lines scroll with the page: they are the
+     paper being written on, not a backdrop behind a window. */
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--rule-step) - 1px),
+    var(--rule-paper) calc(var(--rule-step) - 1px) var(--rule-step)
+  );
 }
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: transparent;   /* the ruled ground is on <html> */
   color: var(--ink);
   font-family: var(--font-text);
   font-size: var(--size-4);
   line-height: var(--leading-body);
   font-weight: var(--weight-normal);
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "cv05" 1, "cv08" 1; /* Inter: open-tailed l, slashed-free 1 */
+  /* No font-feature-settings. The two that were here (cv05, cv08) are Inter
+     character variants; Figtree does not have them, and leaving them set would
+     be a line of CSS that does nothing. */
 }
 
 h1, h2, h3, h4 {
@@ -118,13 +132,31 @@ hr {
 .prose > h3,
 .prose > blockquote { max-width: var(--measure); }
 .prose > * + * { margin-top: var(--space-5); }
+
+/* Running text is set on the ruling's own step rather than on a ratio, so the
+   lines keep a fixed relationship to the lines of type instead of sliding
+   against them down a long page. Same leading as --leading-body to within a
+   tenth of a pixel; see --rule-step. */
+.prose > p,
+.prose li,
+.section__body > p {
+  line-height: var(--rule-step);
+}
+
+/* Paper does not print. */
+@media print {
+  html { background-image: none; }
+}
 .prose strong { font-weight: var(--weight-bold); }
 .prose ul { padding-left: var(--space-5); }
 .prose li + li { margin-top: var(--space-3); }
 .prose code {
   font-family: var(--font-text);
   font-weight: var(--weight-med);
-  background: var(--field);
+  /* Not --field: on the near-white page a white chip is invisible. This is the
+     one tint on the chassis, and it is darker than the page rather than
+     lighter, which is the only direction left. */
+  background: rgba(60, 50, 38, 0.07);
   padding: 0 var(--space-1);
   border-radius: var(--radius);
 }
@@ -225,13 +257,6 @@ hr {
   line-height: 1.75;
   color: var(--ink);
   max-width: 26ch;
-}
-
-/* Corner meta — the tiny text that sits in the page's four corners. */
-.corner {
-  font-size: var(--size-2);
-  line-height: 1.45;
-  color: var(--ink-quiet);
 }
 
 /* ------------------------------------------------------------------ cursor
