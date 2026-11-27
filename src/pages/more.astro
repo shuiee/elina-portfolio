@@ -114,10 +114,10 @@ const groups = [
   { title: 'Professional experience', items: experience },
 ];
 ---
-<Base title="CV" description="Curriculum vitae for Elina J. Lee.">
+<Base title="More" description="Curriculum vitae, and whatever else does not fit on the work pages.">
   <div class="page cv">
     <header class="cv__head">
-      <h1 class="script cv__title">Curriculum vitae</h1>
+      <h1 class="script cv__title">More</h1>
       <p class="cv__summary">
         Engineer and Harvard Master in Design Engineering student, moving from
         <strong>technical, client-facing engineering</strong> into
@@ -164,7 +164,10 @@ const groups = [
 <style>
   .cv { padding-top: var(--space-7); max-width: 60rem; }
   .cv__title {
-    font-size: clamp(var(--size-7), 7vw, var(--size-9));
+    /* The same clamp as About and Work. It was smaller only because
+       "Curriculum vitae" is sixteen characters and would have wrapped; "More"
+       is four, so the three page titles can finally be one size. */
+    font-size: clamp(var(--size-8), 9vw, var(--size-10));
     line-height: 0.95;
     letter-spacing: -0.01em;
     margin-top: var(--space-4);

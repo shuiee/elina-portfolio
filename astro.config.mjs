@@ -37,6 +37,10 @@ export default defineConfig({
      to the target, and a bare '/work/...' would send the reader to the domain
      root and a 404. */
   redirects: {
+    /* /cv/ became /more/ on 2026-11-27. Anyone who has the old link, or a CV
+       sent with that URL on it, still lands in the right place. */
+    '/cv/': BASE + 'more/',
+
     // patchwork: 03 -> 04 -> 05
     '/work/03-patchwork/':      BASE + 'work/05-patchwork/',
     '/work/04-patchwork/':      BASE + 'work/05-patchwork/',

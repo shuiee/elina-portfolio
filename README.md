@@ -39,7 +39,7 @@ src/
   pages/
     index.astro          THE LANDING PAGE — name, thesis, one link. No project list.
     work/index.astro     the contents page — all four projects live here
-    about.astro  cv.astro  404.astro
+    about.astro  more.astro  404.astro
   layouts/               the page frames
   components/            the reusable pieces used inside case studies
   styles/
