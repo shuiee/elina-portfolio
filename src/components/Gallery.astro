@@ -65,6 +65,11 @@ for (const it of items) {
     /* The slide box. Tall enough that a portrait card is readable, short
        enough that a landscape table does not push the page about. */
     --gal-h: clamp(320px, 56vh, 560px);   /* literal-ok: a viewport-relative frame */
+    /* Slide width as a share of the track. Under 100% so the next slide
+       peeks, which is what says the row scrolls. The controls below use the
+       same figure: they belong to the slide, not to the column, and centring
+       them on the column puts them off-centre against what you are reading. */
+    --gal-slide: 92%;                     /* literal-ok: a share of the track */
   }
   .gal__track {
     list-style: none;
@@ -85,10 +90,9 @@ for (const it of items) {
      tall phone cards. Sizing by width instead would hand the table a 219px
      height and make it unreadable, and leave the row with a ragged baseline.
 
-     92% rather than 100% leaves the next slide peeking, which is what says
-     the row scrolls. */
+     The slide width itself is --gal-slide, declared above. */
   .gal__item {
-    flex: 0 0 92%;               /* literal-ok: a slide width, not a spacing step */
+    flex: 0 0 var(--gal-slide);
     height: var(--gal-h);
     scroll-snap-align: start;
     min-width: 0;
@@ -110,10 +114,13 @@ for (const it of items) {
   .gal__track::-webkit-scrollbar-thumb { background: var(--edge); border-radius: var(--radius); }
 
   /* Same control row as the deck, so the two readers behave alike. */
+  /* Centred on the slide rather than on the track, so the arrows sit under
+     the middle of whichever slide is showing. */
   .gal__controls {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: var(--gal-slide);
     gap: var(--space-5);
     margin-top: var(--space-4);
   }
