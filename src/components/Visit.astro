@@ -1,0 +1,45 @@
+---
+/* A link out to the real, running thing a project produced.
+
+   Deliberately a text link rather than a button: it sits in the opening
+   paragraph's column and should read as part of the prose, not as a call to
+   action pasted on top of it. The underline is what marks it as clickable,
+   so it is on by default rather than on hover, and the arrow says the link
+   leaves the write-up.
+
+   <Visit href="https://..." label="Open the draft MVP" />
+*/
+import Arrow from './Arrow.astro';
+const { href, label } = Astro.props;
+---
+<p class="visit">
+  <a class="visit__link" href={href}>
+    {label} <Arrow dir="right" />
+  </a>
+</p>
+
+<style>
+  .visit { margin-top: var(--space-5); }
+  .visit__link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: var(--border-hair);
+    text-underline-offset: 0.2em;   /* literal-ok: offset is relative to the glyph, not the space scale */
+  }
+  .visit__link:hover {
+    color: var(--accent-ink);
+    text-decoration-thickness: var(--border-mark);
+  }
+  /* On a touch screen the link needs a 44px target, but a visible box is the
+     thing she did not want. Padding grows the target and the matching
+     negative margin keeps the line where it was. */
+  @media (pointer: coarse) {
+    .visit__link {
+      padding-block: var(--space-3);
+      margin-block: calc(var(--space-3) * -1);
+    }
+  }
+</style>

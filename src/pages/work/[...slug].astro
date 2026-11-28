@@ -19,6 +19,8 @@ import Flow from '../../components/Flow.astro';
 import Clip from '../../components/Clip.astro';
 import Lede from '../../components/Lede.astro';
 import Pair from '../../components/Pair.astro';
+import Visit from '../../components/Visit.astro';
+import Gallery from '../../components/Gallery.astro';
 
 export async function getStaticPaths() {
   const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
@@ -41,7 +43,7 @@ export async function getStaticPaths() {
 
 const { entry, projects, prev, next } = Astro.props;
 const { Content } = await render(entry);
-const components = { Section, Figure, Findings, Method, Step, Compare, Slides, Screens, Route, Stop, Prototype, Clip, Flow, Lede, Pair };
+const components = { Section, Figure, Findings, Method, Step, Compare, Slides, Screens, Route, Stop, Prototype, Clip, Flow, Lede, Pair, Visit, Gallery };
 ---
 <CaseStudy entry={entry} projects={projects} prev={prev} next={next}>
   <Content components={components} frontmatter={entry.data} />

@@ -29,4 +29,9 @@ const { id, label } = Astro.props;
      a label. It picks up where the header's rule left off. */
   .section--open { margin-top: var(--space-7); }
   .section--open > .section__body { margin-top: 0; }
+  /* Two unlabelled blocks running on from each other have nothing between them
+     but the gap, so it has to carry the whole break. That means at least the
+     96px that separates two labelled sections, not the 48px above, which only
+     has to clear the header rule. */
+  .section--open + .section--open { margin-top: var(--space-9); }
 </style>

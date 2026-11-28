@@ -1,0 +1,202 @@
+---
+/* A row of screens you swipe through, for a set of captures that belong
+   together and are each worth seeing whole.
+
+   Figure puts one image across the column and Pair sets two against each
+   other. This is for four or more, where stitching them into one strip makes
+   every screen too small to read, which is what the Patchwork target-user
+   cards were doing before.
+
+   The scrolling is native scroll-snap, so a finger swipes it, a trackpad
+   scrolls it and it still works with the script switched off. The buttons and
+   the counter are the mouse and keyboard equivalents, and they are hidden
+   until the script runs rather than sitting there inert.
+
+   The track itself is focusable: a scrollable region that keyboard users
+   cannot reach is a WCAG 2.1.1 failure, and Firefox will flag it.
+
+   items = [{ src, alt, w, h }, ...]
+*/
+import { asset } from '../lib/url.js';
+import Arrow from './Arrow.astro';
+const { items = [], label = 'Screens' } = Astro.props;
+for (const it of items) {
+  if (!(it.w && it.h)) throw new Error(`Gallery needs w and h for ${it.src}`);
+}
+---
+<div class="gal" data-gal>
+  <ol
+    class="gal__track"
+    data-gal-track
+    tabindex="0"
+    role="group"
+    aria-label={`${label}, scrollable`}
+  >
+    {items.map((it, i) => (
+      <li class="gal__item">
+        <img
+          src={asset(it.src)}
+          alt={it.alt}
+          width={it.w}
+          height={it.h}
+          loading={i < 2 ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      </li>
+    ))}
+  </ol>
+
+  {/* No counter. More than one screen is visible at a time, so any "02 / 04"
+      would be claiming a position the reader cannot see the truth of. The
+      peeking next screen already says the row continues. */}
+  <div class="gal__controls" hidden>
+    <button type="button" class="gal__nav" data-gal-step="-1" aria-label="Previous screen">
+      <Arrow dir="left" />
+    </button>
+    <button type="button" class="gal__nav" data-gal-step="1" aria-label="Next screen">
+      <Arrow dir="right" />
+    </button>
+  </div>
+</div>
+
+<style>
+  .gal {
+    margin-top: var(--space-6);
+    /* The slide box. Tall enough that a portrait card is readable, short
+       enough that a landscape table does not push the page about. */
+    --gal-h: clamp(320px, 56vh, 560px);   /* literal-ok: a viewport-relative frame */
+  }
+  .gal__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-5);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .gal__track { scroll-behavior: smooth; }
+  }
+  .gal__track:focus-visible { outline: var(--border-mark) solid var(--ink); outline-offset: var(--space-2); }
+  /* Every slide is the same fixed box and each image is contained inside it,
+     because the set mixes shapes: a landscape comparison table next to four
+     tall phone cards. Sizing by width instead would hand the table a 219px
+     height and make it unreadable, and leave the row with a ragged baseline.
+
+     92% rather than 100% leaves the next slide peeking, which is what says
+     the row scrolls. */
+  .gal__item {
+    flex: 0 0 92%;               /* literal-ok: a slide width, not a spacing step */
+    height: var(--gal-h);
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+  /* The image fills the slide box and object-fit letterboxes the picture
+     inside it. Sizing it with auto plus max-width instead left a lazy slide
+     measuring 0 by 0 until it loaded, because neither dimension was definite
+     and aspect-ratio alone did not give it one. */
+  .gal__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Thin, in the site's own rule colour, rather than the platform default. */
+  .gal__track { scrollbar-width: thin; scrollbar-color: var(--edge) transparent; }
+  .gal__track::-webkit-scrollbar { height: var(--space-2); }
+  .gal__track::-webkit-scrollbar-thumb { background: var(--edge); border-radius: var(--radius); }
+
+  /* Same control row as the deck, so the two readers behave alike. */
+  .gal__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    margin-top: var(--space-4);
+  }
+  .gal__nav {
+    font: inherit;
+    font-size: var(--size-5);
+    line-height: 1;
+    background: none;
+    border: 0;
+    padding: var(--space-2) var(--space-3);
+    color: var(--ink);
+  }
+  .gal__nav[disabled] { color: var(--rule); }
+</style>
+
+<script>
+  document.querySelectorAll('[data-gal]').forEach((gal) => {
+    const track = gal.querySelector('[data-gal-track]');
+    const items = [...track.children];
+    if (items.length < 2) return;
+
+    const controls = gal.querySelector('.gal__controls');
+    const buttons = [...gal.querySelectorAll('.gal__nav')];
+    controls.hidden = false;
+
+    /* Each item's left edge measured against the track's own, which is what
+       scrollLeft is relative to. offsetLeft alone is measured from a shared
+       ancestor, so the pair has to be subtracted. */
+    const offsets = () => items.map((it) => it.offsetLeft - track.offsetLeft);
+
+    /* The index the BUTTONS work from, kept here rather than recomputed from
+       scrollLeft on every click. scroll-behavior is smooth, so a second click
+       arriving mid-animation would read a position the track is still moving
+       through and target the same item twice. */
+    let i = 0;
+
+    function nearest() {
+      const left = track.scrollLeft;
+      let best = 0;
+      let bestGap = Infinity;
+      offsets().forEach((x, n) => {
+        const gap = Math.abs(x - left);
+        if (gap < bestGap) { bestGap = gap; best = n; }
+      });
+      return best;
+    }
+
+    function sync() {
+      const max = track.scrollWidth - track.clientWidth;
+      buttons.forEach((b) => {
+        const step = Number(b.dataset.galStep);
+        b.disabled = step < 0 ? track.scrollLeft <= 1 : track.scrollLeft >= max - 1;
+      });
+    }
+
+    /* A scroll event is not guaranteed for every programmatic scroll, and when
+       one is missed the arrows keep the greying-out from the step before. This
+       resyncs across the next few frames, which covers both an instant jump and
+       a smooth one. */
+    function nudge(frames) {
+      sync();
+      if (frames > 0) requestAnimationFrame(() => nudge(frames - 1));
+    }
+
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        i = Math.min(Math.max(i + Number(b.dataset.galStep), 0), items.length - 1);
+        track.scrollTo({ left: offsets()[i] });
+        nudge(4);
+      })
+    );
+
+    /* Only resync i once the track has actually stopped, so a manual swipe
+       hands the buttons the right starting point without fighting them
+       mid-animation. scrollend is not in Safari yet, hence the timeout. */
+    let settle;
+    track.addEventListener('scroll', () => {
+      sync();
+      clearTimeout(settle);
+      settle = setTimeout(() => { i = nearest(); sync(); }, 140);
+    }, { passive: true });
+
+    addEventListener('resize', () => { sync(); i = nearest(); }, { passive: true });
+    sync();
+  });
+</script>
