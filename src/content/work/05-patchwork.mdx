@@ -27,19 +27,107 @@ skills:
   - Re-analysis against stated values
   - UX strategy
 tools:
+  - Figma
   - Lovable (AI-assisted build)
-sections:
-  - { id: slides, label: Slides }
+sections: []
 ---
 
-<Slides
-  from={8}
-  to={12}
-  alts={[
-    "The Patchwork title page. The concept paragraph, a toolkit list of Figma, Google Drive, Jira and Discord, and a green timeline of five research findings about attention span, comparison and anxiety, digital detox, cultural erasure and the dopamine of likes, ending in the how-might-we question. A seven-stage bar runs from Ideation to MVP along the foot.",
-    "A competitor matrix in a browser window, comparing seven apps including BeReal, Instagram and beli against five features: in-app capture, posting constraints, small-circle sharing, memory archiving and public validation.",
-    "Four app-style cards defining a primary and a secondary user, both aged 20 to 35, each with a profile inference and numbered pain points and needs. The primary inference names 소확행, small but certain happiness.",
-    "Two rounds of interview analysis, with affinity diagrams of colour-coded sticky notes, a thematic coding table in Korean, and a pie chart of interview themes.",
-    "Four linked stages from Research and Analysis through Framing Direction and Early MVP Exploration to Evaluation and Feature Selection, with a mid-outcome arrow pointing at the draft MVP at patchworkz.lovable.app.",
+<Section id="question">
+
+<Lede text={frontmatter.question} />
+
+Patchwork is a slow social platform for sharing small cultural moments with people you
+already know. I ran the research and the framing, then built a draft MVP so that the
+team had something working to react to rather than a document.
+
+<Visit href="https://patchworkz.lovable.app/" label="Open the draft MVP" />
+
+</Section>
+
+<Section id="research">
+
+I compared seven platforms on five features that shape how people actually use them,
+rather than on the values each one states. Nothing in the set offered slow, intimate,
+culturally meaningful sharing without public validation attached to it. That absence is
+the opening Patchwork is built into.
+
+Two users came out of it, both 20 to 35. The primary one wants to share the small but
+certain happiness of an ordinary day, ‘소확행’ in Korean, and has stopped posting because
+on existing platforms those moments get consumed quickly or misread. The secondary one
+wants a calmer way to stay close to a few friends, away from a feed that is too fast and
+too polished.
+
+<Gallery
+  label="Competitor comparison and target user cards"
+  items={[
+    {
+      src: "/images/patchwork/competitor-matrix.jpg", w: 2200, h: 1269,
+      alt: "A comparison grid of seven apps, among them BeReal, Instagram and beli, scored against five features: in-app capture and creative tools, posting constraints, small-circle or private sharing, memory archiving, and public validation through likes and follows. Public validation is the only row where almost every column is a cross.",
+    },
+    {
+      src: "/images/patchwork/user-1.jpg", w: 1511, h: 2591,
+      alt: "The primary user's profile card. Age 20 to 35. The inference reads: individuals who actively enjoy consuming content from different cultures and daily lifestyles and are willing to share their own small, meaningful moments, engaging in cultural exchange and expressing their ‘small but certain happiness’ (소확행) without the noise or pressure of mainstream social platforms.",
+    },
+    {
+      src: "/images/patchwork/user-2.jpg", w: 1511, h: 2591,
+      alt: "The primary user's requirements card. Pain points: feeling worn out by reaction-based social networking and the constant pressure to gain public approval; hesitant to document meaningful personal moments because they are often quickly consumed or misunderstood on existing public platforms. Needs: a space to archive meaningful moments and everyday cultural fragments that reinforce identity; authentic empathy and appreciation from intimate people.",
+    },
+    {
+      src: "/images/patchwork/user-3.jpg", w: 1510, h: 2591,
+      alt: "The secondary user's profile card. Age 20 to 35. The profile reads: individuals who want a calmer, more personal way to stay connected with close friends, sharing casual everyday moments in a relaxed, low-stakes environment where their posts feel understood rather than judged.",
+    },
+    {
+      src: "/images/patchwork/user-4.jpg", w: 1510, h: 2591,
+      alt: "The secondary user's requirements card. Pain points: an overloaded feed with fast-paced, viral and advertising-heavy content; feeling disconnected because most posts are overly curated or polished. Needs: more casual everyday posts from people they are close to, genuine empathy and appreciation from intimate friends, and a stronger sense of closeness.",
+    },
   ]}
 />
+
+</Section>
+
+<Section id="interviews">
+
+The first round surfaced what you would expect: fatigue with existing platforms, and
+recurring themes around connection and sharing habits. The findings were real, but they
+described how people use social media now, and following them was quietly pulling
+Patchwork towards being another one of those platforms.
+
+So I read the same data a second time, against what the project had already said it was
+for. That pass looked for unmet needs and tensions inside current behaviour instead of
+for behaviour to reproduce, and it is what decided the project should be tested as a
+rough MVP before any UX strategy or wireframes were written.
+
+<Gallery
+  label="Interview analysis"
+  items={[
+    {
+      src: "/images/patchwork/affinity-1.jpg", w: 1010, h: 816,
+      alt: "An affinity board of colour-coded sticky notes in Korean, grouped under two headed clusters, Information Fatigue and Manipulation, and Quality and Authenticity. A column on the left names the values each cluster was read against: Autonomy, Purity and Authenticity.",
+    },
+    {
+      src: "/images/patchwork/affinity-2.jpg", w: 987, h: 857,
+      alt: "A second affinity board, grouped under Personal Archive and Safe Connection. Blue headers carry the insight for each group and the yellow notes under them are the individual interview quotes it was drawn from.",
+    },
+    {
+      src: "/images/patchwork/themes.jpg", w: 594, h: 366,
+      alt: "A pie chart of interview themes labelled in Korean. The largest slices are psychological and emotional consumption at 22 per cent, interest in a particular culture or country at 17.6 per cent, and use of the algorithm at 13.2 per cent.",
+    },
+  ]}
+/>
+
+The lesson worth keeping is that interview findings are not requirements. The distance
+between the two is where the design decision actually sits.
+
+</Section>
+
+<Section id="outcome">
+
+The second analysis narrowed the scope to features that support intentional use:
+lightweight ways to save and revisit content, optional structure around posting, and
+limits that discourage passive scrolling.
+
+I built the draft MVP myself to see those ideas working in context and used it as the
+shared reference for deciding which of them to keep. UX strategy and wireframes come
+after that rather than before it.
+
+</Section>
